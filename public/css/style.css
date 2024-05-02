@@ -1,0 +1,101 @@
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* 사이드바 스타일 */
+#sidebar {
+    
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #454545;
+    padding-top: 20px;
+    color: #fff;
+}
+#sidebar img {
+    margin-left: 25px;
+}
+
+#sidebar p{
+    
+    text-align: center;
+    font-size: 20px;
+    color: #eee;
+}
+
+.accent {
+    font-size: 50px;
+
+}
+#sidebar a {
+    margin-right: 20px;
+    margin-left: 20px;
+    display: block;
+    box-sizing: border-box;
+    border-top: rgb(113, 113, 113) solid 1px;
+    color: #fff;
+    text-decoration: none;
+    padding: 20px;
+    text-align: center
+}
+
+#sidebar a:hover {
+    font-size: 25px;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+#sidebar a:active {
+    background-color: rgb(94, 94, 94);
+}
+
+/* 컨텐츠 영역 스타일 */
+#content {
+    margin-left: 300px; /* 사이드바 너비만큼 컨텐츠를 옆으로 이동 */
+    padding: 20px;
+}
+
+/* 로그인 및 회원가입 폼 스타일 */
+form {
+    margin-top: 50px;
+    padding: 50px;
+    margin-right: 20%;
+    margin-left: 20%;
+    text-align: center;
+    border:#eee 1px solid;
+    background-color: #eee;
+    border-radius: 25px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px #454545 solid;
+    border-radius: 5px;
+}
+form > input[type="submit"] {
+    text-align:center;
+    width:150px;
+    height:40px;      
+    background-color:#000000;
+    border:1px solid #ccc;
+    box-shadow: 1px 1px 1px #ccc;
+    color: white
+}
+form > input[type="submit"]:hover {
+    background-color:#454545; 
+}
+
+
+.center {
+    text-align: center;
+}
+
+/* 마이 페이지, 게시판, 공동구매 페이지의 추가 스타일링은 필요에 따라 추가할 수 있습니다. */
