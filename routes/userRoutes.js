@@ -45,6 +45,7 @@ router.post('/login', (req, res) => {
 
     if (user) {
         req.session.isAuthenticated = true; // 인증에 성공하면 세션에 isLoggedIn을 true로 설정합니다.
+        req.session.username = username;
         res.redirect('/');
     } else {
         req.session.errorMessage = '로그인에 실패했습니다. 사용자 정보를 확인해주세요.';
@@ -54,6 +55,9 @@ router.post('/login', (req, res) => {
 
 // 마이 페이지 라우트. isLoggedIn 함수를 사용하여 인증 상태를 확인
 router.get('/mypage', userController.mypage);
+
+router.get('/logout', userController.logout); 
+
 router.get('/board', userController.board);
 router.get('/purchase', userController.purchase);
 router.get('/chat', userController.chat);

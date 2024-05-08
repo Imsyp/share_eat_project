@@ -23,6 +23,7 @@ app.use(passport.session());
 app.use((req, res, next) => {
     const isLoggedIn = req.session.isAuthenticated;
     res.locals.isLoggedIn = isLoggedIn;
+
     next();
 });
 
