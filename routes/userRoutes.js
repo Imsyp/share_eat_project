@@ -56,5 +56,6 @@ router.post('/login', (req, res) => {
 router.get('/mypage', userController.mypage);
 router.get('/board', userController.board);
 router.get('/purchase', userController.purchase);
+router.get('/chat', userController.chat);
 
 module.exports = router;

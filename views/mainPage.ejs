@@ -8,20 +8,22 @@
 </head>
 <body>
     <div id="sidebar">
-        <img src="/images/logo_non_bg.png" alt="Logo" width="250px">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
         <p><span class="accent">쉐어 잇</span></p>
         <p>share eat,<br>share it!</p>
         <% if (locals.isLoggedIn) { %>
             <a href="/user/myPage">마이 페이지</a>
             <a href="/user/board">게시판</a>
             <a href="/user/purchase">공동구매</a>
-            <a href="#">채팅</a>
+            <a href="/user/chat">채팅</a>
         <% } else { %>
             <a href="/user/login">로그인</a>
             <a href="/user/signup">회원가입</a>
         <% } %>
     </div>
-    <div id="content">
+    <div id="content" class="onlymain">
         <!-- Main content here -->
         <% if (locals.isLoggedIn) { %>
             <p>로그인 상태입니다.</p>

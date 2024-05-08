@@ -18,3 +18,7 @@ exports.board = (req, res) => {
 exports.purchase = (req, res) => {
     res.render('../views/purchase');
 };
+
+exports.chat = (req, res) => {
+    res.render('../views/chat');
+};
