@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/myPage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/purchase">공동구매</a>
+        <a href="/user/chat">채팅</a>
+    </div>
+    <div id="content">
+        <div class="navbar">
+            <a class="selected" href="/user/community_board">자유게시판</a>
+            <a class="unselected" href="/user/information_board">정보게시판</a>
+            
+        </div>
+        <hr>
+        <div class="header">
+            <h1 style="font-size: 50px;">자유게시판</h1>
+            <a class="selected right-button" href="/user/write">글쓰기</a>
+        </div><hr>
+        <% var 페이지당글수 = 10; %>
+        <% var 페이지번호 = parseInt(page) || 1; %>
+        <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
+        <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
+        <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+        <div class="white-bg">
+            <div class="list-box">
+                <h4><a href="/user/post/<%= 글목록[i]._id %>"><%= 글목록[i].title %></a></h4>
+                <p><%= 글목록[i].content %></p>
+                <button><a href="/user/edit/<%= 글목록[i]._id%>">수정하기</a></button>
+                <button class="delete"data-id="<%= 글목록[i]._id%>">🗑️</button>
+            </div>
+        </div>
+        <% } %>
+        <% if (페이지번호 > 1) { %>
+            <a href="/user/community_board?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
+        <% } %>
+        <% if (글목록.length > 끝인덱스) { %>
+            <a href="/user/community_board?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
+        <% } %>
+    </div>
+    <script>
+        for(let i = 0; i < '<%=글목록.length %>'; i++)
+        {
+            document.querySelectorAll('.delete')[i]
+            .addEventListener('click', function(e){
+            fetch('/user/delete?docid=' + e.target.dataset.id, {method: 'DELETE'})
+            .then((r)=>r.text())
+            .then((r)=>{e.target.parentElement.style.display='none'})
+            
+        })
+        }
+    </script>
+</body>
+</html>

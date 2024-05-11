@@ -1,41 +1,84 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-
+const { MongoClient, ObjectId } = require('mongodb');
+const bcrypt = require('bcrypt')
 // app.js 또는 해당하는 파일에서 Passport 설정을 추가합니다.
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local');
 
 // 사용자 정보 모듈 임포트
-const { users, addUser } = require('../models/users');
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        // 여기서 사용자 정보를 DB 또는 사용자 배열에서 찾아 인증을 수행합니다.
-        const user = users.find(user => user.username === username && user.password === password);
-        if (!user) {
-            return done(null, false, { message: '사용자 정보를 찾을 수 없습니다.' });
-        }
-        return done(null, user);
+let connectDB = require('./../database.js') 
+let db
+connectDB.then((client)=>{
+    console.log('DB연결성공')
+    db = client.db('shareEat');
+    
+
+}).catch((err)=>{
+    console.log(err)
+})
+
+passport.use(new LocalStrategy(async (username, password, cb) => {// 여기서 사용자 정보를 DB 또는 사용자 배열에서 찾아 인증을 수행합니다.
+    let result = await db.collection('user').findOne({ username : username})
+    if (!result) {
+        return cb(null, false, { message: '아이디 DB에 없음' })
     }
-));
-
-router.get('/signup', userController.signupPage);
-// 회원가입 라우트
-router.post('/signup', (req, res) => {
-    const { username, password } = req.body;
-
-    // 이미 존재하는 사용자인지 확인
-    const existingUser = users.find(user => user.username === username);
-    if (existingUser) {
-        return res.send('Username already exists');
+    if (await bcrypt.compare(password, result.password)) {
+        return cb(null, result)
+    } else {
+        return cb(null, false, { message: '비번불일치' });
     }
+}))
 
-    //새로운 사용자 정보 추가
-    addUser({ username, password }); // 새로운 사용자 정보 추가
-    res.redirect('/');
-});
-router.get('/login', userController.loginPage);
+passport.serializeUser((user, done) => {
+    process.nextTick(() => {
+        done(null, { id: user._id, username: user.username })
+    })
+})
+
+passport.deserializeUser(async(user, done) => {
+    let result = await db.collection('user').findOne({_id : new ObjectId(user.id)})
+    delete result.password
+    process.nextTick(() => {
+        return done(null, result)
+    })
+})
+
+router.get('/signup', (req, res) => {
+
+    res.render('signup.ejs')
+})
+
+router.post('/signup', async(req, res) => {
+    let hash = await bcrypt.hash(req.body.password, 10)
+    await db.collection('user').insertOne({
+        username: req.body.username,
+        password: hash
+    })
+    res.redirect('/')
+})
+
+
+
+router.get('/login', async(req, res) => {
+    console.log(req.user)
+    res.render('login.ejs')
+})
+
+router.post('/login', async(req, res, next) => {
+    passport.authenticate('local', (error, user, info) => {
+        if (error) return res.status(500).json(error)
+        if (!user) return res.status(401).json(info.message)
+        req.logIn(user, (err) =>{
+            if(err) return next(err)
+            res.redirect('/')
+        })
+    })(req, res, next)
+})
+
+/*router.get('/login', userController.loginPage);
 // 로그인 라우트에서 Passport 인증을 사용합니다.
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -51,7 +94,7 @@ router.post('/login', (req, res) => {
         req.session.errorMessage = '로그인에 실패했습니다. 사용자 정보를 확인해주세요.';
         res.redirect('/login');
     }
-});
+});*/
 
 // 마이 페이지 라우트. isLoggedIn 함수를 사용하여 인증 상태를 확인
 router.get('/mypage', userController.mypage);

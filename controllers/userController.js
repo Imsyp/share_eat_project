@@ -19,12 +19,12 @@ exports.logout = (req, res) => {
 };
 
 exports.mypage = (req, res) => {
-    const username = req.session.username; // 로그인한 유저의 유저네임을 가져옵니다.
+    const username = req.session.passport.user.username; // 로그인한 유저의 유저네임을 가져옵니다.
     res.render('../views/mypage', { username });
 };
 
 exports.board = (req, res) => {
-    res.render('../views/board');
+    res.render('../views/community_board');
 };
 
 exports.purchase = (req, res) => {
