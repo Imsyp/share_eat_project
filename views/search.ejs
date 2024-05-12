@@ -41,12 +41,12 @@
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
         <div class="white-bg">
             <div class="list-box">
-                <a href="/user/post/<%= 글목록[i]._id %>" class="title"><%= 글목록[i].title %></a>
+                <a href="/user/post/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].title %></a>
                 <br>
-                <p class="right">views: <%= 글목록[i].views%></p>
+                <p class="right">views: <%= 글목록[글목록.length - i - 1].views%></p>
                 <br>
-                <a href="/user/edit/<%= 글목록[i]._id%>" class="box-button">수정하기</a>
-                <button class="delete box-button"data-id="<%= 글목록[i]._id%>">삭제하기</button>
+                <a href="/user/edit/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
             </div>
         </div>
         <% } %>
