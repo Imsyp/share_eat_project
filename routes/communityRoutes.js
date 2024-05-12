@@ -66,7 +66,8 @@ router.post('/add', upload.single('img1'), async (req, res) => {
             views: 0,
             img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
             user: req.user._id,
-            username: req.user.username
+            username: req.user.username,
+            date: new Date().toLocaleString()
         });
 
         res.redirect('/user/community_board');
