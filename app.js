@@ -6,6 +6,13 @@ const { MongoClient, ObjectId } = require('mongodb');
 const methodOverride = require('method-override');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
+
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const server = createServer(app);
+const io = new Server(server) ;
+
+
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
 const { S3Client } = require('@aws-sdk/client-s3');
@@ -37,9 +44,9 @@ app.use(express.json());
 let connectDB = require('./database.js');
 let db;
 connectDB.then((client)=>{
-    console.log('DB연결성공')
+    console.log('DBconnected_app')
     db = client.db('shareEat');
-    app.listen(3000, () => {
+    server.listen(3000, () => {
     console.log('http://localhost:3000 에서 서버 실행중')
 })
 }).catch((err)=>{
@@ -83,7 +90,22 @@ function ensureAuthenticated(req, res, next) {
 const mainRoutes = require('./routes/mainRoutes');
 const userRoutes = require('./routes/userRoutes');
 const communityRoutes = require('./routes/communityRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 app.use('/', mainRoutes);
 app.use('/user', userRoutes);
 app.use('/user', communityRoutes);
+app.use('/user', chatRoutes);
+
+io.on('connection', (socket) =>{
+  console.log('websocket connected')
+
+  socket.on('ask-join', async(data)=>{
+    socket.join(data)
+  })
+  socket.on('message-send', async(data) =>{
+    console.log('유저가 보낸거:', data)
+    io.to(data.room).emit('message-broadcast', {message: data.message})
+  })
+})
+

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 상세 보기</title>
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="grey-bg">
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/myPage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/purchase">공동구매</a>
+        <a href="/user/chat">채팅</a>
+    </div>
+    <div id="content">
+    <div class="detail-bg">
+        <div class="chat-screen">
+          <div class="chat-box"><span>안녕하세요</span></div>
+          <div class="chat-box"><span>안녕하세요</span></div>
+          <div class="chat-box mine"><span>안녕하세요</span></div>
+        </div>
+      </div>
+      <div class="chat-form">
+        <input class="chat-input">
+        <button class="chat-button">전송</button></div>
+  </div> 
+</body>
+<script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
+<script>
+  const socket = io() 
+  socket.emit('ask-join', '<%= result._id%>')
+
+  document.querySelector('.chat-button').addEventListener('click',
+    function(){
+      let 작성한거 = document.querySelector('.chat-input').value
+      socket.emit('message-send', {room: '<%= result._id%>', message: 작성한거})
+    }
+  )
+
+  socket.on('message-broadcast', (data)=>{
+    document.querySelector('.chat-screen')  
+    .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`)
+    console.log(data.message)
+  })
+</script>
+</html>

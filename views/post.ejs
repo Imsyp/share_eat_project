@@ -23,13 +23,30 @@
         <div class="navbar">
             <a class="selected" href="/user/community_board">자유게시판</a>
             <a class="unselected" href="/user/information_board">정보게시판</a>
-            
         </div>
         <hr>
         <div class="post-box">
             <h2><%= post.title %></h2>
             <p><%= post.content %></p>
             <img src="<%= post.img %>">
+        </div>
+        <a href="/user/chat/request?writerId=<%= post.user%>">채팅하기</a>
+        <form action="/user/comment" method="post">
+            <h1>댓글쓰기</h1>
+            <input name="content">
+            <input name="parentId" value="<%= post._id %>" style="display: none;">
+            <button type="submit">전송</button>
+        </form>
+        <div class="comment-box">
+            <% if (comment && comment.length > 0) { %>
+                <% for (let i = 0; i < comment.length; i++) { %>
+                    <p>내용: <%= comment[comment.length -1 -i].content %></p>
+                    <p>작성시간: <%= comment[comment.length -1 -i].date %></p>
+                    <p>작성자: <%= comment[comment.length -1 -i].username %></p>
+                <% } %>
+            <% } else { %>
+                <p>No comments available</p>
+            <% } %>
         </div>
     </div>
 </body>

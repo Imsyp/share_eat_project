@@ -24,19 +24,22 @@ const upload = multer({
 
 
 //DB불러옴
-let connectDB = require('./../database.js') 
+let connectDB = require('./../database.js'); 
+const { request } = require('express');
 let db
 connectDB.then((client)=>{
-    console.log('DB연결성공')
+    console.log('DBconnected_communityRoutes')
     db = client.db('shareEat');
     
 
 }).catch((err)=>{
     console.log(err)
 })
+
 router.get('/community_board', async (req, res) => {
     let result = await db.collection('community').find().toArray();
-    res.render('community_board.ejs', { 글목록: result, page: req.query.page });
+    res.render('community_board.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+
 });
 
 router.get('/write', (req, res) => {
@@ -81,6 +84,7 @@ router.post('/add', upload.single('img1'), async (req, res) => {
 router.get('/post/:postId', async (req, res) => {
     try {
         const result = await db.collection('community').findOne({ _id: new ObjectId(req.params.postId) });
+        const comment = await db.collection('community_comment').find({parentId: new ObjectId(req.params.postId)}).toArray();
 
         if (!result) {
             res.status(404).send('게시물을 찾을 수 없습니다.');
@@ -89,7 +93,7 @@ router.get('/post/:postId', async (req, res) => {
         await db.collection('community').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post.ejs', { post: result });
+        res.render('post.ejs', { post: result , comment: comment});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
@@ -129,4 +133,33 @@ router.get('/search', async(req, res) => {
 
     res.render('search.ejs', {글목록 : result, page: req.query.page})
 })
+
+router.post('/comment', async (req, res) => {
+    try {
+        if (req.body.title === '') {
+            res.send('제목을 입력하세요.');
+            return;
+        } else if (req.body.content === '') {
+            res.send('내용을 입력하세요.');
+            return;
+        }
+        
+        await db.collection('community_comment').insertOne({
+            content: req.body.content,
+            parentId: new ObjectId(req.body.parentId),
+            date: new Date().toLocaleString(),
+            user: req.user._id,
+            username: req.user.username,
+        });
+
+        // 데이터베이스에 댓글을 추가한 후에 리디렉션
+        res.redirect('back');
+    } catch (error) {
+        // 에러가 발생한 경우
+        console.error(error);
+        res.status(500).send('서버에러남');
+    }
+});
+
+
 module.exports = router

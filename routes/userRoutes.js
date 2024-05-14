@@ -12,7 +12,7 @@ const LocalStrategy = require('passport-local');
 let connectDB = require('./../database.js') 
 let db
 connectDB.then((client)=>{
-    console.log('DB연결성공')
+    console.log('DBconnected_userRoutes')
     db = client.db('shareEat');
     
 
