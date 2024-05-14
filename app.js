@@ -36,10 +36,12 @@ const upload = multer({
   })
 });
 
+//미들웨어 설정
 app.use(methodOverride('_method'));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 let connectDB = require('./database.js');
 let db;
@@ -53,19 +55,42 @@ connectDB.then((client)=>{
     console.log(err)
 })
 
-app.use(express.urlencoded({ extended: true }));
-// Passport 초기화 및 세션 설정
-app.use(passport.initialize());
-app.use(session({
+
+//Express 세션 미들웨어 설정
+const sessionMiddleware = session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false, 
     store: MongoStore.create({
         mongoUrl : process.env.DB_URL,
         dbName : 'shareEat'})
-}));
+});
+app.use(sessionMiddleware);
+
+// Passport 초기화 및 세션 설정
+app.use(passport.initialize());
 app.use(passport.session());
 
+// Passport Serialize 및 Deserialize 설정
+passport.serializeUser((user, done) => {
+  process.nextTick(() => {
+      done(null, { id: user._id, username: user.username })
+  })
+})
+
+passport.deserializeUser(async (user, done) => {
+  try {
+      const result = await db.collection('user').findOne({ _id: new ObjectId(user.id) });
+      if (result) {
+          delete result.password;
+          return done(null, result);
+      } else {
+          return done(new Error('User not found'));
+      }
+  } catch (err) {
+      return done(err);
+  }
+});
 
 
 
@@ -97,6 +122,12 @@ app.use('/user', userRoutes);
 app.use('/user', communityRoutes);
 app.use('/user', chatRoutes);
 
+// 채팅 웹 소켓 설정
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, {}, next);
+});
+
+
 io.on('connection', (socket) =>{
   console.log('websocket connected')
 
@@ -104,6 +135,12 @@ io.on('connection', (socket) =>{
     socket.join(data)
   })
   socket.on('message-send', async(data) =>{
+    await db.collection('chatMessage').insertOne({
+      parentRoom: new ObjectId(data.room),
+      content: data.message,
+      who: new ObjectId(socket.request.session.passport.user.id),
+      date: new Date().toLocaleString()
+    })
     console.log('유저가 보낸거:', data)
     io.to(data.room).emit('message-broadcast', {message: data.message})
   })

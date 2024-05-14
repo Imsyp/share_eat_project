@@ -32,10 +32,12 @@
         </div>
         <a href="/user/chat/request?writerId=<%= post.user%>">채팅하기</a>
         <form action="/user/comment" method="post">
+            
             <h1>댓글쓰기</h1>
             <input name="content">
             <input name="parentId" value="<%= post._id %>" style="display: none;">
             <button type="submit">전송</button>
+            <hr>
         </form>
         <div class="comment-box">
             <% if (comment && comment.length > 0) { %>
@@ -43,6 +45,7 @@
                     <p>내용: <%= comment[comment.length -1 -i].content %></p>
                     <p>작성시간: <%= comment[comment.length -1 -i].date %></p>
                     <p>작성자: <%= comment[comment.length -1 -i].username %></p>
+                    <hr>
                 <% } %>
             <% } else { %>
                 <p>No comments available</p>

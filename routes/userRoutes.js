@@ -32,20 +32,6 @@ passport.use(new LocalStrategy(async (username, password, cb) => {// 여기서 �
     }
 }))
 
-passport.serializeUser((user, done) => {
-    process.nextTick(() => {
-        done(null, { id: user._id, username: user.username })
-    })
-})
-
-passport.deserializeUser(async(user, done) => {
-    let result = await db.collection('user').findOne({_id : new ObjectId(user.id)})
-    delete result.password
-    process.nextTick(() => {
-        return done(null, result)
-    })
-})
-
 router.get('/signup', (req, res) => {
 
     res.render('signup.ejs')
@@ -59,8 +45,6 @@ router.post('/signup', async(req, res) => {
     })
     res.redirect('/')
 })
-
-
 
 router.get('/login', async(req, res) => {
     console.log(req.user)

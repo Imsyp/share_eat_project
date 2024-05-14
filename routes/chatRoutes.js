@@ -31,11 +31,23 @@ router.get('/chat/list', async(req, res) => {
     res.render('chatList.ejs', {result: result})
 })
 
-router.get('/chat/detail/:id', async(req, res) => {
-    /*if문으로 채팅방에 속해있는지 검사*/
-    let result = await db.collection('chatroom').findOne({_id : new ObjectId(req.params.id)})
-    res.render('chatDetail.ejs', {result: result})
-})
+router.get('/chat/detail/:id', async (req, res) => {
+    try {
+        // 현재 사용자 정보 가져오기
+        const userid = req.user; // Passport를 사용하여 현재 사용자 정보를 가져옴
+
+        // 채팅방 및 메시지 가져오기
+        let result = await db.collection('chatroom').findOne({ _id: new ObjectId(req.params.id) });
+        let messages = await db.collection('chatMessage').find({ parentRoom: new ObjectId(req.params.id) }).sort({ createdAt: 1 }).toArray();
+
+        // 템플릿 렌더링 및 현재 사용자 정보 전달
+        res.render('chatDetail.ejs', { result: result, messages: messages, userid: userid});
+    } catch (err) {
+        console.error('Error fetching chat details:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 
 module.exports = router

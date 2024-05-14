@@ -21,11 +21,15 @@
     </div>
     <div id="content">
     <div class="detail-bg">
-        <div class="chat-screen">
-          <div class="chat-box"><span>안녕하세요</span></div>
-          <div class="chat-box"><span>안녕하세요</span></div>
-          <div class="chat-box mine"><span>안녕하세요</span></div>
-        </div>
+      <div class="chat-screen">
+        <% for (var i = 0; i < messages.length; i++) { %>
+            <% if (messages[i].who == userid.id) { %>
+                <div class="chat-box mine"><span><%= messages[i].content %></span></div>
+            <% } else { %>
+                <div class="chat-box"><span><%= messages[i].content %></span></div>
+            <% } %>
+        <% } %>
+    </div>
       </div>
       <div class="chat-form">
         <input class="chat-input">
@@ -49,5 +53,6 @@
     .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`)
     console.log(data.message)
   })
+  
 </script>
 </html>
