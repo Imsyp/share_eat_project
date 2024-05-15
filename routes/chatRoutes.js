@@ -25,11 +25,25 @@ router.get('/chat/request', async(req, res) =>{
 })
 
 router.get('/chat/list', async(req, res) => {
-    let result = await db.collection('chatroom').find({
-        member : req.user._id
-    }).toArray()
-    res.render('chatList.ejs', {result: result})
+    try {
+        let result = await db.collection('chatroom').find({
+            member : req.user._id
+        }).toArray();
+        
+        // 결과가 있는지 확인 후 렌더링
+        if (result.length > 0) {
+            res.render('chatList.ejs', {result: result});
+        } else {
+            // 결과가 없을 때 처리
+            res.render('chatList.ejs', {result: []});
+        }
+    } catch (err) {
+        console.error(err);
+        // 오류 처리
+        res.status(500).send("Internal Server Error");
+    }
 })
+
 
 router.get('/chat/detail/:id', async (req, res) => {
     try {
