@@ -32,5 +32,5 @@ exports.purchase = (req, res) => {
 };
 
 exports.chat = (req, res) => {
-    res.render('../views/chat');
+    res.render('../views/chatList');
 };
