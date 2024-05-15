@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Page</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+    </script>
 </head>
 <body>
     <div id="sidebar">
@@ -27,6 +37,7 @@
             <h1><%= username %> 님</h1>
             <a class="userinfo_change" href="/user/userinfo_change">회원정보 수정</a>
         </div>
+        <div id="calendar"></div>
         <div class="purchase_list">
             <h2>공구 이력</h2>
         </div>
