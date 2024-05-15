@@ -41,7 +41,9 @@ router.post('/signup', async(req, res) => {
     let hash = await bcrypt.hash(req.body.password, 10)
     await db.collection('user').insertOne({
         username: req.body.username,
-        password: hash
+        password: hash,
+        phonenumber: req.body.phonenumber,
+        address: req.body.address
     })
     res.redirect('/')
 })
