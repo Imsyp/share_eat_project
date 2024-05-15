@@ -332,7 +332,7 @@ form > input[type="submit"]:hover {
     margin-bottom: 20px;
 }
 
-.calendar{
+.purchase_list{
     width: 800px;
     margin-top: 100px;
     padding: 10px;
@@ -343,7 +343,7 @@ form > input[type="submit"]:hover {
     text-align: left;
 }
 
-.calendar h2{
+.purchase_list h2{
     margin-left: 30px;
     margin-top: 10px;
     margin-bottom: 20px;
