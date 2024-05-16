@@ -11,7 +11,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 const server = createServer(app);
 const io = new Server(server) ;
-
+const path = require('path')
 
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
@@ -35,6 +35,10 @@ const upload = multer({
     }
   })
 });
+
+var favicon = require('serve-favicon');
+app.use(express.static(path.join(__dirname, 'public/images')));
+
 
 //미들웨어 설정
 app.use(methodOverride('_method'));

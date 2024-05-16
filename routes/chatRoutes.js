@@ -53,7 +53,7 @@ router.get('/chat/detail/:id', async (req, res) => {
         // 채팅방 및 메시지 가져오기
         let result = await db.collection('chatroom').findOne({ _id: new ObjectId(req.params.id) });
         let messages = await db.collection('chatMessage').find({ parentRoom: new ObjectId(req.params.id) }).sort({ createdAt: 1 }).toArray();
-
+        console.log(userid)
         // 템플릿 렌더링 및 현재 사용자 정보 전달
         res.render('chatDetail.ejs', { result: result, messages: messages, userid: userid});
     } catch (err) {
