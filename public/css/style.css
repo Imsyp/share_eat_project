@@ -309,6 +309,7 @@ form > input[type="submit"]:hover {
     height: 100%;
     position: absolute;
     top: -17;
+    border-radius: 50%;
 }
 
 .username_sign{
