@@ -342,7 +342,7 @@ form > input[type="submit"]:hover {
 
 .purchase_list{
     float: right;
-    width: 700px;
+    width: 50%;
     margin-top: 30px;
     margin-left: 1px;
     padding: 10px;
