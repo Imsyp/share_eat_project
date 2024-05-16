@@ -25,13 +25,24 @@
         <div class="header">
             <h1 style="font-size: 50px;">채팅방 목록</h1>
         </div><hr>
-        <% for (var i = 0; i < result.length; i++) { %>
-        <div class="white-bg">
-            <div class="list-box">
-                <h4><a href="/user/chat/detail/<%= result[i]._id%>">채팅방 <%= i %></a></h4>
 
-            </div>
-        </div>
+        <% if (result.length > 0) { %>
+            <% result.forEach(function(chatroom) { %>
+                <div class="white-bg">
+                    <div class="list-box">
+                        <h4><a href="/user/chat/detail/<%= chatroom._id %>">
+                            <% chatroom.member.forEach(function(member) { %>
+                                <% if (currentUser !== member) { %>
+                                    <%= member %> 님</a></h4>
+                                <% } %>
+                            <% }); %>
+                        </a></h4>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>채팅방이 없습니다.</p>
         <% } %>
+    </div>
 </body>
 </html>

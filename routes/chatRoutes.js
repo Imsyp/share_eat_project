@@ -16,23 +16,42 @@ connectDB.then((client)=>{
     console.log(err)
 })
 
-router.get('/chat/request', async(req, res) =>{
-    await db.collection('chatroom').insertOne({
-        member: [req.user._id, new ObjectId(req.query.writerId)],
-        date: new Date()
-    })
-    res.redirect('/user/chat/list')
-})
+router.get('/chat/request', async (req, res) => {
+    try {
+        const currentUser = req.user.username;
+        const writerId = req.query.writerId;
+
+        // 동일한 멤버 배열이 있는지 확인
+        const existingChatroom = await db.collection('chatroom').findOne({
+            member: { $all: [currentUser, writerId] }
+        });
+
+        if (!existingChatroom) {
+            // 동일한 멤버 배열이 없는 경우에만 채팅방을 생성
+            await db.collection('chatroom').insertOne({
+                member: [currentUser, writerId],
+                date: new Date()
+            });
+        }
+
+        res.redirect('/user/chat/list');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 router.get('/chat/list', async(req, res) => {
     try {
         let result = await db.collection('chatroom').find({
-            member : req.user._id
+            member : req.user.username
         }).toArray();
+        let currentUser = req.user.username;
         
         // 결과가 있는지 확인 후 렌더링
         if (result.length > 0) {
-            res.render('chatList.ejs', {result: result});
+            res.render('chatList.ejs', {result: result, currentUser: currentUser});
         } else {
             // 결과가 없을 때 처리
             res.render('chatList.ejs', {result: []});
