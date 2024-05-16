@@ -181,6 +181,22 @@ form > input[type="submit"]:hover {
     display: flex; /* 요소들을 가로로 배열하기 위해 flex 사용 */
     align-items: center; /* 요소들을 세로 중앙 정렬 */
 }
+.cancel_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cancel_button:hover {
+    background-color: #0056b3;
+}
+
 /*여기서부터 게시글영역임*/
 .list-box {
     box-sizing: border-box;
