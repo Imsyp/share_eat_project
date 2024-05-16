@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt')
 // app.js 또는 해당하는 파일에서 Passport 설정을 추가합니다.
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const {updateSession, reauthenticateUser} = require('../middlewares/sessionUtils')
 const { S3Client } = require('@aws-sdk/client-s3')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
@@ -114,14 +115,32 @@ router.put('/edit_info', upload.single('profile'), async (req, res) => {
         if (req.file) {
             imgUrl = req.file.location;
         }
-        let hash = await bcrypt.hash(req.body.password, 10)
-        await db.collection('user').updateOne({_id: new ObjectId(req.user._id)
-        }, 
-        {$set : {password: hash, phonenumber: req.body.phonenumber, address: req.body.address,
-            profile: imgUrl
-        }})
+        let hash = await bcrypt.hash(req.body.password, 10);
+        const userId = req.user._id;
 
-        res.redirect('/user/mypage')
+        // 회원 정보 업데이트
+        await db.collection('user').updateOne(
+            { _id: new ObjectId(userId) }, 
+            { $set: { 
+                password: hash, 
+                phonenumber: req.body.phonenumber, 
+                address: req.body.address,
+                profile: imgUrl
+            }}
+        );
+
+        // 업데이트된 사용자 정보 가져오기
+        const updatedUser = await db.collection('user').findOne({ _id: new ObjectId(userId) });
+
+        // 세션 업데이트: 새로운 사용자 정보로 세션 갱신
+        req.login(updatedUser, (err) => {
+            if (err) {
+                console.error('Error updating session:', err);
+                return res.status(500).send('세션 업데이트 중 오류 발생');
+            }
+            // 회원 정보 수정 후 마이 페이지로 리다이렉트
+            res.redirect('/user/mypage');
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send('서버에러남');

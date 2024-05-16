@@ -46,8 +46,9 @@
 
   document.querySelector('.chat-button').addEventListener('click',
     function(){
-      let 작성한거 = document.querySelector('.chat-input').value
-      socket.emit('message-send', {room: '<%= result._id%>', message: 작성한거})
+      let 작성한거 = document.querySelector('.chat-input').value;
+      socket.emit('message-send', {room: '<%= result._id%>', message: 작성한거});
+      document.querySelector('.chat-input').value = '';
     }
   )
 

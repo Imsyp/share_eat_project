@@ -97,22 +97,14 @@ passport.deserializeUser(async (user, done) => {
 });
 
 
-
 // 사용자의 인증 상태를 확인하는 미들웨어
 app.use((req, res, next) => {
-    const isLoggedIn = req.session.isAuthenticated;
-    res.locals.isLoggedIn = isLoggedIn;
+  const isLoggedIn = req.isAuthenticated(); // Passport를 사용하여 인증 상태 확인
+  res.locals.isLoggedIn = isLoggedIn;
 
-    next();
+  next();
 });
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-      return next(); // 인증된 사용자일 경우 다음 미들웨어로 이동
-  }
-  // 인증되지 않은 사용자의 경우 로그인 페이지로 리다이렉트
-  res.redirect('/login');
-}
 
 
 // 라우트 설정
