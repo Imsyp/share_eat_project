@@ -27,14 +27,15 @@
         </div>
         <hr>
         <div class="post-box">
-            <h2><%= post.product_name %></h2>
-            <p><%= post.quantity %></p>
-            <p><%= post.number_of_recruits %></p>
-            <p><%= post.total_amount %></p>
-            <p><%= post.location %></p>
-            <p><%= post.username %></p>
-            <p><%= post.date %></p>
-            <img src="<%= post.img %>">
+            <br><br>
+            <img src="<%= post.img %>" style="width: 500px; height: auto;">
+            <h2><%= post.username %>님</h2>
+            <p>제품명: <%= post.product_name %></p>
+            <p>수량: <%= post.quantity %></p>
+            <p>모집인원: <%= post.number_of_recruits %></p>
+            <p>총액: <%= post.total_amount %></p>
+            <p>거래 장소: <%= post.location %></p>
+            <p>게시글 업로드 날짜 및 시간: <%= post.date %></p>
         </div>
         <a href="/user/chat/request?writerId=<%= post.username%>">채팅하기</a>
     </div>
