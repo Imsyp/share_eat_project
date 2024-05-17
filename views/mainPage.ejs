@@ -26,13 +26,10 @@
             <a href="/user/signup">회원가입</a>
         <% } %>
     </div>
-    <div id="content" class="onlymain">
+    <div id="onlymain">
         <!-- Main content here -->
-        <% if (isAuthenticated) { %>
-            <p>로그인 상태입니다.</p>
-        <% } else { %>
-            <p>로그인되어 있지 않습니다.</p>
-        <% } %>
+        <video autoplay muted style="width:auto; height: 100vh; position: fixed;">
+            <source src='/images/main1.mp4' ></video>
     </div>
 </body>
 </html>
