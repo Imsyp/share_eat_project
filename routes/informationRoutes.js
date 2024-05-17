@@ -124,7 +124,7 @@ router.delete('/delete_information', async (req, res) => {
 router.get('/search_information', async(req, res) => {
     let 검색조건 = [
         {$search : {
-            index : 'title_index',
+            index : 'default',
             text : { query : req.query.val, path : 'title' }
         }}
         ]
