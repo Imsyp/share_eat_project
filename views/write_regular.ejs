@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 수정하기</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body class="grey-bg">
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/mypage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/flash_purchase">공동구매</a>
+        <a href="/user/chat/list">채팅</a>
+    </div> 
+    <form class="form-box" action="/user/add_regular" method="post" enctype="multipart/form-data">
+        <h1>글쓰기</h1>
+        <label for="product_name">제품명:</label>
+        <input type="text" id="product_name" name="product_name" placeholder="제품명을 입력하세요."><br>
+        <label for="quantity">수량:</label>
+        <input type="text" id="quantity" name="quantity" placeholder="수량을 입력하세요."><br>
+        <label for="number_of_recruits">모집인원:</label>
+        <input type="text" id="number_of_recruits" name="number_of_recruits" placeholder="모집인원을 입력하세요."><br>
+        <label for="total_amount">총 금액:</label>
+        <input type="text" id="total_amount" name="total_amount" placeholder="전체 제품을 구매하는데 필요한 총 금액을 입력하세요."><br>
+        <label for="location">거래 장소:</label>
+        <input type="text" id="location" name="location" placeholder="희망하는 거래장소를 입력하세요."><br>
+        <label for="product_image">제품 사진:</label>
+        <input type="file" name="img1" accept="image/*"><br><br>
+        <button type="submit">글쓰기</button>
+    </form>
+    </body>
+</html>

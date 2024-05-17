@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>번개 공구</title>
+    <title>번개공구</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -32,8 +32,59 @@
         <hr>
         <div class="header">
             <h1 style="font-size: 50px;">번개공구</h1>
-            <a class="selected right-2" href="/user/purchase">글쓰기</a>
+            
+            <a class="selected right-2" href="/user/write_flash">글쓰기</a>
         </div><hr>
+        <% var 페이지당글수 = 10; %>
+        <% var 페이지번호 = parseInt(page) || 1; %>
+        <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
+        <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
+        
+        <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+            <div class="white-bg">
+                <div class="list-box">
+                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
+                    <br>
+                    <p class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
+                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <br>
+                    <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                    <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                </div>
+            </div>
+        <% } %>
+        
+        
+        <% if (페이지번호 > 1) { %>
+            <a href="/user/flash_purchase?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
+        <% } %>
+        <% if (글목록.length > 끝인덱스) { %>
+            <a href="/user/flash_purchase?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
+        <% } %>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    fetch('/user/delete_flash?docid=' + e.target.dataset.id, { method: 'DELETE' })
+                        .then(response => response.text())
+                        .then(result => {
+                            e.target.parentElement.style.display = 'none';
+                        });
+                });
+            });
+
+            document.querySelector('.search-send').addEventListener('click', function() {
+                const userinput = document.querySelector('.search').value;
+                if (userinput.trim() === '') {
+                    alert('검색어를 입력하세요');
+                    return;
+                }
+                location.href = '/user/search_flash?val=' + encodeURIComponent(userinput);
+            });
+        });
+    </script>
 </body>
 </html>

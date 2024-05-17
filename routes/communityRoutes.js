@@ -38,7 +38,7 @@ connectDB.then((client)=>{
 
 router.get('/community_board', async (req, res) => {
     let result = await db.collection('community').find().toArray();
-    res.render('community_board.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+    res.render('board_community.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
 
 });
 
@@ -81,7 +81,7 @@ router.post('/add_community', upload.single('img1'), async (req, res) => {
 });
 
 
-router.get('/post/:postId', async (req, res) => {
+router.get('/post_community/:postId', async (req, res) => {
     try {
         const result = await db.collection('community').findOne({ _id: new ObjectId(req.params.postId) });
         const comment = await db.collection('community_comment').find({parentId: new ObjectId(req.params.postId)}).toArray();
@@ -93,20 +93,20 @@ router.get('/post/:postId', async (req, res) => {
         await db.collection('community').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post.ejs', { post: result , comment: comment});
+        res.render('post_community.ejs', { post: result , comment: comment});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
     }
 });
 
-router.get('/edit/:editId', async (req, res) => {
+router.get('/edit_community/:editId', async (req, res) => {
         const result = await db.collection('community').findOne({ _id: new ObjectId(req.params.editId) });
         
-        res.render('edit.ejs', { edit: result });
+        res.render('edit_community.ejs', { edit: result });
 });
 
-router.put('/edit', async (req, res) => {
+router.put('/edit_community', async (req, res) => {
     
     await db.collection('community').updateOne({_id: new ObjectId(req.body.id), 
         user : new ObjectId(req.user._id)
@@ -115,14 +115,14 @@ router.put('/edit', async (req, res) => {
     res.redirect('/user/community_board')
 });
 
-router.delete('/delete', async (req, res) => {
+router.delete('/delete_community', async (req, res) => {
     const result = await db.collection('community').deleteOne({_id : new ObjectId(req.query.docid),
         user: new ObjectId(req.user._id)
     })
     res.send('삭제완료')
 })
 
-router.get('/search', async(req, res) => {
+router.get('/search_community', async(req, res) => {
     let 검색조건 = [
         {$search : {
             index : 'title_index',
@@ -134,7 +134,7 @@ router.get('/search', async(req, res) => {
     res.render('search.ejs', {글목록 : result, page: req.query.page})
 })
 
-router.post('/comment', async (req, res) => {
+router.post('/comment_community', async (req, res) => {
     try {
         if (req.body.title === '') {
             res.send('제목을 입력하세요.');

@@ -38,7 +38,7 @@ connectDB.then((client)=>{
 
 router.get('/information_board', async (req, res) => {
     let result = await db.collection('information').find().toArray();
-    res.render('information_board.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+    res.render('board_information.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
 });
 
 router.get('/write_information', (req, res) => {
@@ -80,7 +80,7 @@ router.post('/add_information', upload.single('img1'), async (req, res) => {
 });
 
 
-router.get('/post/:postId', async (req, res) => {
+router.get('/post_information/:postId', async (req, res) => {
     try {
         const result = await db.collection('information').findOne({ _id: new ObjectId(req.params.postId) });
         const comment = await db.collection('information_comment').find({parentId: new ObjectId(req.params.postId)}).toArray();
@@ -92,20 +92,20 @@ router.get('/post/:postId', async (req, res) => {
         await db.collection('information').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post.ejs', { post: result , comment: comment});
+        res.render('post_information.ejs', { post: result , comment: comment});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
     }
 });
 
-router.get('/edit/:editId', async (req, res) => {
+router.get('/edit_information/:editId', async (req, res) => {
         const result = await db.collection('information').findOne({ _id: new ObjectId(req.params.editId) });
         
-        res.render('edit.ejs', { edit: result });
+        res.render('edit_information.ejs', { edit: result });
 });
 
-router.put('/edit', async (req, res) => {
+router.put('/edit_information', async (req, res) => {
     
     await db.collection('information').updateOne({_id: new ObjectId(req.body.id), 
         user : new ObjectId(req.user._id)
@@ -114,14 +114,14 @@ router.put('/edit', async (req, res) => {
     res.redirect('/user/information_board')
 });
 
-router.delete('/delete', async (req, res) => {
+router.delete('/delete_information', async (req, res) => {
     const result = await db.collection('information').deleteOne({_id : new ObjectId(req.query.docid),
         user: new ObjectId(req.user._id)
     })
     res.send('삭제완료')
 })
 
-router.get('/search', async(req, res) => {
+router.get('/search_information', async(req, res) => {
     let 검색조건 = [
         {$search : {
             index : 'title_index',
@@ -133,7 +133,7 @@ router.get('/search', async(req, res) => {
     res.render('search.ejs', {글목록 : result, page: req.query.page})
 })
 
-router.post('/comment', async (req, res) => {
+router.post('/comment_information', async (req, res) => {
     try {
         if (req.body.title === '') {
             res.send('제목을 입력하세요.');

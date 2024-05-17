@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 상세 보기</title>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body class="grey-bg">
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/mypage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/flash_purchase">공동구매</a>
+        <a href="/user/chat/list">채팅</a>
+    </div>
+    <div id="content">
+        <div class="navbar">
+            <a class="unselected" href="/user/community_board">자유게시판</a>
+            <a class="selected" href="/user/information_board">정보게시판</a>
+        </div>
+        <hr>
+        <div class="post-box">
+            <h2><%= post.title %></h2>
+            <p><%= post.content %></p>
+            <img src="<%= post.img %>">
+        </div>
+        <a href="/user/chat/request?writerId=<%= post.username%>">채팅하기</a>
+        <form action="/user/comment_information" method="post">
+            
+            <h1>댓글쓰기</h1>
+            <input name="content">
+            <input name="parentId" value="<%= post._id %>" style="display: none;">
+            <button type="submit">전송</button>
+            <hr>
+        </form>
+        <div class="comment-box">
+            <% if (comment && comment.length > 0) { %>
+                <% for (let i = 0; i < comment.length; i++) { %>
+                    <p>내용: <%= comment[comment.length -1 -i].content %></p>
+                    <p>작성시간: <%= comment[comment.length -1 -i].date %></p>
+                    <p>작성자: <%= comment[comment.length -1 -i].username %></p>
+                    <hr>
+                <% } %>
+            <% } else { %>
+                <p>No comments available</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

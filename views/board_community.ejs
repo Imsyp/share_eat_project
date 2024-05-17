@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정보게시판</title>
+    <title>자유게시판</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -16,14 +16,14 @@
         <p>share eat,<br>share it!</p>
         <a href="/user/mypage">마이 페이지</a>
         <a href="/user/logout">로그아웃</a>
-        <a href="/user/information_board">게시판</a>
+        <a href="/user/community_board">게시판</a>
         <a href="/user/flash_purchase">공동구매</a>
         <a href="/user/chat/list">채팅</a>
     </div>
     <div id="content">
         <div class="navbar">
-            <a class="unselected" href="/user/community_board">자유게시판</a>
-            <a class="selected" href="/user/information_board">정보게시판</a>
+            <a class="selected" href="/user/community_board">자유게시판</a>
+            <a class="unselected" href="/user/information_board">정보게시판</a>
             <div class="right-1">
                 <input class="search">
                 <button class="search-send">검색</button>
@@ -33,7 +33,7 @@
         <div class="header">
             <h1 style="font-size: 50px;">자유게시판</h1>
             
-            <a class="selected right-2" href="/user/write_information">글쓰기</a>
+            <a class="selected right-2" href="/user/write_community">글쓰기</a>
         </div><hr>
         <% var 페이지당글수 = 10; %>
         <% var 페이지번호 = parseInt(page) || 1; %>
@@ -43,13 +43,13 @@
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
             <div class="white-bg">
                 <div class="list-box">
-                    <a href="/user/post/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].title %></a>
+                    <a href="/user/post_community/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].title %></a>
                     <br>
                     <p class="right">views: <%= 글목록[글목록.length - i - 1].views%></p>
                     <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
                     <p><%= 글목록[글목록.length - i - 1].date%></p>
                     <br>
-                    <a href="/user/edit/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                    <a href="/user/edit_community/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                     <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
                 </div>
             </div>
@@ -57,27 +57,34 @@
         
         
         <% if (페이지번호 > 1) { %>
-            <a href="/user/information_board?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
+            <a href="/user/community_board?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
         <% } %>
         <% if (글목록.length > 끝인덱스) { %>
-            <a href="/user/information_board?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
+            <a href="/user/community_board?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
         <% } %>
     </div>
     <script>
-        for(let i = 0; i < '<%=글목록.length %>'; i++)
-        {
-            document.querySelectorAll('.delete')[i]
-            .addEventListener('click', function(e){
-            fetch('/user/delete?docid=' + e.target.dataset.id, {method: 'DELETE'})
-            .then((r)=>r.text())
-            .then((r)=>{e.target.parentElement.style.display='none'})
-        })
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    fetch('/user/delete_community?docid=' + e.target.dataset.id, { method: 'DELETE' })
+                        .then(response => response.text())
+                        .then(result => {
+                            e.target.parentElement.style.display = 'none';
+                        });
+                });
+            });
 
-        document.querySelector('.search-send').addEventListener('click',()=>{
-            let userinput = document.querySelector('.search').value
-            location.href = '/user/search?val=' + userinput
-        })
+            document.querySelector('.search-send').addEventListener('click', function() {
+                const userinput = document.querySelector('.search').value;
+                if (userinput.trim() === '') {
+                    alert('검색어를 입력하세요');
+                    return;
+                }
+                location.href = '/user/search_community?val=' + encodeURIComponent(userinput);
+            });
+        });
     </script>
 </body>
 </html>

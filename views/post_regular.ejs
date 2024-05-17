@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글 수정하기</title>
+    <title>게시물 상세 보기</title>
     <link href="/css/style.css" rel="stylesheet">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
 </head>
@@ -20,12 +20,23 @@
         <a href="/user/flash_purchase">공동구매</a>
         <a href="/user/chat/list">채팅</a>
     </div>
-    <form class="form-box" action="/user/edit?_method=PUT" method="post">
-        <h4>수정하기</h4>
-        <input name="id" value="<%=edit._id %>" style="display: none;">
-        <input name="title" value="<%= edit.title%>">
-        <input name="content" value="<%= edit.content%>">
-        <button type="submit">전송</button>
-    </form> 
-    </body>
+    <div id="content">
+        <div class="navbar">
+            <a class="unselected" href="/user/flash_purchase">번개공구</a>
+            <a class="selected" href="/user/regular_purchase">정기공구</a>
+        </div>
+        <hr>
+        <div class="post-box">
+            <h2><%= post.product_name %></h2>
+            <p><%= post.quantity %></p>
+            <p><%= post.number_of_recruits %></p>
+            <p><%= post.total_amount %></p>
+            <p><%= post.location %></p>
+            <p><%= post.username %></p>
+            <p><%= post.date %></p>
+            <img src="<%= post.img %>">
+        </div>
+        <a href="/user/chat/request?writerId=<%= post.username%>">채팅하기</a>
+    </div>
+</body>
 </html>
