@@ -95,12 +95,12 @@ router.post('/add_regular', upload.single('img1'), async (req, res) => {
 router.get('/post_regular/:postId', async (req, res) => {
     try {
         const result = await db.collection('regularPurchase').findOne({ _id: new ObjectId(req.params.postId) });
-
+        const userprofile = await db.collection('user').findOne({_id: new ObjectId(result.user)})
         if (!result) {
             res.status(404).send('게시물을 찾을 수 없습니다.');
             return;
         }
-        res.render('post_regular.ejs', { post: result });
+        res.render('post_regular.ejs', { post: result , userprofile: userprofile});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');

@@ -29,7 +29,7 @@
         <div class="post-box">
             <br><br>
             <img src="<%= post.img %>" style="width: 500px; height: auto;">
-            <h2><%= post.username %>님</h2>
+            <h2><img src="<%=userprofile.profile%>" style="width: 38px; height: 38px; border-radius: 50%;"><%= post.username %>님</h2>
             <p>제품명: <%= post.product_name %></p>
             <p>수량: <%= post.quantity %></p>
             <p>모집인원: <%= post.number_of_recruits %></p>
