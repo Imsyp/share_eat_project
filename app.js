@@ -111,6 +111,7 @@ app.use((req, res, next) => {
 const mainRoutes = require('./routes/mainRoutes');
 const userRoutes = require('./routes/userRoutes');
 const communityRoutes = require('./routes/communityRoutes');
+const informationRoutes = require('./routes/informationRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const flashRoutes = require('./routes/flashRoutes');
 const regularRoutes = require('./routes/regularRoutes');
@@ -119,6 +120,7 @@ const regularRoutes = require('./routes/regularRoutes');
 app.use('/', mainRoutes);
 app.use('/user', userRoutes);
 app.use('/user', communityRoutes);
+app.use('/user', informationRoutes);
 app.use('/user', chatRoutes);
 app.use('/user', flashRoutes);
 app.use('/user', regularRoutes);

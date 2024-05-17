@@ -23,8 +23,12 @@ exports.mypage = (req, res) => {
     res.render('../views/mypage', { username });
 };
 
-exports.board = (req, res) => {
+exports.community_board = (req, res) => {
     res.render('../views/community_board');
+};
+
+exports.information_board = (req, res) => {
+    res.render('../views/information_board');
 };
 
 exports.purchase = (req, res) => {

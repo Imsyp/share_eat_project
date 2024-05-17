@@ -152,7 +152,8 @@ router.get('/mypage', userController.mypage);
 
 router.get('/logout', userController.logout); 
 
-router.get('/board', userController.board);
+// router.get('/community_board', userController.community_board);
+// router.get('/information_board', userController.information_board);
 router.get('/purchase', userController.purchase);
 router.get('/chat', userController.chat);
 

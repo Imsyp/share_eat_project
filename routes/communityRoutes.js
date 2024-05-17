@@ -42,12 +42,12 @@ router.get('/community_board', async (req, res) => {
 
 });
 
-router.get('/write', (req, res) => {
-    res.render('write.ejs', {})
+router.get('/write_community', (req, res) => {
+    res.render('write_community.ejs', {})
 })
 
 
-router.post('/add', upload.single('img1'), async (req, res) => {
+router.post('/add_community', upload.single('img1'), async (req, res) => {
     try {
         if (req.body.title === '') {
             res.send('제목을 입력하세요.');
