@@ -49,8 +49,10 @@
                     <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
                     <p><%= 글목록[글목록.length - i - 1].date%></p>
                     <br>
-                    <a href="/user/edit_information/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
-                    <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
+                        <a href="/user/edit_community/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                        <button class="delete box-button" data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <% } %>
                 </div>
             </div>
         <% } %>

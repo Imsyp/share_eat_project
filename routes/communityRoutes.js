@@ -19,7 +19,8 @@ const upload = multer({
       key: function (req, file, cb) {
         cb(null, Date.now().toString()) //업로드시 파일명 변경가능
       }
-    })
+    }), 
+    limits: {fieldSize: 15 * 1024 * 1024}
   })
 
 
@@ -55,7 +56,10 @@ router.post('/add_community', upload.single('img1'), async (req, res) => {
         } else if (req.body.content === '') {
             res.send('내용을 입력하세요.');
             return;
-        }
+        } else if(req.body.content.length > 1000) {
+                res.send('내용이 너무 깁니다. 1000자 이하로 작성해주세요. 또는 이미지 첨부는 위의 찾아보기 버튼을 이용하세요')
+                return;
+        } 
 
         // 사진이 없는 경우에도 req.file이 존재하지 않으므로, 해당 부분을 처리해줍니다.
         let imgUrl = '';

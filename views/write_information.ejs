@@ -6,6 +6,43 @@
     <title>글 작성하기</title>
     <link href="/css/style.css" rel="stylesheet">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- Toast UI Editor CSS -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #content {
+            margin-left: 300px; /* 사이드바를 고려한 마진 */
+            padding: 20px;
+        }
+        .form-box {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-box h1 {
+            text-align: center;
+        }
+        .form-box input[name="title"] {
+            width: 96%;
+            padding: 15px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-box input[type="file"] {
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .form-box button:hover {
+            background-color: #0056b3;
+        }
+        #editor {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <div id="sidebar">
@@ -22,15 +59,32 @@
     </div>
     <div id="content">
         <a class="unselected" href="/user/community_board">자유게시판</a>
-        <a class="unselected" href="/user/information_board">정보게시판</a>
+        <a class="selected" href="/user/information_board">정보게시판</a>
         <hr>
         <form class="form-box" action="/user/add_information" method="post" enctype="multipart/form-data">
             <h1>글쓰기</h1>
-            <input name="title">
-            <textarea name="content" rows="8" cols="40"></textarea>
+            <input name="title" placeholder="제목을 입력하세요">
             <input type="file" name="img1" accept="image/*">
-            <button type="submit">전송</button>
+            <div id="editor"></div>
+            <textarea name="content" id="editorContent" hidden></textarea>
+            <button type="submit" onclick="submitContent()">전송</button>
         </form>
     </div>
-    </body>
+
+    <!-- Toast UI Editor JS -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg', // WYSIWYG 모드가 기본값
+            previewStyle: 'vertical'
+        });
+
+        function submitContent() {
+            const editorContent = editor.getHTML(); // 에디터 내용을 HTML 형식으로 가져오기
+            document.querySelector('#editorContent').value = editorContent; // 숨겨진 textarea에 설정
+        }
+    </script>
+</body>
 </html>
