@@ -65,7 +65,15 @@ router.post('/add_regular', upload.single('img1'), async (req, res) => {
             res.send('거래장소를 입력하세요.');
             return;
         } 
-
+        const date = new Intl.DateTimeFormat('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Asia/Seoul'
+        }).format(new Date());
         // 사진이 없는 경우에도 req.file이 존재하지 않으므로, 해당 부분을 처리해줍니다.
         let imgUrl = '';
         if (req.file) {
@@ -81,7 +89,7 @@ router.post('/add_regular', upload.single('img1'), async (req, res) => {
             location: req.body.location,
             user: req.user._id,
             username: req.user.username,
-            date: new Date().toLocaleString()
+            date: date
         });
 
         res.redirect('/user/regular_purchase');
