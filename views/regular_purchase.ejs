@@ -41,6 +41,7 @@
         <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
         
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+            <div id="onlypurchase">
             <div class="white-bg">
                 <div class="list-box">
                     <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
@@ -52,6 +53,18 @@
                     <a href="/user/edit_regular/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                     <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
                 </div>
+                <% i++; if( i == Math.min(글목록.length, 끝인덱스)) break;%>
+                <div class="list-box">
+                    <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
+                    <br>
+                    <p class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
+                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <br>
+                    <a href="/user/edit_regular/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                    <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                </div>
+            </div>
             </div>
         <% } %>
         
