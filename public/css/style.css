@@ -207,6 +207,12 @@ form > input[type="submit"]:hover {
     width: auto;
     display: inline-block;
 }
+#onlypurchase{
+    .white-bg{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;}
+    }
 .title {
     font-size: 25px;
     font-weight: bold;
