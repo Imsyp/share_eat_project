@@ -21,42 +21,56 @@
         <a href="/user/chat/list">채팅</a>
     </div>
     <div id="content">
-    <div class="detail-bg">
-      <div class="chat-screen">
-        <% for (var i = 0; i < messages.length; i++) { %>
-            <% if (messages[i].who.toString() === userid._id.toString()) { %>
-                <div class="chat-box mine"><span><%= messages[i].content %></span></div>
-            <% } else { %>
-                <div class="chat-box"><span><%= messages[i].content %></span></div>
-            <% } %>
-        <% } %>
+        <div class="detail-bg">
+            <div class="chat-screen">
+                <% for (var i = 0; i < messages.length; i++) { %>
+                    <% if (messages[i].who.toString() === userid._id.toString()) { %>
+                        <div class="chat-box mine"><span><%= messages[i].content %></span></div>
+                    <% } else { %>
+                        <div class="chat-box"><span><%= messages[i].content %></span></div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+        <div class="chat-form">
+            <input class="chat-input">
+            <button class="chat-button">전송</button>
+            <button class="reserve-button">예약하기</button>
+        </div>
     </div>
     
-      </div>
-      <div class="chat-form">
-        <input class="chat-input">
-        <button class="chat-button">전송</button></div>
-  </div> 
-  
 </body>
 <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
 <script>
   const socket = io() 
   socket.emit('ask-join', '<%= result._id%>')
 
-  document.querySelector('.chat-button').addEventListener('click',
-    function(){
+  document.querySelector('.chat-button').addEventListener('click', function() {
       let 작성한거 = document.querySelector('.chat-input').value;
-      socket.emit('message-send', {room: '<%= result._id%>', message: 작성한거});
+      socket.emit('message-send', { room: '<%= result._id%>', message: 작성한거 });
       document.querySelector('.chat-input').value = '';
-    }
-  )
+  });
 
-  socket.on('message-broadcast', (data)=>{
-    document.querySelector('.chat-screen')  
-    .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`)
-    console.log(data.message)
-  })
-  
+  socket.on('message-broadcast', (data) => {
+      document.querySelector('.chat-screen')
+          .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`)
+      console.log(data.message);
+  });
+
+  document.querySelector('.reserve-button').addEventListener('click', function() {
+      let opponentId;
+      const members = JSON.parse('<%- members %>'); // 클라이언트 측에서 JSON 문자열을 파싱하여 배열 생성
+ // 서버에서 전달된 members를 사용하여 클라이언트 측에서 배열 생성
+ const userid = JSON.parse('<%- useridj %>');
+      for (var i = 0; i < members.length; i++) {
+          if (userid.username !== members[i]) {
+              opponentId = members[i];
+              break; // 상대방을 찾았으므로 반복문 중단
+          }
+      }
+      location.href = '/user/reserve?opponentId=' + opponentId;
+  });
+
 </script>
+
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공동구매 예약하기</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/mypage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/flash_purchase">공동구매</a>
+        <a href="/user/chat/list">채팅</a>
+    </div>
+    <div id="content">
+        <div class="navbar">
+            <a class="selected" href="/user/community_board">자유게시판</a>
+            <a class="unselected" href="/user/information_board">정보게시판</a>
+            <div class="right-1">
+                <input class="search">
+                <button class="search-send">검색</button>
+            </div>
+        </div>
+        <hr>
+        <div class="header">
+            <h1 style="font-size: 50px;">공동구매 예약하기</h1>
+        </div><hr>
+
+        <% for (var i = 0; i < 글목록.length; i++){ %>
+            <div class="white-bg">
+                <div class="list-box">
+                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
+                    <br>
+                    <p class="right">views: <%= 글목록[글목록.length - i - 1].views%></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
+                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <br>
+                    <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
+                        <a href="/user/edit_community/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                        <button class="delete box-button" data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+        
+        
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    fetch('/user/delete_community?docid=' + e.target.dataset.id, { method: 'DELETE' })
+                        .then(response => response.text())
+                        .then(result => {
+                            e.target.parentElement.style.display = 'none';
+                        });
+                });
+            });
+
+            document.querySelector('.search-send').addEventListener('click', function() {
+                const userinput = document.querySelector('.search').value;
+                if (userinput.trim() === '') {
+                    alert('검색어를 입력하세요');
+                    return;
+                }
+                location.href = '/user/search_community?val=' + encodeURIComponent(userinput);
+            });
+        });
+    </script>
+</body>
+</html>

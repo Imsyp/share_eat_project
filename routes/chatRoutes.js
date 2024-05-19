@@ -71,12 +71,38 @@ router.get('/chat/detail/:id', async (req, res) => {
 
         // 채팅방 및 메시지 가져오기
         let result = await db.collection('chatroom').findOne({ _id: new ObjectId(req.params.id) });
+
+        // 현재 채팅방의 멤버 가져오기
+        let membersCursor = await db.collection('chatroom').find({ _id: new ObjectId(req.params.id) }, { member: 1 });
+        let members = await membersCursor.toArray();
+        if (members.length > 0) {
+            members = members[0].member;
+        } else {
+            throw new Error('No members found for the chatroom');
+        }
+
         let messages = await db.collection('chatMessage').find({ parentRoom: new ObjectId(req.params.id) }).sort({ createdAt: 1 }).toArray();
-        console.log(userid)
+        console.log(userid);
         // 템플릿 렌더링 및 현재 사용자 정보 전달
-        res.render('chatDetail.ejs', { result: result, messages: messages, userid: userid});
+        res.render('chatDetail.ejs', { result: result, messages: messages, userid: userid, members:JSON.stringify(members), useridj: JSON.stringify(userid) });
     } catch (err) {
         console.error('Error fetching chat details:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+router.get('/reserve', async (req, res) => {
+    try {
+        const opponentId = req.query.opponentId;
+        console.log('opponentId:', opponentId); // 상대방 ID 로깅
+
+        const list = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
+        console.log('list:', list); // 검색된 목록 로깅
+
+        res.render('getReserve.ejs', { 글목록: list, currentUser: new ObjectId(req.user._id) });
+    } catch (error) {
+        console.error('Error in /user/reserve:', error);
         res.status(500).send('Internal Server Error');
     }
 });
