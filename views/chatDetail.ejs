@@ -11,9 +11,133 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-        .font{
+           .font{
             font-family: "Hi Melody", sans-serif;
         }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #content {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .detail-bg {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            width: 100%;
+            overflow-y: auto; /* 메시지 영역 스크롤 가능 */
+        }
+
+        .header {
+            display: flex; /* 요소들을 가로로 배열 */
+            justify-content: center; /* 요소들을 가로 중앙 정렬 */
+            align-items: center; /* 요소들을 세로 중앙 정렬 */
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .profile {
+            display: flex; /* 프로필 이미지와 텍스트를 column으로 배열 */
+            flex-direction: column; /* 요소들을 세로로 배열 */
+            align-items: center; /* 요소들을 가로 중앙 정렬 */
+            text-align: center; /* 텍스트를 중앙 정렬 */
+        }
+
+        .profile img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+        }
+
+        .username {
+            font-size: 20px; /* 텍스트 크기 조정 */
+            font-weight: bold; /* 텍스트 굵기 조정 */
+        }
+
+        .chat-screen {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto; /* 메시지 영역 스크롤 가능 */
+            background: #f9f9f9;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .chat-box {
+            max-width: 70%;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background: #e1e1e1;
+            border-radius: 10px;
+            position: relative;
+            word-wrap: break-word; /* 메시지가 길 경우 줄바꿈 */
+        }
+
+        .chat-box.mine {
+            margin-left: auto;
+            background: #007bff;
+            color: #fff;
+        }
+
+        .chat-box span {
+            display: block;
+        }
+
+        .chat-form {
+            display: flex;
+            padding: 10px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+            width: 100%;
+            box-sizing: border-box;
+            position: sticky; /* 고정 */
+            bottom: 0; /* 하단에 고정 */
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .chat-button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 16px;
+        }
+
+        .chat-button:hover {
+            background: #0056b3;
+        }
+
     </style>
 </head>
 <body class="grey-bg">
@@ -29,7 +153,15 @@
         <a href="/user/flash_purchase">공동구매</a>
         <a href="/user/chat/list">채팅</a>
     </div>
+
     <div id="content">
+        <div class="header">
+            <div class="profile">
+                <img src="<%=opponent.profile%>" alt="Profile Picture" class="reserve-button">
+                <div class="username"><%= opponent.username %>님</div>
+            </div>
+        </div>
+
         <div class="detail-bg">
             <div class="chat-screen">
                 <% for (var i = 0; i < messages.length; i++) { %>
@@ -42,9 +174,9 @@
             </div>
         </div>
         <div class="chat-form">
-            <input class="chat-input">
+            <input class="chat-input" placeholder="메시지를 입력하세요...">
             <button class="chat-button">전송</button>
-            <button class="reserve-button">예약하기</button>
+            
         </div>
     </div>
     
@@ -77,8 +209,12 @@
               break; // 상대방을 찾았으므로 반복문 중단
           }
       }
-      location.href = '/user/reserve?opponentId=' + opponentId;
+      location.href = '/user/opponent?opponentId=' + opponentId;
   });
+
+  setInterval(function() {
+    location.reload();
+}, 5000);
 
 </script>
 

@@ -197,7 +197,7 @@ form > input[type="submit"]:hover {
 /*여기서부터 게시글영역임*/
 .list-box {
     box-sizing: border-box;
-    width: 95%;
+    width: 100%;
     height: auto;
     border: 1px solid #eaeaea;
     margin-bottom: 10px;
@@ -294,7 +294,7 @@ form > input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* 채팅방 스타일*/
+/* 채팅방 스타일
 .chat-screen { width: 100%; }
 .chat-box { margin-top: 15px; display: flex; }
 .chat-box span { padding: 10px; background: #eee; }
