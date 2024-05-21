@@ -85,12 +85,14 @@ a {
 
 input[type="text"],
 input[type="password"] {
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     padding: 20px;
     margin-bottom: 20px;
     border: 1px #454545 solid;
     border-radius: 5px;
     font-size: large;
+    box-sizing: border-box;
 }
 form > input[type="submit"] {
     text-align:center;
