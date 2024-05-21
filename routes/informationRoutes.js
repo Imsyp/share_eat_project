@@ -58,7 +58,15 @@ router.post('/add_information', upload.single('img1'), async (req, res) => {
             res.send('내용이 너무 깁니다. 1000자 이하로 작성해주세요. 또는 이미지 첨부는 위의 찾아보기 버튼을 이용하세요')
             return;
     } 
-
+    const date = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'Asia/Seoul'
+    }).format(new Date());
         // 사진이 없는 경우에도 req.file이 존재하지 않으므로, 해당 부분을 처리해줍니다.
         let imgUrl = '';
         if (req.file) {
@@ -72,7 +80,7 @@ router.post('/add_information', upload.single('img1'), async (req, res) => {
             img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
             user: req.user._id,
             username: req.user.username,
-            date: new Date().toLocaleString()
+            date: date
         });
 
         res.redirect('/user/information_board');

@@ -68,15 +68,55 @@ router.get('/chat/detail/:id', async (req, res) => {
     try {
         // 현재 사용자 정보 가져오기
         const userid = req.user; // Passport를 사용하여 현재 사용자 정보를 가져옴
-
+        
         // 채팅방 및 메시지 가져오기
         let result = await db.collection('chatroom').findOne({ _id: new ObjectId(req.params.id) });
+
+        // 현재 채팅방의 멤버 가져오기
+        let membersCursor = await db.collection('chatroom').find({ _id: new ObjectId(req.params.id) }, { projection: { member: 1 } });
+        let members = await membersCursor.toArray();
+        if (members.length > 0) {
+            members = members[0].member;
+        } else {
+            throw new Error('No members found for the chatroom');
+        }
+
+        // 상대방의 username 추출
+        let opponentUsername = members.find(member => member !== userid.username);
+        let opponent = await db.collection('user').findOne({username: opponentUsername});
+
         let messages = await db.collection('chatMessage').find({ parentRoom: new ObjectId(req.params.id) }).sort({ createdAt: 1 }).toArray();
-        console.log(userid)
+        console.log(opponent)
+
         // 템플릿 렌더링 및 현재 사용자 정보 전달
-        res.render('chatDetail.ejs', { result: result, messages: messages, userid: userid});
+        res.render('chatDetail.ejs', {
+            result: result,
+            messages: messages,
+            userid: userid,
+            members: JSON.stringify(members),
+            useridj: JSON.stringify(userid),
+            opponent: opponent // 상대방 username 전달
+        });
     } catch (err) {
         console.error('Error fetching chat details:', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+router.get('/opponent', async (req, res) => {
+    try {
+        const opponentId = req.query.opponentId;
+        console.log('opponentId:', opponentId); // 상대방 ID 로깅
+
+        const list = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
+        const opponent = await db.collection('user').findOne({username: opponentId});
+        console.log('list:', list); // 검색된 목록 로깅
+
+        res.render('userprofile.ejs', { 글목록: list, currentUser: new ObjectId(req.user._id), opponent: opponent });
+    } catch (error) {
+        console.error('Error in /user/reserve:', error);
         res.status(500).send('Internal Server Error');
     }
 });

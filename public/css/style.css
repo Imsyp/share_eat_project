@@ -31,9 +31,13 @@ a {
 }
 
 .accent {
-    font-size: 50px;
-
+    font-size: 75px;
 }
+
+.share {
+    font-size: 30px;
+}
+
 #sidebar > a {
     margin-right: 20px;
     margin-left: 20px;
@@ -124,8 +128,6 @@ form > input[type="submit"]:hover {
     
 }
 
-
-
 .selected {
     box-sizing: border-box;
     display: inline-block; /* 인라인 블록 요소로 설정 */
@@ -141,6 +143,7 @@ form > input[type="submit"]:hover {
     color: white;
     font-size: 20px;
 }
+
 .unselected {
     box-sizing: border-box;
     display: inline-block; /* 인라인 블록 요소로 설정 */
@@ -199,31 +202,33 @@ form > input[type="submit"]:hover {
 /*여기서부터 게시글영역임*/
 .list-box {
     box-sizing: border-box;
-    width: auto;
+    width: 100%;
     height: auto;
     border: 1px solid #eaeaea;
     margin-bottom: 10px;
     border-radius: 30px;
     background-color: #eaeaea;
 }
-.list-box  a , .list-box  p, .list-box button{
-    display: flex;
+
+.list-box a, .list-box p, .list-box button {
     margin-left: 30px;
     width: auto;
     display: inline-block;
 }
-#onlypurchase{
-    .white-bg{
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;}
-    }
+
+#onlypurchase .white-bg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
 .title {
     font-size: 25px;
     font-weight: bold;
     color: black;
     margin-top: 30px;
 }
+
 .box-button {
     display: inline-block;
     padding: 8px 20px;
@@ -239,11 +244,13 @@ form > input[type="submit"]:hover {
     margin-bottom: 10px;
 }
 
+
 .search {
     margin-left: 20px;
     padding: 5px;
   }
-  .search-send {
+
+.search-send {
     padding: 6px 10px;
     background: lightgray;
     border: none;
@@ -292,7 +299,7 @@ form > input[type="submit"]:hover {
     background-color: #454545;
 }
 
-/* 채팅방 스타일*/
+/* 채팅방 스타일
 .chat-screen { width: 100%; }
 .chat-box { margin-top: 15px; display: flex; }
 .chat-box span { padding: 10px; background: #eee; }
@@ -410,8 +417,14 @@ form > input[type="submit"]:hover {
     border-bottom-left-radius: 15px;
 }
 
+.right{
+    margin-right: 10px;
+}
+
+
 .post-box {
     margin-bottom: 20px;
+    font-size: 17px; 
 }
 
 .post-box img {
@@ -429,3 +442,41 @@ form > input[type="submit"]:hover {
 .post-box p {
     margin-top: 0; 
 }
+
+.button-container {
+    display: flex; 
+    gap: 50px; 
+    align-items: center; 
+}
+
+.chat, .cancel_button {
+    display: inline-block;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-align: center; 
+    text-decoration: none; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer; 
+    width: 5%; 
+}
+
+.chat {
+    background-color: #929292; 
+    margin-right: 15px;
+}
+
+.chat:hover {
+    background-color: #4e4e4e; 
+}
+
+.cancel_button {
+    background-color: #c2c2c2; 
+}
+
+.cancel_button:hover {
+    background-color: #bababa; 
+}
+

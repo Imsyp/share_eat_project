@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공동구매 예약하기</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+
+.header {
+    display: flex; /* 요소들을 가로로 배열 */
+    justify-content: center; /* 요소들을 가로 중앙 정렬 */
+    align-items: center; /* 요소들을 세로 중앙 정렬 */
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile {
+    display: flex; /* 프로필 이미지와 텍스트를 column으로 배열 */
+    flex-direction: column; /* 요소들을 세로로 배열 */
+    align-items: center; /* 요소들을 가로 중앙 정렬 */
+    text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+.profile img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+}
+
+.username {
+    font-size: 40px; /* 텍스트 크기 조정 */
+    font-weight: bold; /* 텍스트 굵기 조정 */
+}
+
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent">쉐어 잇</span></p>
+        <p>share eat,<br>share it!</p>
+        <a href="/user/mypage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/flash_purchase">공동구매</a>
+        <a href="/user/chat/list">채팅</a>
+    </div>
+    <div id="content">
+
+    <div class="header">
+        <div class="profile">
+            <img src="<%=opponent.profile%>" alt="Profile Picture">
+            <div class="username"><%= opponent.username %>님</div>
+        </div>
+    </div>
+
+
+
+        <% for (var i = 0; i < 글목록.length; i++){ %>
+            <div class="white-bg">
+                <div class="list-box">
+                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
+                    <br>
+                    <p class="right">views: <%= 글목록[글목록.length - i - 1].views%></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
+                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <br>
+                </div>
+            </div>
+        <% } %>
+        
+        
+
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

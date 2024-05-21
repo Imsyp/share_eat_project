@@ -66,7 +66,17 @@ router.post('/add_community', upload.single('img1'), async (req, res) => {
         if (req.file) {
             imgUrl = req.file.location;
         }
-
+        
+        const date = new Intl.DateTimeFormat('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Asia/Seoul'
+        }).format(new Date());
+        
         await db.collection('community').insertOne({
             title: req.body.title,
             content: req.body.content,
@@ -74,8 +84,9 @@ router.post('/add_community', upload.single('img1'), async (req, res) => {
             img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
             user: req.user._id,
             username: req.user.username,
-            date: new Date().toLocaleString()
+            date: date
         });
+        
 
         res.redirect('/user/community_board');
     } catch (error) {

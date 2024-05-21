@@ -56,8 +56,8 @@ let db;
 connectDB.then((client) => {
     console.log('DB connected_app');
     db = client.db('shareEat');
-    server.listen(3000, () => {
-        console.log('http://localhost:3000 에서 서버 실행 중');
+    server.listen(8080, () => {
+        console.log('http://localhost:8080 에서 서버 실행 중');
     });
 }).catch((err) => {
     console.log(err);
