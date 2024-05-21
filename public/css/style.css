@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 a {
     text-decoration: none;
 }
@@ -51,7 +52,7 @@ a {
 }
 
 #sidebar >  a:hover {
-    font-size: 25px;
+    font-size: 30px;
     font-weight: bold;
     transition: 0.5s;
 }
@@ -82,16 +83,17 @@ a {
     margin-right: 30%;
     margin-left: 30%;
     text-align: center;
-    border:#eee 1px solid;
-    background-color: #eee;
+    border:#fff 1px solid;
+    background-color: #fff;
     border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    max-width: 300px;
-    padding: 20px;
+    max-width: 400px;
+    padding: 15px;
     margin-bottom: 20px;
     border: 1px #454545 solid;
     border-radius: 5px;
@@ -100,23 +102,29 @@ input[type="password"] {
 }
 form > input[type="submit"] {
     text-align:center;
-    width:342px;
-    padding: 20px;  
+    width:100%;
+    max-width: 400px;
+    padding: 15px;  
+    margin-bottom: 20px;
     background-color:#000000;
     border:1px solid #ccc;
     box-shadow: 1px 1px 1px #ccc;
     border-radius: 5px;
     font-size: large;
+    box-sizing: border-box;
     color: white
 }
 form > input[type="submit"]:hover {
-    background-color:#454545
+    transition: 0.5s;
+    color:black;
+    background-color:#ccc
 }
 
 
 .center {
     text-align: center;
-}
+    font-family: "Hi Melody", sans-serif;
+    }
 
 /*게시판 글 작성 및 수정 폼 디자인*/
 
@@ -182,9 +190,11 @@ form > input[type="submit"]:hover {
 .header {
     display: flex; /* 요소들을 가로로 배열하기 위해 flex 사용 */
     align-items: center; /* 요소들을 세로 중앙 정렬 */
+    background-color: white;
 }
 .cancel_button {
     width: 100%;
+    max-width: 400px;
     padding: 10px;
     background-color: #000000;
     border: none;
@@ -196,7 +206,8 @@ form > input[type="submit"]:hover {
 }
 
 .cancel_button:hover {
-    background-color: #454545;
+    transition: 0.5s;
+    background-color: #929292;
 }
 
 /*여기서부터 게시글영역임*/
@@ -204,10 +215,10 @@ form > input[type="submit"]:hover {
     box-sizing: border-box;
     width: 100%;
     height: auto;
-    border: 1px solid #eaeaea;
-    margin-bottom: 10px;
+    border: 1px solid,#eaeaea;
     border-radius: 30px;
     background-color: #eaeaea;
+    margin-bottom: 10px;
 }
 
 .list-box a, .list-box p, .list-box button {
@@ -238,10 +249,15 @@ form > input[type="submit"]:hover {
     cursor: pointer;
     border: 1px solid #000;
     border-radius: 5px;
-    background-color: #f0f0f0;
-    color: #000;
+    background-color: #000;
+    color: #fff;
     margin-right: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+.box-button:hover{
+    background-color: #fff;
+    color: #000;
+    transition: 0.5s;
 }
 
 
@@ -260,24 +276,22 @@ form > input[type="submit"]:hover {
 
 /*글쓰는 곳임, write.ejs, edit.ejs*/
 .form-box {
-    width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border:#eee 1px solid;
-    background-color: #eee;
+    margin-top: 50px;
+    padding: 50px;
+    margin-right: 30%;
+    margin-left: 30%;
+    text-align: center;
+    border:#fff 1px solid;
+    background-color: #fff;
     border-radius: 25px;
-}
-
-.form-box h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-box input[type="text"],
 .form-box input[type="password"],
 .form-box textarea {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -285,18 +299,29 @@ form > input[type="submit"]:hover {
 }
 
 .form-box button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #000000;
-    border: none;
+    text-align:center;
+    width:100%;
+    max-width: 400px;
+    padding: 15px;  
+    margin-bottom: 10px;
+    background-color:#000000;
+    box-shadow: 1px 1px 1px #ccc;
     border-radius: 5px;
-    color: #fff;
-    font-size: 18px;
+    font-size: large;
+    box-sizing: border-box;
+    color: white;
+    border: none;
     cursor: pointer;
 }
 
 .form-box button[type="submit"]:hover {
-    background-color: #454545;
+    transition: 0.5s;
+    background-color: #ccc;
+    color: black;
+}
+
+.form-box font{
+    font-size:large;
 }
 
 /* 채팅방 스타일
@@ -396,25 +421,31 @@ form > input[type="submit"]:hover {
     text-align:center;
     width:150px;
     height:50px;      
-    background-color:rgb(173, 173, 173);
-    border:1px solid rgb(173, 173, 173);
+    background-color:#ccc;
+    border:1px solid #ccc;
     border-radius: 15px;
     margin-right: 15px;
-    transition: 0.5s;
     line-height: 50px;
-    color: rgb(0, 0, 0);
+    color: black;
     font-size: 20px;
     position: relative;
     right: -20px;
 }
+.userinfo_change:hover{
+    background-color: black;
+    color: white;
+    transition: 0.5s;
+}
+
 
 /*공구란임*/
 .square {
-    height: 300px;
-    width: 300px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    height: 230px;
+    width: 230px;
+    border-radius: 15px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    float: left;
 }
 
 .right{

@@ -11,16 +11,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-        .font{
-            font-family: "Hi Melody", sans-serif;
+        body{
+            background-color:#f4f4f4;
         }
     </style>
 </head>
 <body>
     <form class="form-box" action="/user/edit_info?_method=PUT" method="post" enctype="multipart/form-data">
-        <h1>회원정보 수정</h1>
-        <hr>
-        <label for="user_image">프로필사진 수정:</label>
+        <h1 class="center"><img src="/images/logo_non_bg.png" width="100px"><br>회원정보 수정</h1><hr><br>
+        <label for="user_image" style="font-size: large;">프로필사진 수정:</label>
         <input type="file" name="profile" accept="image/*"><br><br>
         <label for="password"></label>
         <input type="password" id="password" name="password" placeholder="변경할 비밀번호를 입력해주세요."><br>
@@ -29,9 +28,7 @@
         <label for="address"></label>
         <input type="text" id="address" name="address" placeholder="변경할 주소를 입력하세요."><br><br>
         <button type="submit">저장하기</button><br><br>
-        <div class="header">
-            <a class="cancel_button" href="/user/mypage">취소</a>
-        </div>
+        <a class="cancel_button" href="/user/mypage">취소</a>
     </form>
 </body>
 </html>
