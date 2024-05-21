@@ -56,8 +56,10 @@
                     <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
                     <br>
                     <p class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></p>
-                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
-                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                    <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                    <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                    <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
                     <br>
                     <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                     <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
@@ -67,8 +69,10 @@
                     <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
                     <br>
                     <p class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></p>
-                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
-                    <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                    <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                    <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                    <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
                     <br>
                     <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                     <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
