@@ -21,8 +21,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-        .font{
+        .font {
             font-family: "Hi Melody", sans-serif;
+        }
+
+        .purchase_list {
+            float: right;
+            width: 50%;
+            height: 400px; /* 고정된 높이 설정 */
+            margin-top: 30px;
+            margin-left: 1px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            overflow-y: auto; /* 세로 스크롤 추가 */
+        }
+
+        .purchase_item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .purchase_item h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .purchase_item p {
+            margin: 5px 0 0;
+            font-size: 1em;
+            color: #666;
         }
     </style>
 </head>
@@ -41,7 +76,7 @@
     </div>
     <div id="content" class="mypage_design">
         <div class="user_img">
-            <img src = "<%= result.profile%>">
+            <img src="<%= result.profile %>">
         </div>
         <div class="username_sign">
             <h1><%= result.username %> 님</h1>
@@ -51,8 +86,13 @@
         <div class="purchase_list">
             <h2>공구 이력</h2>
             <hr>
+            <% for (var i = 0; i < reserve.length; i++) { %>
+                <div class="purchase_item">
+                    <h3><%= reserve[i].product_name %></h3>
+                    <p><%= reserve[i].date %></p>
+                </div>
+            <% } %>
         </div>
     </div>
 </body>
 </html>
-

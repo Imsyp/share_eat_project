@@ -67,9 +67,9 @@
                 <div class="list-box">
                     <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
                     <br>
-                    <p class="right">views: <%= 글목록[글목록.length - i - 1].views%></p>
                     <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p>
                     <p><%= 글목록[글목록.length - i - 1].date%></p>
+                    <button class="reserve" data-id="<%=글목록[글목록.length - i - 1]._id%>">예약하기</button>
                     <br>
                 </div>
             </div>
@@ -79,7 +79,28 @@
 
     </div>
     <script>
-
+        document.querySelectorAll('.reserve').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch('/user/reserve/' + id, {
+                    method: 'POST',
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Reservation successful');
+                        window.location.href = '/user/mypage';
+                        // 예약이 성공했을 때 필요한 동작 추가
+                    } else {
+                        console.error('Reservation failed');
+                        // 예약이 실패했을 때 필요한 동작 추가
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    // 예약 요청 과정에서 오류가 발생했을 때 필요한 동작 추가
+                });
+            });
+        });
     </script>
+    
+    
 </body>
 </html>

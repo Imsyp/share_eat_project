@@ -88,7 +88,8 @@ router.post('/login', async(req, res, next) => {
 
 router.get('/mypage', async (req, res) => {
     const result = await db.collection('user').findOne({_id: new Object(req.user._id)});
-    res.render('mypage.ejs', {result: result});
+    const reserve = await db.collection('flashPurchase').find({ reserve: req.user.username }).toArray();
+    res.render('mypage.ejs', {result: result, reserve: reserve});
 });
 
 router.get('/userinfo_change', async (req, res) => {

@@ -121,6 +121,11 @@ router.get('/opponent', async (req, res) => {
     }
 });
 
+router.post('/reserve/:id', async(req, res) =>{
+    await db.collection('flashPurchase').updateOne({_id: new ObjectId(req.params.id)}, 
+    {$set : {reserve: req.user.username}})
+    res.redirect('/user/mypage')
+})
 
 
 module.exports = router
