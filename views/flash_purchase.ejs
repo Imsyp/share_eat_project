@@ -15,6 +15,7 @@
             font-family: "Hi Melody", sans-serif;
         }
         
+        
     </style>
 </head>
 <body>
@@ -54,31 +55,33 @@
             <div id="onlypurchase">
             <div class="white-bg">
                 <div class="list-box">
-                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
-                    <hr>
                     <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
-                    <br>
-                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
-                    <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
-                    <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
-                    <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
-                    <br><hr>
-                    <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
-                    <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <div class="text-box">
+                        <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
+                    </div>
+                    <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
+                        <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                        <button class="delete box-button" data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <% } %>
                 </div>
                 <% i++; if( i == Math.min(글목록.length, 끝인덱스)) break;%>
                 <div class="list-box">
-                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a>
-                    <hr>
                     <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
-                    <br>
-                    <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
-                    <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
-                    <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
-                    <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
-                    <br><hr>
-                    <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
-                    <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <div class="text-box">
+                        <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
+                    </div>
+                    <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
+                        <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                        <button class="delete box-button" data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
+                    <% } %>
                 </div>
             </div>
             </div>
