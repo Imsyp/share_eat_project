@@ -13,9 +13,7 @@
     <style>
         .font{
             font-family: "Hi Melody", sans-serif;
-        }
-        
-        
+        }   
     </style>
 </head>
 <body>
@@ -52,7 +50,7 @@
         <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
         
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
-            <div id="onlypurchase">
+        <div id="onlypurchase">
             <div class="white-bg">
                 <div class="list-box">
                     <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
@@ -84,7 +82,7 @@
                     <% } %>
                 </div>
             </div>
-            </div>
+        </div>
         <% } %>
         
         
