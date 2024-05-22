@@ -55,14 +55,14 @@
                     <div class="list-box">
                         <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
                         <div class="text-box">
-                            <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                            <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
                             <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
                             <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                             <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                             <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
                         </div>
                         <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
-                            <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                            <a href="/user/edit_regular/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                             <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
                         <% } %>
                     </div>
@@ -70,14 +70,14 @@
                     <div class="list-box">
                         <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
                         <div class="text-box">
-                            <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                            <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
                             <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
                             <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                             <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                             <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
                         </div>
                         <% if (currentUser.toString() === 글목록[글목록.length - i - 1].user.toString()) { %>
-                            <a href="/user/edit_flash/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
+                            <a href="/user/edit_regular/<%= 글목록[글목록.length - i - 1]._id%>" class="box-button">수정하기</a>
                             <button class="delete box-button"data-id="<%= 글목록[글목록.length - i - 1]._id%>">삭제하기</button>
                         <% } %>
                     </div>

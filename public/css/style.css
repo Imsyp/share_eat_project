@@ -482,40 +482,4 @@ form > input[type="submit"]:hover {
     margin-top: 0; 
 }
 
-.button-container {
-    display: flex; 
-    gap: 50px; 
-    align-items: center; 
-}
-
-.chat, .cancel_button {
-    display: inline-block;
-    padding: 10px 20px; 
-    font-size: 16px; 
-    font-weight: bold; 
-    text-align: center; 
-    text-decoration: none; 
-    color: #ffffff; 
-    border: none;
-    border-radius: 5px;
-    cursor: pointer; 
-    width: 5%; 
-}
-
-.chat {
-    background-color: #929292; 
-    margin-right: 15px;
-}
-
-.chat:hover {
-    background-color: #4e4e4e; 
-}
-
-.cancel_button {
-    background-color: #c2c2c2; 
-}
-
-.cancel_button:hover {
-    background-color: #bababa; 
-}
 

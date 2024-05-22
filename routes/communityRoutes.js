@@ -100,7 +100,7 @@ router.get('/post_community/:postId', async (req, res) => {
     try {
         const result = await db.collection('community').findOne({ _id: new ObjectId(req.params.postId) });
         const comment = await db.collection('community_comment').find({parentId: new ObjectId(req.params.postId)}).toArray();
-
+        const user = await db.collection('user').findOne({ username: result.username})
         if (!result) {
             res.status(404).send('게시물을 찾을 수 없습니다.');
             return;
@@ -108,7 +108,7 @@ router.get('/post_community/:postId', async (req, res) => {
         await db.collection('community').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post_community.ejs', { post: result , comment: comment});
+        res.render('post_community.ejs', { post: result , comment: comment, user: user});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
