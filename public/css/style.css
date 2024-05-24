@@ -192,14 +192,16 @@ form > input[type="submit"]:hover {
 .cancel_button {
     width: 100%;
     max-width: 400px;
-    padding: 10px;
+    padding: 15px;
     background-color: #000000;
     border: none;
     border-radius: 5px;
     color: #fff;
-    font-size: 18px;
+    font-size: large;
     cursor: pointer;
     text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
 }
 
 .cancel_button:hover {
