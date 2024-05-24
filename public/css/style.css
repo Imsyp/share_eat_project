@@ -122,6 +122,7 @@ form > input[type="submit"]:hover {
 }
 
 
+
 .center {
     text-align: center;
     font-family: "Hi Melody", sans-serif;
@@ -192,14 +193,16 @@ form > input[type="submit"]:hover {
 .cancel_button {
     width: 100%;
     max-width: 400px;
-    padding: 10px;
+    padding: 15px;
     background-color: #000000;
     border: none;
     border-radius: 5px;
     color: #fff;
-    font-size: 18px;
+    font-size: large;
     cursor: pointer;
     text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
 }
 
 .cancel_button:hover {
@@ -235,6 +238,37 @@ form > input[type="submit"]:hover {
     flex: 1;
     text-align: center;
 }
+
+.list_word {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.list {
+    font-size: 16px;
+    text-align: left;
+    padding: 0 10px;
+}
+.list.title {
+    flex: 9;
+}
+.list.date {
+    flex: 1;
+}
+
+.profiledate{
+    margin-left: auto; /* 자동으로 왼쪽 여백 확보하여 우측 정렬 */
+    margin-right: 10px; /* 오른쪽 여백 추가 */
+    display: block; /* block 요소로 변환 */
+    text-align: left;
+}
+
+.profilereserve{
+    margin-right: 20px; /* 오른쪽 여백 추가 */
+}
+
 .list-box {
     
     display: flex;
@@ -261,6 +295,8 @@ form > input[type="submit"]:hover {
     flex: 1;
     text-align: center;
 }
+
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -359,12 +395,6 @@ form > input[type="submit"]:hover {
     color: white;
     border: none;
     cursor: pointer;
-}
-
-.form-box button[type="submit"]:hover {
-    transition: 0.5s;
-    background-color: #ccc;
-    color: black;
 }
 
 .form-box font{
@@ -519,5 +549,6 @@ form > input[type="submit"]:hover {
 .post-box p {
     margin-top: 0; 
 }
+
 
 
