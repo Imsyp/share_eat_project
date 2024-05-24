@@ -129,7 +129,7 @@ router.post('/reserve/:id', async(req, res) =>{
 
 router.get('/flashPurchase', async (req, res) => {
     try {
-      const events = await db.collection('flashPurchase').find({reserve: req.user.user}).toArray();
+      const events = await db.collection('flashPurchase').find({reserve: req.user.username}).toArray();
       const formattedEvents = events.map(event => {
         // Convert date to ISO format
         const dateParts = event.date.split('.');
