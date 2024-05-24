@@ -127,5 +127,35 @@ router.post('/reserve/:id', async(req, res) =>{
     res.redirect('/user/mypage')
 })
 
+router.get('/flashPurchase', async (req, res) => {
+    try {
+      const events = await db.collection('flashPurchase').find().toArray();
+      const formattedEvents = events.map(event => {
+        // Convert date to ISO format
+        const dateParts = event.date.split('.');
+        const timePart = dateParts[3].trim().split(' ');
+        const time = timePart[1].split(':');
+        let hours = parseInt(time[0], 10);
+        const minutes = time[1];
+        const seconds = time[2];
+        if (timePart[0] === '오후' && hours !== 12) {
+          hours += 12;
+        } else if (timePart[0] === '오전' && hours === 12) {
+          hours = 0;
+        }
+        const isoDate = `${dateParts[0].trim()}-${dateParts[1].trim()}-${dateParts[2].trim()}T${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
+        
+        return {
+          title: event.product_name,
+          start: isoDate,
+          allDay: false // Adjust this according to your requirements
+        };
+      });
+      res.json(formattedEvents);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+  
 
 module.exports = router
