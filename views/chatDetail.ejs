@@ -11,9 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-           .font{
+        .font {
             font-family: "Hi Melody", sans-serif;
         }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -135,7 +136,7 @@
         }
 
         .chat-button:hover {
-            background:#626262;
+            background: #626262;
         }
 
     </style>
@@ -176,7 +177,6 @@
         <div class="chat-form">
             <input class="chat-input" placeholder="메시지를 입력하세요...">
             <button class="chat-button">전송</button>
-            
         </div>
     </div>
     
@@ -184,25 +184,25 @@
 <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
 <script>
   const socket = io() 
-  socket.emit('ask-join', '<%= result._id%>')
+  socket.emit('ask-join', '<%= result._id %>')
 
   document.querySelector('.chat-button').addEventListener('click', function() {
       let 작성한거 = document.querySelector('.chat-input').value;
-      socket.emit('message-send', { room: '<%= result._id%>', message: 작성한거 });
+      socket.emit('message-send', { room: '<%= result._id %>', message: 작성한거 });
       document.querySelector('.chat-input').value = '';
   });
 
   socket.on('message-broadcast', (data) => {
       document.querySelector('.chat-screen')
-          .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`)
+          .insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`);
+      scrollToBottom();
       console.log(data.message);
   });
 
   document.querySelector('.reserve-button').addEventListener('click', function() {
       let opponentId;
       const members = JSON.parse('<%- members %>'); // 클라이언트 측에서 JSON 문자열을 파싱하여 배열 생성
- // 서버에서 전달된 members를 사용하여 클라이언트 측에서 배열 생성
- const userid = JSON.parse('<%- useridj %>');
+      const userid = JSON.parse('<%- useridj %>');
       for (var i = 0; i < members.length; i++) {
           if (userid.username !== members[i]) {
               opponentId = members[i];
@@ -212,10 +212,17 @@
       location.href = '/user/opponent?opponentId=' + opponentId;
   });
 
+  function scrollToBottom() {
+      const chatScreen = document.querySelector('.chat-screen');
+      chatScreen.scrollTop = chatScreen.scrollHeight;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      scrollToBottom();
+  });
+
   setInterval(function() {
-    location.reload();
-}, 5000);
-
+      location.reload();
+  }, 5000);
 </script>
-
 </html>
