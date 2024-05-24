@@ -129,21 +129,35 @@ app.use('/user', regularRoutes);
 io.use((socket, next) => {
     sessionMiddleware(socket.request, {}, next);
 });
-
 io.on('connection', (socket) => {
     console.log('websocket connected');
 
     socket.on('ask-join', async (data) => {
         socket.join(data);
     });
-    socket.on('message-send', async (data) => {
-        await db.collection('chatMessage').insertOne({
-            parentRoom: new ObjectId(data.room),
-            content: data.message,
-            who: new ObjectId(socket.request.session.passport.user.id),
-            date: new Date().toLocaleString()
-        });
-        console.log('유저가 보낸거:', data);
-        io.to(data.room).emit('message-broadcast', { message: data.message });
+
+
+socket.on('message-send', async (data) => {
+    const senderId = data.senderId; // 메시지를 보낸 사용자의 ID
+    console.log(senderId)
+
+    await db.collection('chatMessage').insertOne({
+        parentRoom: new ObjectId(data.room),
+        content: data.message,
+        who: new ObjectId(socket.request.session.passport.user.id),
+        date: new Date().toLocaleString()
+    });
+
+    
+    io.to(data.room).emit('message-broadcast', { message: data.message, senderId: data.senderId});console.log('유저가 보낸거:', data);
+});
+
+    // 새로운 메시지 받기
+    socket.on('message-broadcast', (data) => {
+        socket.broadcast.to(data.room).emit('message-broadcast', { message: data.message, senderId: data.senderId });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('websocket disconnected');
     });
 });

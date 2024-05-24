@@ -68,7 +68,6 @@ router.get('/chat/detail/:id', async (req, res) => {
     try {
         // 현재 사용자 정보 가져오기
         const userid = req.user; // Passport를 사용하여 현재 사용자 정보를 가져옴
-        
         // 채팅방 및 메시지 가져오기
         let result = await db.collection('chatroom').findOne({ _id: new ObjectId(req.params.id) });
 
@@ -95,7 +94,8 @@ router.get('/chat/detail/:id', async (req, res) => {
             userid: userid,
             members: JSON.stringify(members),
             useridj: JSON.stringify(userid),
-            opponent: opponent // 상대방 username 전달
+            opponent: opponent, // 상대방 username 전달
+            myname: userid.username
         });
     } catch (err) {
         console.error('Error fetching chat details:', err);
@@ -129,7 +129,7 @@ router.post('/reserve/:id', async(req, res) =>{
 
 router.get('/flashPurchase', async (req, res) => {
     try {
-      const events = await db.collection('flashPurchase').find({reserve: req.user.username}).toArray();
+      const events = await db.collection('flashPurchase').find({reserve: req.user.user}).toArray();
       const formattedEvents = events.map(event => {
         // Convert date to ISO format
         const dateParts = event.date.split('.');
