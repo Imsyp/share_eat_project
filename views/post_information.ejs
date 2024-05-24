@@ -41,9 +41,7 @@
             margin-top: 15px;
             border-radius: 10px;
         }
-        .chat{
-            margin-left: 90%;
-        }
+
         .write-form input[name="content"] {
             width: 60%;
             height: 30px; 
@@ -97,9 +95,12 @@
         <hr>
         <div class="post-box">
             <h2><%= post.title %></h2>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <a href="/user/chat/request?writerId=<%= post.username%>" style="margin-left: auto; padding: 5px 10px; text-decoration: none; background-color: #007bff; color: white; border-radius: 5px;">채팅하기</a>
+            </div>
+            <hr>
             <p><%- post.content %></p>
             <img src="<%= post.img %>">
-            <a href="/user/chat/request?writerId=<%= post.username%>" class="chat">채팅하기</a>
         </div>
         <form action="/user/comment_information" method="post" class="write-form">
             <h1>댓글</h1>
@@ -107,20 +108,22 @@
             <input name="parentId" value="<%= post._id %>" style="display: none;">
             <button type="submit">전송</button>
             <hr>
-        </form>
-        <div class="comment-box">
-            <% if (comment && comment.length > 0) { %>
-                <% for (let i = 0; i < comment.length; i++) { %>
-                    <div class ="box"></div>
-                        <p>내용: <%= comment[comment.length -1 -i].content %></p>
-                        <p>작성시간: <%= comment[comment.length -1 -i].date %></p>
-                        <p>작성자: <%= comment[comment.length -1 -i].username %></p>
-                    </div>
-                    <br><br>
+            </form>
+            <div class="comment-box">
+                <% if (comment && comment.length > 0) { %>
+                    <% for (let i = 0; i < comment.length; i++) { %>
+                        <div class ="box">
+                            <p>작성자: <%= comment[comment.length -1 -i].username %></p>
+                            <hr>
+                            <p><%= comment[comment.length -1 -i].content %></p>
+                            <p><%= comment[comment.length -1 -i].date %></p>
+                        </div>
+                        <br><br>
+                    <% } %>
+                <% } else { %>
+                    <p>댓글이 존재하지 않습니다</p>
                 <% } %>
-            <% } else { %>
-                <p>댓글이 존재하지 않습니다</p>
-            <% } %>
+            </div>
         </div>
     </div>
 </body>
