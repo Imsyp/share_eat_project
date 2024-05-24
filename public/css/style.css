@@ -7,6 +7,7 @@ body {
 
 a {
     text-decoration: none;
+    color: black;
 }
 
 /* 사이드바 스타일 */
@@ -187,11 +188,7 @@ form > input[type="submit"]:hover {
     right: 0; /* 우측 정렬 */
     
 }
-.header {
-    display: flex; /* 요소들을 가로로 배열하기 위해 flex 사용 */
-    align-items: center; /* 요소들을 세로 중앙 정렬 */
-    background-color: white;
-}
+
 .cancel_button {
     width: 100%;
     max-width: 400px;
@@ -211,23 +208,69 @@ form > input[type="submit"]:hover {
 }
 
 /*여기서부터 게시글영역임*/
-.list-box {
-    box-sizing: border-box;
-    width: 100%;
-    height: auto;
-    border: 1px solid,#eaeaea;
-    border-radius: 30px;
-    background-color: #eaeaea;
-    margin-bottom: 10px;
-    padding: 30px;
-}
 
-.list-box a, .list-box p, .list-box button {
-    margin-left: 30px;
-    width: auto;
-    display: inline-block;
-    margin-top:5px;
-    margin-bottom: 5px
+.board_word {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.word {
+    font-size: 16px;
+    text-align: left;
+    padding: 0 10px;
+}
+.word.title {
+    flex: 3;
+}
+.word.author {
+    flex: 1;
+}
+.word.date {
+    flex: 2;
+    text-align: center;
+}
+.word.views {
+    flex: 1;
+    text-align: center;
+}
+.list-box {
+    
+    display: flex;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+.list_ {
+    font-size: 14px;
+    text-align: left;
+    padding: 0 10px;
+}
+.list_.title {
+    flex: 3;
+}
+.list_.author {
+    flex: 1;
+}
+.list_.date {
+    flex: 2;
+    text-align: center;
+}
+.list_.views {
+    flex: 1;
+    text-align: center;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header h1 {
+    font-size: 24px;
+}
+.search-send {
+    margin-left: 10px;
 }
 
 #onlypurchase .white-bg {
@@ -236,12 +279,7 @@ form > input[type="submit"]:hover {
     gap: 10px;
 }
 
-.title {
-    font-size: 25px;
-    font-weight: bold;
-    color: black;
-    margin-top: 30px;
-}
+
 
 .box-button {
     display: inline-block;

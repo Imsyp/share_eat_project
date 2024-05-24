@@ -5,94 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유게시판</title>
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"> 
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <!-- google font link-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-        .font{
+        .font {
             font-family: "Hi Melody", sans-serif;
-        }
-        .board_word{
-            display:flex;
-            flex-direction: row;
-            justify-content: space-around;
-        }  
-        .word {
-            width: 200px;
-            height: 40px;
-            font-size: 20px;
-            line-height: 40px; 
-            text-align: right;         
-            display: inline-block;
-        }
-
-        .pastbutton {
-            display: inline-block;
-            padding: 8px 20px;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid #a7a7a7;
-            border-radius: 5px;
-            background-color: #a7a7a7;
-            color: #000000;
-            margin-right: 10px;
-            margin-bottom: 20px;
-        }
-        .pastbutton:hover{
-            background-color: #fff;
-            color: #000;
-            transition: 0.5s;
-        }
-        .nextbutton {
-            display: inline-block;
-            padding: 8px 20px;
-            font-size: 16px;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px solid #a7a7a7;
-            border-radius: 5px;
-            background-color: #a7a7a7;
-            color: #000000;
-            margin-right: 10px;
-            margin-bottom: 20px;
-            float: right;
-        }
-        .nextbutton:hover{
-            background-color: #fff;
-            color: #000;
-            transition: 0.5s;
-        }
-        .list-box {
-            width: 100%;
-            height: 20px;
-            background-color: #ffffff;
-            margin-bottom: 10px;
-            padding: 20px;
-        }
-        .list_box{
-            display:flex;
-            flex-direction: row;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }  
-        .list_ {
-            width: 100%;
-            height: 20px;
-            font-size: 20px;
-            line-height: 20px; 
-            text-align: right;         
-            display: inline-block;
-        }
-        .no-horizontal-align {
-            margin: 0;
-            width: 100%;
-            border: none; /* 기본 선을 없애고 */
-            border-top: 1px solid #000; /* 원하는 상단 선을 추가 */
         }
     </style>
 </head>
@@ -120,35 +40,26 @@
         </div>
         <hr>
         <div class="header">
-            <h1 style="font-size: 50px;">자유게시판</h1>
-            
+            <h1>자유게시판</h1>
             <a class="selected right-2" href="/user/write_community">글쓰기</a>
         </div>
-        <hr class="no-horizontal-align">
+        <hr>
         <div class="board_word">
-            <div class="word" style="flex:4; text-align:center;">제목</div>
-            <div class="word" style="flex:2">작성자</div>
-            <div class="word" style="flex:3">날짜</div>
-            <div class="word" style="flex:2">조회수&emsp;</div><br>
+            <div class="word title">제목</div>
+            <div class="word author">작성자</div>
+            <div class="word date">날짜</div>
+            <div class="word views">조회수</div>
         </div>
-        <hr class="no-horizontal-align">
         <% var 페이지당글수 = 10; %>
         <% var 페이지번호 = parseInt(page) || 1; %>
         <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
         <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
-        
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
-            <div class="white-bg">
-                <div class="list-box">
-                    <div class="list_box">
-                        <a href="/user/post_community/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ left" style="flex:4; color:#000000; text-align:left;"><%= 글목록[글목록.length - i - 1].title %></a>
-                        <div class="list_" style="flex:2"> <%= 글목록[글목록.length - i - 1].username%></div>
-                        <div class="list_" style="flex:3"><%= 글목록[글목록.length - i - 1].date%></div>
-                        <div class="list_" style="flex:2"><%= 글목록[글목록.length - i - 1].views%></div>
-                        <hr class="no-horizontal-align">
-                        <br>
-                    </div>
-                </div>
+            <div class="list-box">
+                <a href="/user/post_community/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ title"><%= 글목록[글목록.length - i - 1].title %></a>
+                <div class="list_ author"><%= 글목록[글목록.length - i - 1].username %></div>
+                <div class="list_ date"><%= 글목록[글목록.length - i - 1].date %></div>
+                <div class="list_ views"><%= 글목록[글목록.length - i - 1].views %></div>
             </div>
         <% } %>
         <br><br>
