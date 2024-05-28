@@ -302,9 +302,7 @@ form > input[type="submit"]:hover {
     justify-content: space-between;
     align-items: center;
 }
-.header h1 {
-    font-size: 24px;
-}
+
 .search-send {
     margin-left: 10px;
 }
@@ -368,6 +366,25 @@ form > input[type="submit"]:hover {
     background-color: #fff;
     border-radius: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-box label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-box input[type="text"],
+.form-box input[type="file"],
+.form-box input[type="date"],
+.form-box input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .form-box input[type="text"],
@@ -471,20 +488,16 @@ form > input[type="submit"]:hover {
     margin-right: 5px;
 }
 
-.purchase_list{
-    float: right;
-    width: 50%;
-    margin-top: 30px;
-    margin-left: 1px;
-    padding: 10px;
-    padding-bottom: 400px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-}
+
 
 .purchase_list h2{
+    margin-left: 1px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    font-size: 30px;
+}
+.reserve_list h2{
     margin-left: 1px;
     margin-top: 10px;
     margin-bottom: 20px;

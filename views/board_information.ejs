@@ -40,7 +40,7 @@
         </div>
         <hr>
         <div class="header">
-            <h1 style="font-size: 50px;">정보게시판</h1>
+            <h1>정보게시판</h1>
             <a class="selected right-2" href="/user/write_information">글쓰기</a>
         </div>
         <hr>
@@ -56,7 +56,7 @@
         <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
             <div class="list-box">
-                <a href="/user/post_community/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ title"><%= 글목록[글목록.length - i - 1].title %></a>
+                <a href="/user/post_information/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ title"><%= 글목록[글목록.length - i - 1].title %></a>
                 <div class="list_ author"><%= 글목록[글목록.length - i - 1].username %></div>
                 <div class="list_ date"><%= 글목록[글목록.length - i - 1].date %></div>
                 <div class="list_ views"><%= 글목록[글목록.length - i - 1].views %></div>

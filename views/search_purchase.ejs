@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>번개공구</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
+    <style>
+        .font{
+            font-family: "Hi Melody", sans-serif;
+        }   
+        .list-box {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    border: 1px solid,#eaeaea;
+    border-radius: 30px;
+    background-color: #eaeaea;
+    margin-bottom: 10px;
+    padding: 30px;
+        }
+        .list-box a, .list-box p, .list-box button {
+    margin-left: 30px;
+    width: auto;
+    display: inline-block;
+    margin-top:5px;
+    margin-bottom: 5px
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
+        </div>
+        <p><span class="accent font">쉐어 잇</span></p>
+        <p><span class="share font">share eat,<br>share it!</span></p>
+        <a href="/user/mypage">마이 페이지</a>
+        <a href="/user/logout">로그아웃</a>
+        <a href="/user/community_board">게시판</a>
+        <a href="/user/flash_purchase">공동구매</a>
+        <a href="/user/chat/list">채팅</a>
+    </div>
+    <div id="content">
+        <div class="navbar">
+            <a class="selected" href="/user/flash_purchase">번개공구</a>
+            <a class="unselected" href="/user/regular_purchase">정기공구</a>
+            <div class="right-1">
+                <input class="search">
+                <button class="search-send">검색</button>
+            </div>
+        </div>
+        <hr>
+        <div class="header">
+            <h1 style="font-size: 50px;">번개공구</h1>
+            
+            <a class="selected right-2" href="/user/write_flash">글쓰기</a>
+        </div><hr>
+        <% var 페이지당글수 = 10; %>
+        <% var 페이지번호 = parseInt(page) || 1; %>
+        <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
+        <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
+        
+        <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+        <div id="onlypurchase">
+            <div class="white-bg">
+                <div class="list-box">
+                    <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
+                    <div class="text-box">
+                        <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
+                    </div>
+                </div>
+                <% i++; if( i == Math.min(글목록.length, 끝인덱스)) break;%>
+                <div class="list-box">
+                    <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
+                    <div class="text-box">
+                        <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <% } %>
+        
+        
+        <% if (페이지번호 > 1) { %>
+            <a href="/user/flash_purchase?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
+        <% } %>
+        <% if (글목록.length > 끝인덱스) { %>
+            <a href="/user/flash_purchase?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
+        <% } %>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    fetch('/user/delete_flash?docid=' + e.target.dataset.id, { method: 'DELETE' })
+                        .then(response => response.text())
+                        .then(result => {
+                            e.target.parentElement.style.display = 'none';
+                        });
+                });
+            });
+
+            document.querySelector('.search-send').addEventListener('click', function() {
+                const userinput = document.querySelector('.search').value;
+                if (userinput.trim() === '') {
+                    alert('검색어를 입력하세요');
+                    return;
+                }
+                location.href = '/user/search_flash?val=' + encodeURIComponent(userinput);
+            });
+        });
+    </script>
+</body>
+</html>

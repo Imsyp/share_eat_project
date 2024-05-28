@@ -110,52 +110,109 @@ router.get('/opponent', async (req, res) => {
         const opponentId = req.query.opponentId;
         console.log('opponentId:', opponentId); // 상대방 ID 로깅
 
-        const list = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
+        const flash = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
+        const regular = await db.collection('regularPurchase').find({ username: opponentId }).toArray();
         const opponent = await db.collection('user').findOne({username: opponentId});
-        console.log('list:', list); // 검색된 목록 로깅
-
-        res.render('userprofile.ejs', { 글목록: list, currentUser: new ObjectId(req.user._id), opponent: opponent });
+        res.render('userprofile.ejs', { flash: flash, regular: regular, currentUser: new ObjectId(req.user._id), opponent: opponent });
     } catch (error) {
         console.error('Error in /user/reserve:', error);
         res.status(500).send('Internal Server Error');
     }
 });
 
-router.post('/reserve/:id', async(req, res) =>{
+router.post('/reserve_flash/:id', async(req, res) =>{
     await db.collection('flashPurchase').updateOne({_id: new ObjectId(req.params.id)}, 
     {$set : {reserve: req.user.username}})
     res.redirect('/user/mypage')
 })
 
-router.get('/flashPurchase', async (req, res) => {
+router.post('/reserve_regular/:id', async(req, res) =>{
+    await db.collection('regularPurchase').updateOne({_id: new ObjectId(req.params.id)}, 
+    {$set : {reserve: req.user.username}})
+    res.redirect('/user/mypage')
+})
+
+router.post('/accept/:id', async (req, res) => {
     try {
-      const events = await db.collection('flashPurchase').find({reserve: req.user.username}).toArray();
-      const formattedEvents = events.map(event => {
-        // Convert date to ISO format
-        const dateParts = event.date.split('.');
-        const timePart = dateParts[3].trim().split(' ');
-        const time = timePart[1].split(':');
-        let hours = parseInt(time[0], 10);
-        const minutes = time[1];
-        const seconds = time[2];
-        if (timePart[0] === '오후' && hours !== 12) {
-          hours += 12;
-        } else if (timePart[0] === '오전' && hours === 12) {
-          hours = 0;
+      const id = req.params.id;
+  
+      // ObjectId로 변환
+      const objectId = new ObjectId(id);
+  
+      // flashPurchase 컬렉션에서 항목 찾기
+      const flashPurchaseResult = await db.collection('flashPurchase').findOne({ _id: objectId });
+  
+      // regularPurchase 컬렉션에서 항목 찾기
+      const regularPurchaseResult = await db.collection('regularPurchase').findOne({ _id: objectId });
+  
+      // 일치하는 항목을 result 변수에 저장
+      const result = flashPurchaseResult || regularPurchaseResult;
+  
+      if (result) {
+        // 항목의 accepted 값을 "YES"로 업데이트
+        await db.collection(result ? 'flashPurchase' : 'regularPurchase').updateOne(
+          { _id: objectId },
+          { $set: { accepted: "YES" } }
+        );
+  
+        res.status(200).json({ message: '항목이 성공적으로 불러와졌으며, accepted 값을 "YES"로 변경하였습니다.', result });
+      } else {
+        res.status(404).json({ message: '일치하는 항목이 없습니다.' });
+      }
+    } catch (err) {
+      res.status(500).json({ message: '서버 오류 발생', error: err.message });
+    }
+  });
+
+  router.get('/flashPurchase', async (req, res) => {
+    try {
+      // 두 컬렉션에서 데이터를 비동기로 가져오기
+      const flashEventsPromise = db.collection('flashPurchase').find({
+        $or: [
+          { reserve: req.user.username, accepted: "YES" },
+          { username: req.user.username, accepted: "YES" }
+        ]
+      }).toArray();
+      
+      const regularEventsPromise = db.collection('regularPurchase').find({
+        $or: [
+          { reserve: req.user.username, accepted: "YES" },
+          { username: req.user.username, accepted: "YES" }
+        ]
+      }).toArray();
+  
+      // 두 Promise 모두 완료될 때까지 기다림
+      const [flashEvents, regularEvents] = await Promise.all([flashEventsPromise, regularEventsPromise]);
+  
+      // 두 이벤트 배열을 합침
+      const allEvents = [...flashEvents, ...regularEvents];
+  
+      // 날짜 형식을 변환
+      const formattedEvents = allEvents.map(event => {
+        try {
+          // 날짜와 시간 결합하여 ISO 형식으로 변환
+          const isoDate = `${event.datey}T${event.time}:00`; // 시간에 초 추가
+  
+          return {
+            title: event.product_name,
+            start: isoDate,
+            allDay: false // Adjust this according to your requirements
+          };
+        } catch (error) {
+          console.error('Error formatting event date:', error, event);
+          return null;
         }
-        const isoDate = `${dateParts[0].trim()}-${dateParts[1].trim()}-${dateParts[2].trim()}T${hours.toString().padStart(2, '0')}:${minutes}:${seconds}`;
-        
-        return {
-          title: event.product_name,
-          start: isoDate,
-          allDay: false // Adjust this according to your requirements
-        };
-      });
+      }).filter(event => event !== null);
+  
       res.json(formattedEvents);
     } catch (err) {
+      console.error('Error retrieving events:', err);
       res.status(500).json({ message: err.message });
     }
   });
+  
+  
+  
   
 
 module.exports = router

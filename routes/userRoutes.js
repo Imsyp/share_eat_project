@@ -87,10 +87,48 @@ router.post('/login', async(req, res, next) => {
 })
 
 router.get('/mypage', async (req, res) => {
-    const result = await db.collection('user').findOne({_id: new Object(req.user._id)});
-    const reserve = await db.collection('flashPurchase').find({ reserve: req.user.username }).toArray();
-    res.render('mypage.ejs', {result: result, reserve: reserve});
-});
+    try {
+      // 사용자 정보 가져오기
+      const result = await db.collection('user').findOne({ _id: new ObjectId(req.user._id) });
+  
+      // flashPurchase 데이터베이스 안의 객체들 중에서 reserve 항목이 존재하는 경우에만 해당 이벤트들을 가져오기
+      const flashEventsPromise = db.collection('flashPurchase').find({
+        $or: [
+          { reserve: req.user.username, accepted: "YES" },
+          { username: req.user.username, accepted: "YES" }
+        ]
+      }).toArray();
+      
+      const regularEventsPromise = db.collection('regularPurchase').find({
+        $or: [
+          { reserve: req.user.username, accepted: "YES" },
+          { username: req.user.username, accepted: "YES" }
+        ]
+      }).toArray();
+      
+  
+      // flashPurchase와 regularPurchase 컬렉션에서 accepted: "No"인 항목을 비동기로 가져오기
+      const flashNEventsPromise = await db.collection('flashPurchase').find({ reserve: { $exists: true }, accepted: "NO" , username: req.user.username}).toArray();
+      const regularNEventsPromise = await db.collection('regularPurchase').find({ reserve: { $exists: true }, accepted: "NO" , username: req.user.username}).toArray();
+  
+      // 모든 Promise 완료될 때까지 기다리기
+      const [flashEvents, regularEvents, flashNEvents, regularNEvents] = await Promise.all([
+        flashEventsPromise, regularEventsPromise, flashNEventsPromise, regularNEventsPromise
+      ]);
+  
+      // 두 이벤트 배열을 합치기
+      const reserve = [...flashEvents, ...regularEvents];
+      const Nreserve = [...flashNEvents, ...regularNEvents];
+  
+      // mypage.ejs를 렌더링할 때 result, reserve, Nreserve를 전달
+      res.render('mypage.ejs', { result: result, reserve: reserve, Nreserve: Nreserve });
+    } catch (err) {
+      // 에러 발생 시 500 상태 코드와 에러 메시지 반환
+      res.status(500).json({ message: err.message });
+    }
+  });
+  
+  
 
 router.get('/userinfo_change', async (req, res) => {
     const result = await db.collection('user').findOne({_id: new Object(req.user._id)});

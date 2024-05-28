@@ -70,13 +70,24 @@
             <div class="list title">상품명</div>
             <div class="list date">날짜</div>
         </div>
-        <% for (var i = 0; i < 글목록.length; i++){ %>
+        <% for (var i = 0; i < regular.length; i++){ %>
             <div class="white-bg">
                 <div class="list-box">
-                    <a href="/user/post_flash/<%= 글목록[글목록.length - i - 1]._id %>" class="title"><%= 글목록[글목록.length - i - 1].product_name %>&emsp;</a>
+                    <a href="/user/post_regular/<%= regular[regular.length - i - 1]._id %>" class="title"><%= regular[regular.length - i - 1].product_name %>&emsp;</a>
                     <br>
-                    <p class="profiledate"><%= 글목록[글목록.length - i - 1].date%>&emsp;</p>
-                    <button class="profilereserve reserve" data-id="<%=글목록[글목록.length - i - 1]._id%>">예약하기</button>
+                    <p class="profiledate"><%= regular[regular.length - i - 1].date%>&emsp;</p>
+                    <button class="profilereserve reserve_regular" data-id="<%=regular[regular.length - i - 1]._id%>">예약하기</button>
+                    <br>
+                </div>
+            </div>
+        <% } %>
+        <% for (var i = 0; i < flash.length; i++){ %>
+            <div class="white-bg">
+                <div class="list-box">
+                    <a href="/user/post_flash/<%= flash[flash.length - i - 1]._id %>" class="title"><%= flash[flash.length - i - 1].product_name %>&emsp;</a>
+                    <br>
+                    <p class="profiledate"><%= flash[flash.length - i - 1].date%>&emsp;</p>
+                    <button class="profilereserve reserve_flash" data-id="<%=flash[flash.length - i - 1]._id%>">예약하기</button>
                     <br>
                 </div>
             </div>
@@ -86,10 +97,31 @@
 
     </div>
     <script>
-        document.querySelectorAll('.reserve').forEach(function(button) {
+        document.querySelectorAll('.reserve_flash').forEach(function(button) {
             button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                fetch('/user/reserve/' + id, {
+                fetch('/user/reserve_flash/' + id, {
+                    method: 'POST',
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Reservation successful');
+                        window.location.href = '/user/mypage';
+                        // 예약이 성공했을 때 필요한 동작 추가
+                    } else {
+                        console.error('Reservation failed');
+                        // 예약이 실패했을 때 필요한 동작 추가
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                    // 예약 요청 과정에서 오류가 발생했을 때 필요한 동작 추가
+                });
+            });
+        });
+
+        document.querySelectorAll('.reserve_regular').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch('/user/reserve_regular/' + id, {
                     method: 'POST',
                 }).then(response => {
                     if (response.ok) {

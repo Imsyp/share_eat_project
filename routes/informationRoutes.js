@@ -38,7 +38,7 @@ connectDB.then((client)=>{
 
 router.get('/information_board', async (req, res) => {
     let result = await db.collection('information').find().toArray();
-    res.render('board_information.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+    res.render('board_information.ejs', { 글목록: result, page: req.query.page});
 });
 
 router.get('/write_information', (req, res) => {
@@ -90,12 +90,11 @@ router.post('/add_information', upload.single('img1'), async (req, res) => {
     }
 });
 
-
 router.get('/post_information/:postId', async (req, res) => {
     try {
         const result = await db.collection('information').findOne({ _id: new ObjectId(req.params.postId) });
         const comment = await db.collection('information_comment').find({parentId: new ObjectId(req.params.postId)}).toArray();
-
+        const user = await db.collection('user').findOne({ username: result.username})
         if (!result) {
             res.status(404).send('게시물을 찾을 수 없습니다.');
             return;
@@ -103,7 +102,7 @@ router.get('/post_information/:postId', async (req, res) => {
         await db.collection('information').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post_information.ejs', { post: result , comment: comment});
+        res.render('post_information.ejs', { post: result , comment: comment, user: user, currentUser: new ObjectId(req.user._id)});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
@@ -125,12 +124,11 @@ router.put('/edit_information', async (req, res) => {
     res.redirect('/user/information_board')
 });
 
-router.delete('/delete_information', async (req, res) => {
-    const result = await db.collection('information').deleteOne({_id : new ObjectId(req.query.docid),
-        user: new ObjectId(req.user._id)
-    })
-    res.send('삭제완료')
+router.get('/delete_information/:deleteId', async (req, res) => {
+    await db.collection('information').deleteOne({_id : new ObjectId(req.params.deleteId)})
+    res.redirect('/user/information_board')
 })
+
 
 router.get('/search_information', async(req, res) => {
     let 검색조건 = [

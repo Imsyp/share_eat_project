@@ -89,7 +89,10 @@ router.post('/add_flash', upload.single('img1'), async (req, res) => {
             location: req.body.location,
             user: req.user._id,
             username: req.user.username,
-            date: date
+            date: date,
+            datey: req.body.datey,
+            time: req.body.time,
+            accepted:"NO"
         });
 
         res.redirect('/user/flash_purchase');
@@ -108,7 +111,7 @@ router.get('/post_flash/:postId', async (req, res) => {
             res.status(404).send('게시물을 찾을 수 없습니다.');
             return;
         }
-        res.render('post_flash.ejs', { post: result , userprofile: userprofile});
+        res.render('post_flash.ejs', { post: result , userprofile: userprofile, currentUser: new ObjectId(req.user._id)});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
@@ -135,27 +138,36 @@ router.put('/edit_flash', async (req, res) => {
         number_of_recruits: req.body.number_of_recruits,
         total_amount: req.body.total_amount,
         img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
-        location: req.body.location,}})
+        location: req.body.location,datey: req.body.datey,
+        time: req.body.time,}})
     res.redirect('/user/flash_purchase')
 });
 
-router.delete('/delete_flash', async (req, res) => {
-    const result = await db.collection('flashPurchase').deleteOne({_id : new ObjectId(req.query.docid),
-        user: new ObjectId(req.user._id)
-    })
-    res.send('삭제완료')
+router.get('/delete_flash/:deleteId', async (req, res) => {
+    await db.collection('flashPurchase').deleteOne({_id : new ObjectId(req.params.deleteId)})
+    res.redirect('/user/flash_purchase')
 })
 
 router.get('/search_flash', async(req, res) => {
     let 검색조건 = [
-        {$search : {
-            index : 'title_index',
-            text : { query : req.query.val, path : 'title' }
-        }}
-        ]
-    let result = await db.collection('community').aggregate(검색조건).toArray()
+        { $search: { index: 'default', text: { query: req.query.val, path: 'datey' } } },
+        { $search: { index: 'default', text: { query: req.query.val, path: 'location' } } },
+        { $search: { index: 'default', text: { query: req.query.val, path: 'username' } } },
+        { $search: { index: 'default', text: { query: req.query.val, path: 'product_name' } } }
+    ];
 
-    res.render('search_purchase.ejs', {글목록 : result, page: req.query.page})
-})
+    let results = [];
+    for (let i = 0; i < 검색조건.length; i++) {
+        let result = await db.collection('flashPurchase').aggregate([검색조건[i]]).toArray();
+        results.push(result);
+    }
+    
+    // 결과를 하나로 합치기 위해 배열을 평탄화합니다.
+    let flattenedResults = results.flat();
+
+    res.render('search_purchase.ejs', { 글목록: flattenedResults, page: req.query.page });
+});
+
+
 
 module.exports = router

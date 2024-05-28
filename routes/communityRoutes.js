@@ -39,7 +39,7 @@ connectDB.then((client)=>{
 
 router.get('/community_board', async (req, res) => {
     let result = await db.collection('community').find().toArray();
-    res.render('board_community.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+    res.render('board_community.ejs', { 글목록: result, page: req.query.page});
 
 });
 
@@ -108,7 +108,7 @@ router.get('/post_community/:postId', async (req, res) => {
         await db.collection('community').updateOne(
             {_id: new ObjectId(req.params.postId)}, 
             {$inc : {views : 1}})
-        res.render('post_community.ejs', { post: result , comment: comment, user: user});
+        res.render('post_community.ejs', { post: result , comment: comment, user: user, currentUser: new ObjectId(req.user._id)});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
@@ -130,11 +130,9 @@ router.put('/edit_community', async (req, res) => {
     res.redirect('/user/community_board')
 });
 
-router.delete('/delete_community', async (req, res) => {
-    const result = await db.collection('community').deleteOne({_id : new ObjectId(req.query.docid),
-        user: new ObjectId(req.user._id)
-    })
-    res.send('삭제완료')
+router.get('/delete_community/:deleteId', async (req, res) => {
+    await db.collection('community').deleteOne({_id : new ObjectId(req.params.deleteId)})
+    res.redirect('/user/community_board')
 })
 
 router.get('/search_community', async(req, res) => {

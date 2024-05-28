@@ -94,11 +94,16 @@
                 <p> 총액: <%= post.total_amount %></p>
                 <p> 거래 장소: <%= post.location %></p>
                 <p> 게시글 업로드 날짜 및 시간: <%= post.date %></p>
+                <p> 공동구매 희망 시간: <%= post.datey%> <%= post.time%></p>
             </div>
             <br>
             <div class="button-container">
                 <a href="/user/chat/request?writerId=<%= post.username%>" class="chat">채팅하기</a>
                 <a href="/user/flash_purchase" class="cancel_button">취소</a>
+                <% if (currentUser.toString() === post.user.toString()) { %>
+                        <a href="/user/edit_flash/<%=post._id%>" class="cancel_button">수정하기</a>
+                        <a href="/user/delete_flash/<%=post._id%>"class="cancel_button">삭제하기</a>
+                <% } %>
             </div>
         </div>    
     </div>
