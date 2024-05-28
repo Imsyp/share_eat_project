@@ -133,36 +133,46 @@ router.post('/reserve_regular/:id', async(req, res) =>{
 })
 
 router.post('/accept/:id', async (req, res) => {
-    try {
-      const id = req.params.id;
-  
-      // ObjectId로 변환
-      const objectId = new ObjectId(id);
-  
-      // flashPurchase 컬렉션에서 항목 찾기
-      const flashPurchaseResult = await db.collection('flashPurchase').findOne({ _id: objectId });
-  
-      // regularPurchase 컬렉션에서 항목 찾기
-      const regularPurchaseResult = await db.collection('regularPurchase').findOne({ _id: objectId });
-  
-      // 일치하는 항목을 result 변수에 저장
-      const result = flashPurchaseResult || regularPurchaseResult;
-  
-      if (result) {
-        // 항목의 accepted 값을 "YES"로 업데이트
-        await db.collection(result ? 'flashPurchase' : 'regularPurchase').updateOne(
-          { _id: objectId },
-          { $set: { accepted: "YES" } }
-        );
-  
-        res.status(200).json({ message: '항목이 성공적으로 불러와졌으며, accepted 값을 "YES"로 변경하였습니다.', result });
-      } else {
-        res.status(404).json({ message: '일치하는 항목이 없습니다.' });
-      }
-    } catch (err) {
-      res.status(500).json({ message: '서버 오류 발생', error: err.message });
+  try {
+    const id = req.params.id;
+
+    // ObjectId로 변환
+    const objectId = new ObjectId(id);
+
+    // flashPurchase 컬렉션에서 항목 찾기
+    const flashPurchaseResult = await db.collection('flashPurchase').findOne({ _id: objectId });
+
+    // regularPurchase 컬렉션에서 항목 찾기
+    const regularPurchaseResult = await db.collection('regularPurchase').findOne({ _id: objectId });
+
+    // 일치하는 항목을 result 변수에 저장
+    let result;
+    let collectionName;
+
+    if (flashPurchaseResult) {
+      result = flashPurchaseResult;
+      collectionName = 'flashPurchase';
+    } else if (regularPurchaseResult) {
+      result = regularPurchaseResult;
+      collectionName = 'regularPurchase';
     }
-  });
+
+    if (result) {
+      // 항목의 accepted 값을 "YES"로 업데이트
+      await db.collection(collectionName).updateOne(
+        { _id: objectId },
+        { $set: { accepted: "YES" } }
+      );
+
+      res.status(200).json({ message: '항목이 성공적으로 불러와졌으며, accepted 값을 "YES"로 변경하였습니다.', result });
+    } else {
+      res.status(404).json({ message: '일치하는 항목이 없습니다.' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: '서버 오류 발생', error: err.message });
+  }
+});
+
 
   router.get('/flashPurchase', async (req, res) => {
     try {
