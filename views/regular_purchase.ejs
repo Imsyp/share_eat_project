@@ -31,6 +31,10 @@
     margin-top:5px;
     margin-bottom: 5px
         }
+        .list-box:hover{
+            background-color:#999;
+    transition: 0.5s;
+        }
     </style>
 </head>
 <body>
@@ -69,10 +73,11 @@
         <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
             <div id="onlypurchase">
                 <div class="white-bg">
+                    <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>">
                     <div class="list-box">
                         <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
                         <div class="text-box">
-                            <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                            <p class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></p><br>
                             <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
                             <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                             <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
@@ -80,18 +85,20 @@
                         </div>
                         
                     </div>
+                    </a>
                     <% i++; if( i == Math.min(글목록.length, 끝인덱스)) break;%>
+                    <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>">
                     <div class="list-box">
                         <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
                         <div class="text-box">
-                            <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>" class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></a><br>
+                            <p class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></p><br>
                             <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
                             <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                             <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                             <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits%></p>
                         </div>
-                        
                     </div>
+                    </a>
                 </div>
             </div>
         <% } %>

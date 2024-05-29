@@ -270,12 +270,16 @@ form > input[type="submit"]:hover {
 }
 
 .list-box {
-    
     display: flex;
     padding: 10px 20px;
     border-bottom: 1px solid #ddd;
     align-items: center;
 }
+.list-box:hover{
+    background-color:#ddd;
+    transition: 0.5s;
+}
+
 .list_ {
     font-size: 14px;
     text-align: left;
@@ -380,8 +384,9 @@ form > input[type="submit"]:hover {
 .form-box input[type="date"],
 .form-box input[type="time"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
+    max-width: 400px;
+    padding: 15px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;

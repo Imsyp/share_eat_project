@@ -6,6 +6,11 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
     <script>
@@ -110,7 +115,7 @@
             <img src="<%= result.profile %>">
         </div>
         <div class="username_sign">
-            <h1><%= result.username %> 님</h1>
+            <h1 class="font"><%= result.username %> 님</h1>
             <a class="userinfo_change" href="/user/userinfo_change">회원정보 수정</a>
         </div>
         <div id="calendar"></div>

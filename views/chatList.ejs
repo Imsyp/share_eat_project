@@ -38,16 +38,18 @@
         <% if (result.length > 0) { %>
             <% result.forEach(function(chatroom) { %>
                 <div class="white-bg">
+                    <a href="/user/chat/detail/<%= chatroom._id %>">
                     <div class="list-box">
-                        <h2><a href="/user/chat/detail/<%= chatroom._id %>">
+                        <h2>
                             <% chatroom.member.forEach(function(member) { %>
                                 <% if (currentUser !== member) { %>
-                                    <%= member %> 님</a>
+                                    <%= member %> 님
                                 <% } %>
                             <% }); %>
-                        </a></h2>
+                        </h2>
                         <hr>
                     </div>
+                    </a>
                 </div>
             <% }); %>
         <% } else { %>

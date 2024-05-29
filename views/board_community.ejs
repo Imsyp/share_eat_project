@@ -41,7 +41,7 @@
         <hr>
         <div class="header">
             <h1>자유게시판</h1>
-            <a class="selected right-2" href="/user/write_community">글쓰기</a>
+            <a href="/user/write_community"><img src="/images/write_icon.png" alt="글쓰기" width="50px"></a>
         </div>
         <hr>
         <div class="board_word">
@@ -64,10 +64,10 @@
         <% } %>
         <br><br>
         <% if (페이지번호 > 1) { %>
-            <a href="/user/community_board?page=<%= 페이지번호 - 1 %>" class="pastbutton">이전 페이지</a>
+            <a href="/user/community_board?page=<%= 페이지번호 - 1 %>" class="pastbutton"><img src="/images/past_icon.png" alt="이전페이지" width="50px"></a>
         <% } %>
         <% if (글목록.length > 끝인덱스) { %>
-            <a href="/user/community_board?page=<%= 페이지번호 + 1 %>" class="nextbutton">다음 페이지</a>
+            <a href="/user/community_board?page=<%= 페이지번호 + 1 %>" class="nextbutton"><img src="/images/next_icon.png" alt="다음페이지" width="50px"></a>
         <% } %>
     </div>
     <script>
