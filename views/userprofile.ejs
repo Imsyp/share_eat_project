@@ -42,6 +42,27 @@
         font-size: 40px; /* 텍스트 크기 조정 */
         font-weight: bold; /* 텍스트 굵기 조정 */
     }
+    .button{
+        border: none;
+        padding: 7px 15px;
+        text-align: right;
+        text-decoration: none;
+        font-size: 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border: 1px solid #bcbcbc;
+        border-radius: 5px;
+    }
+    .report_button {
+        background-color: #cac8c8;
+    }
+    .report_button:hover {
+        background-color: #d11b1b;
+    }
+    .profile button{
+        text-align: right;
+        margin-left: 1450px;
+    }
 
     </style>
 </head>
@@ -64,6 +85,7 @@
         <div class="profile">
             <img src="<%=opponent.profile%>" alt="Profile Picture">
             <div class="username"><%= opponent.username %>님</div>
+            <button class="button report_button" >신고하기</button>
         </div>
     </div>
         <div class="list_word">

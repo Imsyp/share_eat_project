@@ -60,7 +60,6 @@
             display: flex; /* 프로필 이미지와 텍스트를 column으로 배열 */
             flex-direction: column; /* 요소들을 세로로 배열 */
             align-items: center; /* 요소들을 가로 중앙 정렬 */
-            text-align: center; /* 텍스트를 중앙 정렬 */
         }
 
         .profile img {
@@ -68,6 +67,10 @@
             height: 70px;
             border-radius: 50%;
             margin-bottom: 10px; /* 이미지와 텍스트 사이의 간격 */
+        }
+        .profile button{
+            text-align: right;
+            margin-left: 450px;
         }
 
         .username {
@@ -138,7 +141,7 @@
         .chat-button:hover {
             background: #626262;
         }
-
+        
     </style>
 </head>
 <body class="grey-bg">
@@ -157,7 +160,7 @@
 
     <div id="content">
         <div class="header">
-            <div class="profile">
+            <div class="profile" >
                 <img src="<%=opponent.profile%>" alt="Profile Picture" class="reserve-button">
                 <div class="username"><%= opponent.username %>님</div>
             </div>
