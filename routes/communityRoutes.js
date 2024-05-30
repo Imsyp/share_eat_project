@@ -156,11 +156,20 @@ router.post('/comment_community', async (req, res) => {
             res.send('내용을 입력하세요.');
             return;
         }
+        const date = new Intl.DateTimeFormat('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Asia/Seoul'
+        }).format(new Date());
         
         await db.collection('community_comment').insertOne({
             content: req.body.content,
             parentId: new ObjectId(req.body.parentId),
-            date: new Date().toLocaleString(),
+            date: date,
             user: req.user._id,
             username: req.user.username,
         });

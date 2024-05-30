@@ -85,7 +85,6 @@ router.get('/chat/detail/:id', async (req, res) => {
         let opponent = await db.collection('user').findOne({username: opponentUsername});
 
         let messages = await db.collection('chatMessage').find({ parentRoom: new ObjectId(req.params.id) }).sort({ createdAt: 1 }).toArray();
-        console.log(opponent)
 
         // 템플릿 렌더링 및 현재 사용자 정보 전달
         res.render('chatDetail.ejs', {
@@ -108,7 +107,6 @@ router.get('/chat/detail/:id', async (req, res) => {
 router.get('/opponent', async (req, res) => {
     try {
         const opponentId = req.query.opponentId;
-        console.log('opponentId:', opponentId); // 상대방 ID 로깅
 
         const flash = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
         const regular = await db.collection('regularPurchase').find({ username: opponentId }).toArray();

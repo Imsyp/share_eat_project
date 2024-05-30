@@ -50,24 +50,48 @@
             <div class="word date">날짜</div>
             <div class="word views">조회수</div>
         </div>
-        <% var 페이지당글수 = 10; %>
-        <% var 페이지번호 = parseInt(page) || 1; %>
-        <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
-        <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
-        <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
-            <div class="list-box">
-                <a href="/user/post_information/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ title"><%= 글목록[글목록.length - i - 1].title %></a>
-                <div class="list_ author"><%= 글목록[글목록.length - i - 1].username %></div>
-                <div class="list_ date"><%= 글목록[글목록.length - i - 1].date %></div>
-                <div class="list_ views"><%= 글목록[글목록.length - i - 1].views %></div>
-            </div>
-        <% } %>
-        <br><br> 
+        <% 
+        var 페이지당글수 = 10; 
+        var 페이지번호 = parseInt(page) || 1; 
+        var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; 
+        var 끝인덱스 = 페이지번호 * 페이지당글수; 
+        var 총페이지수 = Math.ceil(글목록.length / 페이지당글수);
+        var 시작페이지 = Math.max(1, 페이지번호 - 5);
+        var 끝페이지 = Math.min(총페이지수, 페이지번호 + 5);
+    %>
+    
+    <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+        <div class="list-box">
+            <a href="/user/post_information/<%= 글목록[글목록.length - i - 1]._id %>" class="list_ title"><%= 글목록[글목록.length - i - 1].title %></a>
+            <div class="list_ author"><%= 글목록[글목록.length - i - 1].username %></div>
+            <div class="list_ date"><%= 글목록[글목록.length - i - 1].date %></div>
+            <div class="list_ views"><%= 글목록[글목록.length - i - 1].views %></div>
+        </div>
+    <% } %>
+    <br><br>
+    
+    <div class="pagination">
+        <!-- 맨 처음 페이지로 이동하는 버튼 -->
         <% if (페이지번호 > 1) { %>
-            <a href="/user/information_board?page=<%= 페이지번호 - 1 %>"><img src="/images/past_icon.png" alt="이전페이지" width="50px" ></a>
+            <a href="/user/information_board?page=1" class="pagination_button firstbutton">처음 페이지</a>
         <% } %>
-        <% if (글목록.length > 끝인덱스) { %>
-            <a href="/user/information_board?page=<%= 페이지번호 + 1 %>"><img src="/images/next_icon.png" alt="다음페이지" width="50px"></a>
+    
+        <!-- 이전 5페이지로 이동하는 버튼들 -->
+        <% for (var p = 시작페이지; p < 페이지번호; p++) { %>
+            <a href="/user/information_board?page=<%= p %>" class="pagination_button pagebutton"><%= p %></a>
+        <% } %>
+    
+        <!-- 현재 페이지 번호 -->
+        <span class="pagination_button currentpage"><%= 페이지번호 %></span>
+    
+        <!-- 다음 5페이지로 이동하는 버튼들 -->
+        <% for (var p = 페이지번호 + 1; p <= 끝페이지; p++) { %>
+            <a href="/user/information_board?page=<%= p %>" class="pagination_button pagebutton"><%= p %></a>
+        <% } %>
+    
+        <!-- 맨 마지막 페이지로 이동하는 버튼 -->
+        <% if (페이지번호 < 총페이지수) { %>
+            <a href="/user/information_board?page=<%= 총페이지수 %>" class="pagination_button lastbutton">마지막 페이지</a>
         <% } %>
     </div>
     <script>

@@ -71,7 +71,6 @@ router.post('/signup', async(req, res) => {
 })
 
 router.get('/login', async(req, res) => {
-    console.log(req.user)
     res.render('login.ejs')
 })
 

@@ -97,7 +97,7 @@
                 <div class="list-box">
                     <a href="/user/post_regular/<%= regular[regular.length - i - 1]._id %>" class="title"><%= regular[regular.length - i - 1].product_name %>&emsp;</a>
                     <br>
-                    <p class="profiledate"><%= regular[regular.length - i - 1].date%>&emsp;</p>
+                    <p class="profiledate"><%= regular[regular.length - i - 1].datey%> <%=regular[regular.length - 1 - i].time%>&emsp;</p>
                     <button class="profilereserve reserve_regular" data-id="<%=regular[regular.length - i - 1]._id%>">예약하기</button>
                     <br>
                 </div>
@@ -108,7 +108,7 @@
                 <div class="list-box">
                     <a href="/user/post_flash/<%= flash[flash.length - i - 1]._id %>" class="title"><%= flash[flash.length - i - 1].product_name %>&emsp;</a>
                     <br>
-                    <p class="profiledate"><%= flash[flash.length - i - 1].date%>&emsp;</p>
+                    <p class="profiledate"><%= flash[flash.length - i - 1].datey%> <%= flash[flash.length - i - 1].time%>&emsp;</p>
                     <button class="profilereserve reserve_flash" data-id="<%=flash[flash.length - i - 1]._id%>">예약하기</button>
                     <br>
                 </div>
