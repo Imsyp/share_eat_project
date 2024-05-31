@@ -32,6 +32,10 @@ a {
     color: black;
 }
 
+.font{
+    font-family: "Hi Melody", sans-serif;
+}
+
 .accent {
     font-size: 75px;
 }
