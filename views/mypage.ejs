@@ -116,6 +116,7 @@
                     <h3><%= reserve[i].product_name %></h3>
                     <p><%= reserve[i].datey %></p>
                     <p><%= reserve[i].time %></p>
+                    <p><%=reserve[i].username%></p>
                 </div>
             <% } %>
         </div>
@@ -127,6 +128,7 @@
                     <h3><%= Nreserve[i].product_name %></h3>
                     <p><%= Nreserve[i].datey %></p>
                     <p><%= Nreserve[i].time %></p>
+                    <p><%=Nreserve[i].username%></p>
                     <button class="accept" data-id="<%= Nreserve[i]._id %>">수락하기</button>
                 </div>
             <% } %>
