@@ -52,6 +52,20 @@
             color: rgb(85, 85, 85);
             border-radius: 5px;
         }
+
+        .chat-button{
+            margin-left: auto; 
+            padding: 5px 10px; 
+            color: rgb(0, 0, 0); 
+            border-radius: 5px;
+            background-color: #ccc;
+        }
+
+        .chat-button:hover{
+            background-color: #000;
+            color:#fff;
+            transition: 0.5s;
+        }
         /* 게시물 이미지 스타일 */
         .post-box img {
             max-width: 100%;
@@ -90,6 +104,7 @@
         .write-form{
             margin-left: 20px;
         }
+        
     </style>
 </head>
 <body class="grey-bg">
@@ -116,7 +131,7 @@
                     <p style="margin: 0; font-weight: bold;"><%=user.username%></p>
                     <p style="margin: 0; font-size: 12px; color: #999;"><%=post.date%></p>
                 </div>
-                <a href="/user/chat/request?writerId=<%= post.username%>" style="margin-left: auto; padding: 5px 10px; text-decoration: none; background-color: #007bff; color: white; border-radius: 5px;">채팅하기</a>
+                <a class="chat-button" href="/user/chat/request?writerId=<%= post.username%>">채팅하기</a>
             </div>
             
             <hr>
