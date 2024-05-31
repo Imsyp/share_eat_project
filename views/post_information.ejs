@@ -93,18 +93,7 @@
     </style>
 </head>
 <body class="grey-bg">
-    <div id="sidebar">
-        <div>
-            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
-        </div>
-        <p><span class="accent font">쉐어 잇</span></p>
-        <p><span class="share font">share eat,<br>share it!</span></p>
-        <a href="/user/mypage">마이 페이지</a>
-        <a href="/user/logout">로그아웃</a>
-        <a href="/user/community_board">게시판</a>
-        <a href="/user/flash_purchase">공동구매</a>
-        <a href="/user/chat/list">채팅</a>
-    </div>
+    <%- include('sidebar') %>
     <div id="content">
         <div class="navbar">
             <a class="unselected" href="/user/community_board">자유게시판</a>

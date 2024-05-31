@@ -18,9 +18,9 @@
     box-sizing: border-box;
     width: 100%;
     height: auto;
-    border: 1px solid,#eaeaea;
+    border: 1px solid,#c8c8c8;
     border-radius: 30px;
-    background-color: #eaeaea;
+    background-color: #ffffff;
     margin-bottom: 10px;
     padding: 30px;
         }
@@ -32,24 +32,13 @@
     margin-bottom: 5px
         }
         .list-box:hover{
-            background-color:#999;
+            background-color:#ddd;
     transition: 0.5s;
         }
     </style>
 </head>
 <body>
-    <div id="sidebar">
-        <div>
-            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
-        </div>
-        <p><span class="accent font">쉐어 잇</span></p>
-        <p><span class="share font">share eat,<br>share it!</span></p>
-        <a href="/user/mypage">마이 페이지</a>
-        <a href="/user/logout">로그아웃</a>
-        <a href="/user/community_board">게시판</a>
-        <a href="/user/flash_purchase">공동구매</a>
-        <a href="/user/chat/list">채팅</a>
-    </div>
+    <%- include('sidebar') %>
     <div id="content">
         <div class="navbar">
             <a class="unselected" href="/user/flash_purchase">번개공구</a>
@@ -63,7 +52,7 @@
         <div class="header">
             <h1>정기공구</h1>
             
-            <a class="selected right-2" href="/user/write_regular">글쓰기</a>
+            <a href="/user/write_regular"><img src="/images/write_icon.png" width="50px"></a>
         </div><hr>
         <% var 페이지당글수 = 10; %>
         <% var 페이지번호 = parseInt(page) || 1; %>
