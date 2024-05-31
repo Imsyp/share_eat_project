@@ -18,9 +18,9 @@
     box-sizing: border-box;
     width: 100%;
     height: auto;
-    border: 1px solid,#eaeaea;
+    border: 1px solid,#c8c8c8;
     border-radius: 30px;
-    background-color: #eaeaea;
+    background-color: #ffffff;
     margin-bottom: 10px;
     padding: 30px;
         }
@@ -32,7 +32,7 @@
     margin-bottom: 5px
         }
         .list-box:hover{
-            background-color:#999;
+            background-color:#ddd;
     transition: 0.5s;
         }
     </style>
@@ -52,7 +52,7 @@
         <div class="header">
             <h1>정기공구</h1>
             
-            <a class="selected right-2" href="/user/write_regular">글쓰기</a>
+            <a href="/user/write_regular"><img src="/images/write_icon.png" width="50px"></a>
         </div><hr>
         <% var 페이지당글수 = 10; %>
         <% var 페이지번호 = parseInt(page) || 1; %>
