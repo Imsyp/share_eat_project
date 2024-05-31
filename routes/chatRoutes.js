@@ -105,36 +105,82 @@ router.get('/chat/detail/:id', async (req, res) => {
 
 
 router.get('/opponent', async (req, res) => {
-    try {
-        const opponentId = req.query.opponentId;
+  try {
+      const opponentId = req.query.opponentId;
+      const currentUserId = req.user.username;  // 현재 사용자의 username
 
-        const flash = await db.collection('flashPurchase').find({ username: opponentId, accepted: "NO"}).toArray();
-        const regular = await db.collection('regularPurchase').find({ username: opponentId, accepted: "NO" }).toArray();
-        const opponent = await db.collection('user').findOne({username: opponentId});
-        res.render('userprofile.ejs', { flash: flash, regular: regular, currentUser: new ObjectId(req.user._id), opponent: opponent });
-    } catch (error) {
-        console.error('Error in /user/reserve:', error);
-        res.status(500).send('Internal Server Error');
-    }
+      const flash = await db.collection('flashPurchase').find({
+          username: opponentId,
+          reserve: { $ne: currentUserId },  // 현재 사용자의 아이디가 reserve 배열에 없을 때
+          $where: function() {
+              return this.accepted.filter(a => a === 'YES').length !== this.number_of_recruits;
+          }
+      }).toArray();
+
+      const regular = await db.collection('regularPurchase').find({
+          username: opponentId,
+          reserve: { $ne: currentUserId },  // 현재 사용자의 아이디가 reserve 배열에 없을 때
+          $where: function() {
+              return this.accepted.filter(a => a === 'YES').length !== this.number_of_recruits;
+          }
+      }).toArray();
+
+      const opponent = await db.collection('user').findOne({ username: opponentId });
+
+      res.render('userprofile.ejs', { 
+          flash: flash, 
+          regular: regular, 
+          currentUser: new ObjectId(req.user._id), 
+          opponent: opponent 
+      });
+  } catch (error) {
+      console.error('Error in /user/reserve:', error);
+      res.status(500).send('Internal Server Error');
+  }
 });
 
-router.post('/reserve_flash/:id', async(req, res) =>{
-    await db.collection('flashPurchase').updateOne({_id: new ObjectId(req.params.id)}, 
-    {$set : {reserve: req.user.username}})
-    res.redirect('/user/mypage')
-})
 
-router.post('/reserve_regular/:id', async(req, res) =>{
-    await db.collection('regularPurchase').updateOne({_id: new ObjectId(req.params.id)}, 
-    {$set : {reserve: req.user.username}})
-    res.redirect('/user/mypage')
-})
+router.post('/reserve_flash/:id', async (req, res) => {
+  try {
+      console.log(req.body)
+    await db.collection('flashPurchase').updateOne(
+          { _id: new ObjectId(req.params.id) },
+          {
+              $push: {
+                  reserve: req.user.username,
+                  accepted: "NO"
+              }
+          }
+      );
+      res.redirect('/user/mypage');
+  } catch (error) {
+      console.error('Error in /reserve_flash:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+router.post('/reserve_regular/:id', async (req, res) => {
+  try {
+      await db.collection('regularPurchase').updateOne(
+          { _id: new ObjectId(req.params.id) },
+          {
+              $push: {
+                  reserve: req.user.username,
+                  accepted: "NO"
+              }
+          }
+      );
+      res.redirect('/user/mypage');
+  } catch (error) {
+      console.error('Error in /reserve_regular:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 router.post('/accept/:id', async (req, res) => {
   try {
     const id = req.params.id;
-
-    // ObjectId로 변환
     const objectId = new ObjectId(id);
 
     // flashPurchase 컬렉션에서 항목 찾기
@@ -156,13 +202,22 @@ router.post('/accept/:id', async (req, res) => {
     }
 
     if (result) {
-      // 항목의 accepted 값을 "YES"로 업데이트
-      await db.collection(collectionName).updateOne(
-        { _id: objectId },
-        { $set: { accepted: "YES" } }
-      );
+      const reserveName = req.body.reserveName; // 클라이언트에서 보낸 reserveName 가져오기
 
-      res.status(200).json({ message: '항목이 성공적으로 불러와졌으며, accepted 값을 "YES"로 변경하였습니다.', result });
+      // 항목의 reserve 배열에서 reserveName과 같은 문자열이 있는지 확인
+      const index = result.reserve.findIndex(name => name === reserveName);
+
+      if (index !== -1) {
+        // reserve 배열에서 일치하는 인덱스에 대해 accepted 값을 "YES"로 업데이트
+        await db.collection(collectionName).updateOne(
+          { _id: objectId },
+          { $set: { [`accepted.${index}`]: "YES" } } // 인덱스에 해당하는 accepted 값을 "YES"로 변경
+        );
+
+        res.status(200).json({ message: 'accepted 값을 "YES"로 변경하였습니다.', result });
+      } else {
+        res.status(404).json({ message: '일치하는 reserveName이 없습니다.' });
+      }
     } else {
       res.status(404).json({ message: '일치하는 항목이 없습니다.' });
     }
@@ -172,21 +227,24 @@ router.post('/accept/:id', async (req, res) => {
 });
 
 
+
   router.get('/flashPurchase', async (req, res) => {
     try {
       // 두 컬렉션에서 데이터를 비동기로 가져오기
       const flashEventsPromise = db.collection('flashPurchase').find({
         $or: [
-          { reserve: req.user.username, accepted: "YES" },
-          { username: req.user.username, accepted: "YES" }
-        ]
+          { reserve: req.user.username },
+          { username: req.user.username }
+      ],
+      $expr: { $eq: [{ $arrayElemAt: ["$accepted", { $indexOfArray: ["$reserve", req.user.username] }] }, "YES"] }
       }).toArray();
       
       const regularEventsPromise = db.collection('regularPurchase').find({
         $or: [
-          { reserve: req.user.username, accepted: "YES" },
-          { username: req.user.username, accepted: "YES" }
-        ]
+          { reserve: req.user.username },
+          { username: req.user.username }
+      ],
+      $expr: { $eq: [{ $arrayElemAt: ["$accepted", { $indexOfArray: ["$reserve", req.user.username] }] }, "YES"] }
       }).toArray();
   
       // 두 Promise 모두 완료될 때까지 기다림
