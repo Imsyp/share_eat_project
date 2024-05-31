@@ -14,21 +14,35 @@
         .font{
             font-family: "Hi Melody", sans-serif;
         }
+        .form-box {
+            margin-top: 50px;
+            padding: 50px;
+            margin-right: 25%;
+            margin-left: 25%;
+            border:#fff 1px solid;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .form-box input[type="text"],
+        .form-box input[type="file"],
+        .form-box input[type="date"],
+        .form-box input[type="time"] {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body class="grey-bg">
-    <div id="sidebar">
-        <div>
-            <a href="/"><img src="/images/logo_non_bg.png" alt="Logo" width="250px"></a>
-        </div>
-        <p><span class="accent font">쉐어 잇</span></p>
-        <p><span class="share font">share eat,<br>share it!</span></p>
-        <a href="/user/mypage">마이 페이지</a>
-        <a href="/user/logout">로그아웃</a>
-        <a href="/user/community_board">게시판</a>
-        <a href="/user/flash_purchase">공동구매</a>
-        <a href="/user/chat/list">채팅</a>
-    </div> 
+    <%- include('partials/sidebar') %> 
     <div id="content">
     <form class="form-box" action="/user/add_regular" method="post" enctype="multipart/form-data">
         <h1>공동구매 폼 작성하기</h1>

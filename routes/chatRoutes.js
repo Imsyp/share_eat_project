@@ -108,8 +108,8 @@ router.get('/opponent', async (req, res) => {
     try {
         const opponentId = req.query.opponentId;
 
-        const flash = await db.collection('flashPurchase').find({ username: opponentId }).toArray();
-        const regular = await db.collection('regularPurchase').find({ username: opponentId }).toArray();
+        const flash = await db.collection('flashPurchase').find({ username: opponentId, accepted: "NO"}).toArray();
+        const regular = await db.collection('regularPurchase').find({ username: opponentId, accepted: "NO" }).toArray();
         const opponent = await db.collection('user').findOne({username: opponentId});
         res.render('userprofile.ejs', { flash: flash, regular: regular, currentUser: new ObjectId(req.user._id), opponent: opponent });
     } catch (error) {
