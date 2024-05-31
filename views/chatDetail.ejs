@@ -186,35 +186,39 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/socket.io@4.7.2/client-dist/socket.io.min.js"></script>
 <script>
-    const socket = io() 
-    socket.emit('ask-join', '<%= result._id %>')
+    const socket = io();
+    socket.emit('ask-join', '<%= result._id %>');
   
-    document.querySelector('.chat-button').addEventListener('click', function() {
-    let 작성한거 = document.querySelector('.chat-input').value;
-    const messageData = {
-        room: '<%= result._id %>',
-        message: 작성한거,
-        senderId: '<%= myname%>' // 사용자의 ID를 메시지 객체에 포함
-    };
-    socket.emit('message-send', messageData);
-    document.querySelector('.chat-input').value = '';
-});
+    function sendMessage() {
+        let 작성한거 = document.querySelector('.chat-input').value;
+        if (작성한거.trim() === '') return;
+        const messageData = {
+            room: '<%= result._id %>',
+            message: 작성한거,
+            senderId: '<%= myname%>' // 사용자의 ID를 메시지 객체에 포함
+        };
+        socket.emit('message-send', messageData);
+        document.querySelector('.chat-input').value = '';
+    }
 
+    document.querySelector('.chat-button').addEventListener('click', sendMessage);
+
+    document.querySelector('.chat-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 엔터 키의 기본 동작 방지 (폼 제출 방지)
+            sendMessage();
+        }
+    });
   
     socket.on('message-broadcast', (data) => {
-    if (data.senderId == '<%=myname%>'){
-        document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`);
-    scrollToBottom();}
-    else
-    {
-        document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box"><span>${data.message}</span></div>`);
-    scrollToBottom();
-    }
-    
-    console.log(data.message);
-});
-
-
+        if (data.senderId == '<%=myname%>'){
+            document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`);
+        } else {
+            document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box"><span>${data.message}</span></div>`);
+        }
+        scrollToBottom();
+        console.log(data.message);
+    });
 
     document.querySelector('.reserve-button').addEventListener('click', function() {
         let opponentId;
@@ -238,5 +242,5 @@
         scrollToBottom();
     });
   
-  </script>
-</html>  
+</script>
+</html>
