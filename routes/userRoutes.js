@@ -140,6 +140,9 @@ router.put('/edit_info', upload.single('profile'), async (req, res) => {
         if (req.body.password === '') {
             res.send('비밀번호를 입력하세요.');
             return;
+        } else if (req.body.password !== req.body.confirm_password) {
+            res.send('비밀번호가 일치하지 않습니다.');
+            return;
         } else if (req.body.phonenumber === '') {
             res.send('전화번호를 입력하세요.');
             return;
@@ -147,6 +150,8 @@ router.put('/edit_info', upload.single('profile'), async (req, res) => {
             res.send('주소를 입력하세요');
             return;
         }
+
+        
 
         // 사진이 없는 경우에도 req.file이 존재하지 않으므로, 해당 부분을 처리해줍니다.
         let imgUrl = "https://shareeat.s3.ap-northeast-2.amazonaws.com/anonym_img.jpg";
