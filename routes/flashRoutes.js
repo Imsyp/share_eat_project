@@ -79,7 +79,7 @@ router.post('/add_flash', upload.single('img1'), async (req, res) => {
         if (req.file) {
             imgUrl = req.file.location;
         }
-
+        let me = req.user.username;
         await db.collection('flashPurchase').insertOne({
             product_name: req.body.product_name,
             quantity: req.body.quantity,
@@ -92,7 +92,8 @@ router.post('/add_flash', upload.single('img1'), async (req, res) => {
             date: date,
             datey: req.body.datey,
             time: req.body.time,
-            accepted:"NO"
+            accepted:["YES"],
+            reserve: [me]
         });
 
         res.redirect('/user/flash_purchase');
