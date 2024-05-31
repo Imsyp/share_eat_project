@@ -79,6 +79,8 @@
         }
 
         .chat-screen {
+            display: flex;
+             flex-direction: column;
             flex: 1;
             padding: 20px;
             overflow-y: auto; /* 메시지 영역 스크롤 가능 */
@@ -88,10 +90,10 @@
         }
 
         .chat-box {
+            display: inline-block;
             max-width: 70%;
-            margin: 10px 0;
+            margin:10px 0;
             padding: 10px 15px;
-            background: #ffedc0;
             border-radius: 10px;
             position: relative;
             word-wrap: break-word; /* 메시지가 길 경우 줄바꿈 */
@@ -99,12 +101,20 @@
 
         .chat-box.mine {
             margin-left: auto;
+            justify-content: flex-end;
             background: #ffbd16;
             color: #fff;
         }
 
+        .chat-box.opponent{
+            margin-right: auto;
+            justify-content: flex-end;
+            background: #ffedc0;
+            color:#000
+        }
+
         .chat-box span {
-            display: block;
+            display:block;
         }
 
         .chat-form {
@@ -128,20 +138,17 @@
         }
 
         .chat-button {
-            padding: 10px 15px;
+            padding: none;
             border: none;
-            border-radius: 5px;
-            background: #ffedc0;
+            background:none;
             cursor: pointer;
             margin-left: 5px;
-            font-size: 16px;
-        }
+            }
 
-        .chat-button:hover {
-            background: #ffbd16;
-            color:#fff;
-            transition: 0.5s;
-        }
+       
+        
+
+
         
     </style>
 </head>
@@ -162,15 +169,16 @@
                     <% if (messages[i].who.toString() === userid._id.toString()) { %>
                         <div class="chat-box mine"><span><%= messages[i].content %></span></div>
                     <% } else { %>
-                        <div class="chat-box"><span><%= messages[i].content %></span></div>
+                        <div class="chat-box opponent"><span><%= messages[i].content %></span></div>
                     <% } %>
                 <% } %>
             </div>
         </div>
         <div class="chat-form">
             <input class="chat-input" placeholder="메시지를 입력하세요...">
-            <button class="chat-button">전송</button>
+            <button class="chat-button" onclick="alert"><img src="/images/send_icon.png" width="20px"></button>
         </div>
+        
     </div>
     
 </body>
@@ -231,6 +239,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         scrollToBottom();
     });
-  
+
+
+ 
 </script>
 </html>
