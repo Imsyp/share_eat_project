@@ -48,9 +48,23 @@
             margin-bottom: 0px;
             padding: 5px 10px;
             text-decoration: none;
-            background-color: #dedede;
-            color: rgb(85, 85, 85);
+            background-color: #ffedc0;
+            color: black;
             border-radius: 5px;
+        }
+
+        .chat-button{
+            margin-left: auto; 
+            padding: 5px 10px; 
+            color: rgb(0, 0, 0); 
+            border-radius: 5px;
+            background-color: #ffedc0;
+        }
+
+        .chat-button:hover{
+            background-color: #ffbd16;
+            color:#fff;
+            transition: 0.5s;
         }
         /* 게시물 이미지 스타일 */
         .post-box img {
@@ -75,7 +89,7 @@
             padding: 20px;
             border: 1px solid #ddd; /* 본문과 댓글 공간 구분 */
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #fffbf4;
         }
         .box{
             padding: 10px;
@@ -90,6 +104,7 @@
         .write-form{
             margin-left: 20px;
         }
+        
     </style>
 </head>
 <body class="grey-bg">
@@ -116,7 +131,7 @@
                     <p style="margin: 0; font-weight: bold;"><%=user.username%></p>
                     <p style="margin: 0; font-size: 12px; color: #999;"><%=post.date%></p>
                 </div>
-                <a href="/user/chat/request?writerId=<%= post.username%>" style="margin-left: auto; padding: 5px 10px; text-decoration: none; background-color: #007bff; color: white; border-radius: 5px;">채팅하기</a>
+                <a class="chat-button" href="/user/chat/request?writerId=<%= post.username%>">채팅하기</a>
             </div>
             
             <hr>
@@ -128,7 +143,7 @@
             <h1>댓글</h1>
             <input name="content" placeholder="댓글을 입력해주세요">
             <input name="parentId" value="<%= post._id %>" style="display: none;">
-            <button type="submit">전송</button>
+            <button class="search-send" onclick="alert" type="submit"><img src="/images/send_icon.png" alt="전송" width="20px"></button>
             <hr>
         </form>
         <div class="comment-box">

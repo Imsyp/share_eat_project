@@ -28,6 +28,9 @@
             padding: 20px; /* 내부 여백 추가 */
             box-sizing: border-box; /* 내부 여백을 포함한 크기 지정 */
         }
+        body{
+            background-color: #fff8e6;
+        }
         /* 추가적인 스타일링 */
         #post h2 {
             font-size: 24px; /* 헤더의 텍스트 크기 조정 */
@@ -43,24 +46,24 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            color: #fff;
+            color: #000;
             font-size: 18px;
             cursor: pointer;
             text-align: center;
             white-space: nowrap;
+            background-color: #ffedc0;
+            box-shadow: 1px 1px 1px #ccc;
         }
-        .chat {
-            background-color: #929292;
-        }
-        .cancel_button {
-            background-color: #bbbbbb;
-        }
+      
         .chat:hover {
-            background-color: #4e4e4e; 
+            background-color: #ffbd16; 
+            color: #fff;
+            transition: 0.5s;
         }
         .cancel_button:hover {
             transition: 0.5s;
-            background-color: #929292;
+            background-color: #ffbd16;
+            color:#fff
         }
         #post h2 {
             font-size: 24px; /* 헤더의 텍스트 크기 조정 */
@@ -75,28 +78,27 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            color: #3e3e3e;
+            color: #000;
             font-size: 15px;
             cursor: pointer;
             text-align: center;
             white-space: nowrap;
+            background-color: #ffedc0;
         }
-        .cancel-button {
-            background-color: #e8e8e8;
-        }
+        
+      
+        
         .cancel-button:hover {
             transition: 0.5s;
-            background-color: #929292;
+            background-color: #ffbd16;
+            color:white
         }
     </style>
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
     <div id="content">
-        <div class="navbar">
-            <a class="unselected" href="/user/flash_purchase">번개공구</a>
-            <a class="selected" href="/user/regular_purchase">정기공구</a>
-        </div>
+    
         <hr>
         <div id="post">
             <div class="post-box">

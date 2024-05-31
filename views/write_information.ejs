@@ -11,12 +11,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #fff8e6;
         }
         #content {
-            margin-left: 300px; /* 사이드바를 고려한 마진 */
             padding: 20px;
         }
         .form-box {
+            align-items: center;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -56,16 +57,15 @@
 <body>
     <%- include('sidebar') %>
     <div id="content">
-        <a class="unselected" href="/user/community_board">자유게시판</a>
-        <a class="selected" href="/user/information_board">정보게시판</a>
-        <hr>
         <form class="form-box" action="/user/add_information" method="post" enctype="multipart/form-data">
             <h1>글쓰기</h1>
             <input name="title" placeholder="제목을 입력하세요">
             <input type="file" name="img1" accept="image/*">
             <div id="editor"></div>
             <textarea name="content" id="editorContent" hidden></textarea>
-            <div style="text-align: center;"><button type="submit" onclick="submitContent()">전송</button></div>
+            <div style="text-align: center;"><button type="submit" onclick="submitContent()">전송</button>
+            <br><a class="cancel_button" href="/user/information_board">취소</a>
+            </div>
         </form>
     </div>
 
