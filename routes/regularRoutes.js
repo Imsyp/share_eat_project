@@ -37,9 +37,27 @@ connectDB.then((client)=>{
 })
 
 router.get('/regular_purchase', async (req, res) => {
-    let result = await db.collection('regularPurchase').find().toArray();
-    res.render('regular_purchase.ejs', { 글목록: result, page: req.query.page, currentUser: new ObjectId(req.user._id)});
+    try {
+        let result = await db.collection('regularPurchase').find().toArray();
+        
+        // Iterate through each document to count the number of "YES" in the accepted array
+        result.forEach(doc => {
+            if (doc.accepted && Array.isArray(doc.accepted)) {
+                doc.yesCount = doc.accepted.filter(answer => answer === "YES").length;
+            } else {
+                doc.yesCount = 0;
+            }
+        });
 
+        res.render('regular_purchase.ejs', { 
+            글목록: result, 
+            page: req.query.page, 
+            currentUser: new ObjectId(req.user._id)
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 router.get('/write_regular', (req, res) => {
