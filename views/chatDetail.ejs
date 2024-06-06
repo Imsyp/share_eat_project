@@ -149,11 +149,22 @@
             background-color:#ddd;
             transition: 1s;
         }
-       
-        
+        .tooltip {
+            display: none; 
+            position: absolute;
+            top: 80px; 
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
 
-
-        
+        .profile:hover .tooltip {
+            display: block; 
+        }
     </style>
 </head>
 <body class="grey-bg">
@@ -164,6 +175,7 @@
             <div class="profile" >
                 <img src="<%=opponent.profile%>" alt="Profile Picture" class="reserve-button">
                 <div class="username"><%= opponent.username %>님</div>
+                <div class="tooltip">프로필 확인하기</div>
             </div>
         </div>
 
