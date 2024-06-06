@@ -42,6 +42,19 @@
             border-radius: 5px;
             box-sizing: border-box;
         }
+        .form-box textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-box textarea {
+            height: 150px; /* Adjust height as needed */
+            resize: vertical; /* Allow vertical resizing */
+        }
     </style>
 </head>
 <body class="grey-bg">
@@ -76,8 +89,9 @@
         <label for="datey">날짜:</label>
         <input type="date" id="datey" name="datey"><br>
         <label for="time">시간:</label>
-        <input type="time" id="time" name="time"><br><br>
-        
+        <input type="time" id="time" name="time"><br>
+        <label for="description">설명:</label>
+        <textarea id="description" name="description" placeholder="제품이나 거래에 대한 설명을 자유롭게 추가하세요."></textarea><br><br>
         <button type="submit">글쓰기</button>
     </form>
     </div>
