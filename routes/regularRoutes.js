@@ -143,7 +143,7 @@ router.get('/edit_regular/:editId', async (req, res) => {
         res.render('edit_regular.ejs', { edit: result });
 });
 
-router.put('/edit_regular', async (req, res) => {
+router.put('/edit_regular',upload.single('img1'),  async (req, res) => {
     let imgUrl = '';
         if (req.file) {
             imgUrl = req.file.location;

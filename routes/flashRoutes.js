@@ -144,7 +144,7 @@ router.get('/edit_flash/:editId', async (req, res) => {
         res.render('edit_flash.ejs', { edit: result });
 });
 
-router.put('/edit_flash', async (req, res) => {
+router.put('/edit_flash', upload.single('img1'), async (req, res) => {
     let imgUrl = '';
         if (req.file) {
             imgUrl = req.file.location;
