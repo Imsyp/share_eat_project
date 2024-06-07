@@ -112,7 +112,8 @@ router.post('/add_flash', upload.single('img1'), async (req, res) => {
             datey: req.body.datey,
             time: req.body.time,
             accepted:["YES"],
-            reserve: [me]
+            reserve: [me], 
+            description: req.body.description
         });
 
         res.redirect('/user/flash_purchase');
@@ -159,7 +160,8 @@ router.put('/edit_flash', upload.single('img1'), async (req, res) => {
         total_amount: req.body.total_amount,
         img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
         location: req.body.location,datey: req.body.datey,
-        time: req.body.time,}})
+        time: req.body.time,
+        description: req.body.description}})
     res.redirect('/user/flash_purchase')
 });
 
