@@ -41,6 +41,34 @@
     .text-red {
         color: red;
     }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-left: auto;
+        margin-right: 20px;
+    }
+    .search {
+        display: inline-block;
+        width: 250px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .search-send {
+        display: inline-block;
+        padding: 10px 15px;
+        border: none;
+        background-color: #ffedc0;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-left: 5px; 
+    }
     </style>
 </head>
 <body>
@@ -50,14 +78,17 @@
             <a class="unselected" href="/user/flash_purchase">번개공구</a>
             <a class="selected" href="/user/regular_purchase">정기공구</a>
             <div class="right-1">
-                <input class="search">
-                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+                <!--<input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button> -->
             </div>
         </div>
         <hr>
         <div class="header">
             <h1>정기공구</h1>
-            
+            <div class="search-container">
+                <input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+            </div>
             <a href="/user/write_regular"><img src="/images/write_icon.png" width="50px"></a>
         </div><hr>
         <% var 페이지당글수 = 10; %>

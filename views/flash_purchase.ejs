@@ -15,34 +15,61 @@
             font-family: "Hi Melody", sans-serif;
         }   
         .list-box {
-    box-sizing: border-box;
-    width: 100%;
-    height: auto;
-    border: 1px solid,#ddd;
-    border-radius: 30px;
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    padding: 30px;
+            box-sizing: border-box;
+            width: 100%;
+            height: auto;
+            border: 1px solid,#ddd;
+            border-radius: 30px;
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            padding: 30px;
         }
         .list-box a, .list-box p, .list-box button {
-    margin-left: 30px;
-    width: auto;
-    display: inline-block;
-    margin-top:5px;
-    margin-bottom: 5px
+            margin-left: 30px;
+            width: auto;
+            display: inline-block;
+            margin-top:5px;
+            margin-bottom: 5px
         }
         .list-box:hover{
             background-color:#fff8e6;
-    transition: 0.5s;
+            transition: 0.5s;
         }
         
-    .text-green {
-        color: green;
-    }
-    .text-red {
-        color: red;
-    }
-
+        .text-green {
+            color: green;
+        }
+        .text-red {
+            color: red;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+        .search {
+            display: inline-block;
+            width: 250px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-send {
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            background-color: #ffedc0;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px; 
+        }
     </style>
 </head>
 <body>
@@ -52,14 +79,17 @@
             <a class="selected" href="/user/flash_purchase">번개공구</a>
             <a class="unselected" href="/user/regular_purchase">정기공구</a>
             <div class="right-1">
-                <input class="search">
-                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+                <!-- <input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button> -->
             </div>
         </div>
         <hr>
         <div class="header">
             <h1>번개공구</h1>
-            
+            <div class="search-container">
+                <input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+            </div>
             <a href="/user/write_flash"><img src="/images/write_icon.png" width="50px"></a>
         </div><hr>
         <% var 페이지당글수 = 10; %>
@@ -79,7 +109,7 @@
                         <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                         <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                         <p>모집인원: 
-                            <span class="<%= 글목록[글목록.length - i - 1].yesCount == 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
+                            <span class="<%= 글목록[글목록.length - i - 1].yesCount >= 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
                                 <%= 글목록[글목록.length - i - 1].yesCount %>
                             </span> 
                             / <%= 글목록[글목록.length - i - 1].number_of_recruits %>
@@ -98,7 +128,7 @@
                         <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                         <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                         <p>모집인원: 
-                            <span class="<%= 글목록[글목록.length - i - 1].yesCount == 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
+                            <span class="<%= 글목록[글목록.length - i - 1].yesCount >= 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
                                 <%= 글목록[글목록.length - i - 1].yesCount %>
                             </span> 
                             / <%= 글목록[글목록.length - i - 1].number_of_recruits %>
