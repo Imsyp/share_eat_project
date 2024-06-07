@@ -18,7 +18,7 @@
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
-    <form class="form-box" action="/user/edit_regular?_method=PUT" method="post" enctype="multipart/form-data">
+    <form class="form-box" action="/user/edit_regular?_method=PUT" method="post">
         <h1>글쓰기</h1>
         <input name="id" value="<%=edit._id %>" style="display: none;">
         <label for="product_name">제품명:</label>

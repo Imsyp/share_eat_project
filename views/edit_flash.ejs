@@ -14,48 +14,11 @@
         .font{
             font-family: "Hi Melody", sans-serif;
         }
-        .form-box {
-            margin-top: 50px;
-            padding: 50px;
-            margin-right: 25%;
-            margin-left: 25%;
-            border:#fff 1px solid;
-            background-color: #fff;
-            border-radius: 25px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .form-box input[type="text"],
-        .form-box input[type="file"],
-        .form-box input[type="date"],
-        .form-box input[type="time"] {
-            width: 100%;
-            max-width: 500px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .form-box textarea {
-            width: 100%;
-            max-width: 500px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .form-box textarea {
-            height: 150px; /* Adjust height as needed */
-        }
     </style>
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
-    <form class="form-box" action="/user/edit_flash?_method=PUT" method="post" enctype="multipart/form-data">
+    <form class="form-box" action="/user/edit_flash?_method=PUT" method="post">
         <h1>글쓰기</h1>
         <input name="id" value="<%=edit._id %>" style="display: none;">
         <label for="product_name">제품명:</label>
@@ -67,15 +30,13 @@
         <label for="total_amount">총 금액:</label>
         <input type="text" id="total_amount" name="total_amount" value="<%=edit.total_amount %>"><br>
         <label for="location">거래 장소:</label>
-        <input type="text" id="location" name="location" value="<%=edit.location %>"><br>
+        <input type="text" id="location" name="location" value="<%=edit._location %>"><br>
         <label for="product_image">제품 사진:</label>
-        <input type="file" name="img1" accept="image/*" value="<%=edit.img %>"><br><br>
+        <input type="file" name="img1" accept="image/*" value="<%=edit._img %>"><br><br>
         <label for="datey">날짜:</label>
         <input type="date" id="datey" name="datey"><br>
         <label for="time">시간:</label>
-        <input type="time" id="time" name="time"><br>
-        <label for="description">설명:</label>
-        <textarea id="description" name="description" placeholder="제품이나 거래에 대한 설명을 자유롭게 추가하세요."></textarea><br><br>
+        <input type="time" id="time" name="time"><br><br>
         <button type="submit">글쓰기</button>
     </form>
     </body>

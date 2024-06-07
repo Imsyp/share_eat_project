@@ -109,7 +109,7 @@
                         <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                         <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                         <p>모집인원: 
-                            <span class="<%= 글목록[글목록.length - i - 1].yesCount == 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
+                            <span class="<%= 글목록[글목록.length - i - 1].yesCount >= 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
                                 <%= 글목록[글목록.length - i - 1].yesCount %>
                             </span> 
                             / <%= 글목록[글목록.length - i - 1].number_of_recruits %>
@@ -128,7 +128,7 @@
                         <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
                         <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
                         <p>모집인원: 
-                            <span class="<%= 글목록[글목록.length - i - 1].yesCount == 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
+                            <span class="<%= 글목록[글목록.length - i - 1].yesCount >= 글목록[글목록.length - i - 1].number_of_recruits ? 'text-green' : 'text-red' %>">
                                 <%= 글목록[글목록.length - i - 1].yesCount %>
                             </span> 
                             / <%= 글목록[글목록.length - i - 1].number_of_recruits %>
