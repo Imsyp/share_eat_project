@@ -11,8 +11,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
-        .font{
+        .font {
             font-family: "Hi Melody", sans-serif;
+        }
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .member-info {
+            display: flex;
+            align-items: center;
         }
     </style>
 </head>
@@ -27,16 +37,24 @@
             <% result.forEach(function(chatroom) { %>
                 <div class="white-bg">
                     <a href="/user/chat/detail/<%= chatroom._id %>">
-                    <div class="list-box">
-                        <h2>
-                            <% chatroom.member.forEach(function(member) { %>
-                                <% if (currentUser !== member) { %>
-                                    <%= member %> 님
-                                <% } %>
-                            <% }); %>
-                        </h2>
-                        <hr>
-                    </div>
+                        <div class="list-box">
+                            <h2>
+                                <% chatroom.member.forEach(function(member) { %>
+                                    <% if (currentUser !== member) { %>
+                                        <% let user = users.find(u => u.username === member); %>
+                                        <% if (user) { %>
+                                            <div class="member-info">
+                                                <img src="<%= user.profile %>" alt="<%= user.username %>의 프로필 사진" class="profile-img">
+                                                <span><%= user.username %> 님</span>
+                                            </div>
+                                        <% } else { %>
+                                            <span><%= member %> 님</span>
+                                        <% } %>
+                                    <% } %>
+                                <% }); %>
+                            </h2>
+                            <hr>
+                        </div>
                     </a>
                 </div>
             <% }); %>

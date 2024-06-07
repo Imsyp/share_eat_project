@@ -44,14 +44,16 @@ router.get('/chat/request', async (req, res) => {
 
 router.get('/chat/list', async(req, res) => {
     try {
-        let result = await db.collection('chatroom').find({
+        let chatRooms = await db.collection('chatroom').find({
             member : req.user.username
         }).toArray();
         let currentUser = req.user.username;
         
         // 결과가 있는지 확인 후 렌더링
-        if (result.length > 0) {
-            res.render('chatList.ejs', {result: result, currentUser: currentUser});
+        if (chatRooms.length > 0) {
+          let memberUsernames = chatRooms.flatMap(chatRoom=>chatRoom.member);
+          let users = await db.collection('user').find({username:{$in:memberUsernames}}).toArray();
+          res.render('chatList.ejs', {result: chatRooms, currentUser: currentUser, users: users});
         } else {
             // 결과가 없을 때 처리
             res.render('chatList.ejs', {result: []});
