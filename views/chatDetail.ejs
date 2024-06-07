@@ -228,7 +228,7 @@
         if (data.senderId == '<%=myname%>'){
             document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box mine"><span>${data.message}</span></div>`);
         } else {
-            document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box"><span>${data.message}</span></div>`);
+            document.querySelector('.chat-screen').insertAdjacentHTML('beforeend', `<div class="chat-box opponent"><span>${data.message}</span></div>`);
         }
         scrollToBottom();
         console.log(data.message);

@@ -144,8 +144,21 @@ router.get('/opponent', async (req, res) => {
 
 router.post('/reserve_flash/:id', async (req, res) => {
   try {
-      console.log(req.body)
-    await db.collection('flashPurchase').updateOne(
+      console.log(req.body);
+      const flashPurchase = await db.collection('flashPurchase').findOne({ _id: new ObjectId(req.params.id) });
+      
+      if (!flashPurchase) {
+          return res.status(404).send('Flash purchase not found');
+      }
+
+      const acceptedYesCount = flashPurchase.accepted.filter(status => status === "YES").length;
+
+      // 예약이 모두 찼을 때의 처리
+      if (acceptedYesCount == flashPurchase.number_of_recruits) {
+          return res.status(400).send('All recruits are already accepted');
+      }
+
+      await db.collection('flashPurchase').updateOne(
           { _id: new ObjectId(req.params.id) },
           {
               $push: {
@@ -154,6 +167,7 @@ router.post('/reserve_flash/:id', async (req, res) => {
               }
           }
       );
+
       res.redirect('/user/mypage');
   } catch (error) {
       console.error('Error in /reserve_flash:', error);
@@ -161,8 +175,23 @@ router.post('/reserve_flash/:id', async (req, res) => {
   }
 });
 
+
 router.post('/reserve_regular/:id', async (req, res) => {
   try {
+      console.log(req.body);
+      const flashPurchase = await db.collection('regularPurchase').findOne({ _id: new ObjectId(req.params.id) });
+      
+      if (!flashPurchase) {
+          return res.status(404).send('regular purchase not found');
+      }
+
+      const acceptedYesCount = flashPurchase.accepted.filter(status => status === "YES").length;
+
+      // 예약이 모두 찼을 때의 처리
+      if (acceptedYesCount == flashPurchase.number_of_recruits) {
+          return res.status(400).send('All recruits are already accepted');
+      }
+
       await db.collection('regularPurchase').updateOne(
           { _id: new ObjectId(req.params.id) },
           {
@@ -172,6 +201,7 @@ router.post('/reserve_regular/:id', async (req, res) => {
               }
           }
       );
+
       res.redirect('/user/mypage');
   } catch (error) {
       console.error('Error in /reserve_regular:', error);
