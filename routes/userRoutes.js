@@ -80,7 +80,7 @@ router.post('/signup', async(req, res) => {
         address: req.body.address,
         profile: req.body.profile
     })
-    res.redirect('/')
+    res.redirect('/?signup=success');
 })
 
 router.get('/login', async(req, res) => {
