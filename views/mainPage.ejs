@@ -57,6 +57,16 @@
             color: black; /* Close button color */
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('signup') === 'success') {
+                alert('회원가입이 완료되었습니다.');
+                // 팝업을 띄운 후 쿼리 파라미터를 제거하여 새로고침 시 다시 팝업이 뜨지 않도록 합니다.
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
 </head>
 <body>
     <div id="sidebar">
@@ -67,8 +77,8 @@
         <p><span class="share font">share eat,<br>share it!</span></p>
         <% if (isAuthenticated) { %>
             <a href="/user/mypage">마이 페이지</a>
-            <a href="/user/community_board">게시판</a>
             <a href="/user/flash_purchase">공동구매</a>
+            <a href="/user/community_board">게시판</a>
             <a href="/user/chat/list">채팅</a>
             <a href="/user/logout">로그아웃</a>
         <% } else { %>

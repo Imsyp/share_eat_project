@@ -111,7 +111,8 @@ router.post('/add_regular', upload.single('img1'), async (req, res) => {
             datey: req.body.datey,
             time: req.body.time,
             accepted:["YES"],
-            reserve: [me]
+            reserve: [me],
+            description: req.body.description
         });
 
         res.redirect('/user/regular_purchase');
@@ -130,7 +131,7 @@ router.get('/post_regular/:postId', async (req, res) => {
             res.status(404).send('게시물을 찾을 수 없습니다.');
             return;
         }
-        res.render('post_regular.ejs', { post: result , userprofile: userprofile, currentUser: new ObjectId(req.user._id)});
+        res.render('post_regular.ejs', { post: result , userprofile: userprofile, currentUser: new ObjectId(req.user._id), opponentId: result.username});
     } catch (error) {
         console.error(error);
         res.status(500).send('게시물 조회 중 오류가 발생했습니다.');
@@ -158,7 +159,8 @@ router.put('/edit_regular',upload.single('img1'),  async (req, res) => {
         total_amount: req.body.total_amount,
         img: imgUrl, // 사진이 없는 경우 빈 문자열이 됩니다.
         location: req.body.location,datey: req.body.datey,
-        time: req.body.time,}})
+        time: req.body.time,
+        description: req.body.description}})
     res.redirect('/user/regular_purchase')
 });
 

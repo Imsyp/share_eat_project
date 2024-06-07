@@ -44,12 +44,12 @@ connectDB.then((client)=>{
 passport.use(new LocalStrategy(async (username, password, cb) => {// 여기서 사용자 정보를 DB 또는 사용자 배열에서 찾아 인증을 수행합니다.
     let result = await db.collection('user').findOne({ username : username})
     if (!result) {
-        return cb(null, false, { message: '아이디 DB에 없음' })
+        return cb(null, false, { message: '존재하지 않는 id입니다.' })
     }
     if (await bcrypt.compare(password, result.password)) {
         return cb(null, result)
     } else {
-        return cb(null, false, { message: '비번불일치' });
+        return cb(null, false, { message: '비밀번호가 일치하지 않습니다.' });
     }
 }))
 
@@ -80,7 +80,7 @@ router.post('/signup', async(req, res) => {
         address: req.body.address,
         profile: req.body.profile
     })
-    res.redirect('/')
+    res.redirect('/?signup=success');
 })
 
 router.get('/login', async(req, res) => {
