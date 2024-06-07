@@ -54,11 +54,24 @@ passport.use(new LocalStrategy(async (username, password, cb) => {// 여기서 �
 }))
 
 router.get('/signup', (req, res) => {
-
     res.render('signup.ejs')
 })
 
 router.post('/signup', async(req, res) => {
+    if (req.body.password === '') {
+        res.send('비밀번호를 입력하세요.');
+        return;
+    } else if (req.body.password !== req.body.confirm_password) {
+        res.send('비밀번호가 일치하지 않습니다.');
+        return;
+    } else if (req.body.phonenumber === '') {
+        res.send('전화번호를 입력하세요.');
+        return;
+    } else if (req.body.address === '') {
+        res.send('주소를 입력하세요');
+        return;
+    }
+
     let hash = await bcrypt.hash(req.body.password, 10)
     await db.collection('user').insertOne({
         username: req.body.username,
