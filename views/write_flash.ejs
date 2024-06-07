@@ -74,22 +74,22 @@
     <form class="form-box" action="/user/add_flash" method="post" enctype="multipart/form-data">
         <h1>공동구매 폼 작성하기</h1>
         <label for="product_name">제품명:</label>
-        <input type="text" id="product_name" name="product_name" placeholder="제품명을 입력하세요."><br>
+        <input type="text" id="product_name" name="product_name" placeholder="제품명을 입력하세요." required><br>
         <label for="quantity">수량:</label>
-        <input type="text" id="quantity" name="quantity" placeholder="수량을 입력하세요."><br>
+        <input type="text" id="quantity" name="quantity" placeholder="수량을 입력하세요." required><br>
         <label for="number_of_recruits">모집인원:</label>
-        <input type="text" id="number_of_recruits" name="number_of_recruits" placeholder="모집인원을 입력하세요."><br>
+        <input type="text" id="number_of_recruits" name="number_of_recruits" placeholder="모집인원을 입력하세요." required><br>
         <label for="total_amount">총 금액:</label>
-        <input type="text" id="total_amount" name="total_amount" placeholder="전체 제품을 구매하는데 필요한 총 금액을 입력하세요."><br>
+        <input type="text" id="total_amount" name="total_amount" placeholder="전체 제품을 구매하는데 필요한 총 금액을 입력하세요." required><br>
         <label for="location">거래 장소:</label>
-        <input type="text" id="location" name="location" placeholder="희망하는 거래장소를 입력하세요."><br>
+        <input type="text" id="location" name="location" placeholder="희망하는 거래장소를 입력하세요." required><br>
         <label for="product_image">제품 사진:</label>
-        <input type="file" name="img1" accept="image/*"><br><br>
+        <input type="file" name="img1" accept="image/*" required><br><br>
         
         <label for="datey">날짜:</label>
-        <input type="date" id="datey" name="datey"><br>
+        <input type="date" id="datey" name="datey" required><br>
         <label for="time">시간:</label>
-        <input type="time" id="time" name="time"><br>
+        <input type="time" id="time" name="time" required><br>
         <label for="description">설명:</label>
         <textarea id="description" name="description" placeholder="제품이나 거래에 대한 설명을 자유롭게 추가하세요."></textarea><br><br>
         <button type="submit">글쓰기</button>
