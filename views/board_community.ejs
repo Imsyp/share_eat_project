@@ -17,6 +17,25 @@
         .nextbutton-container {
             text-align: right; /* 다음 페이지 버튼을 오른쪽으로 정렬 */
         }
+        .search-container {
+            text-align: center; /* search를 중앙 정렬 */
+        }
+        .search {
+            display: inline-block;
+            width: 300px;
+            padding: 10px;
+            margin: 10px 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-send {
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            background-color: #ffedc0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -26,8 +45,8 @@
             <a class="selected" href="/user/community_board">자유게시판</a>
             <a class="unselected" href="/user/information_board">정보게시판</a>
             <div class="right-1">
-                <input class="search">
-                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+                <!--<input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button> -->
             </div>
         </div>
         <hr>
@@ -60,8 +79,12 @@
             <div class="list_ views"><%= 글목록[글목록.length - i - 1].views %></div>
         </div>
     <% } %>
-    <br><br>
-    
+    <br>
+    <div class="search-container">
+        <input class="search">
+        <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+    </div>
+
     <div class="pagination">
         <!-- 맨 처음 페이지로 이동하는 버튼 -->
         <% if (페이지번호 > 1) { %>
