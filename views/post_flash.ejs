@@ -95,14 +95,13 @@
 <body class="grey-bg">
     <%- include('sidebar') %>
     <div id="content">
-        <hr>
         <div id="post">
             <div class="post-box">
                 <br><br>
                 <img src="<%= post.img %>" style="width: 500px; height: auto;">
                 <h2>
                     <span>
-                        <img src="<%= userprofile.profile %>" style="width: 38px; height: 38px; border-radius: 50%;"><%= post.username %>님
+                        <img src="<%= userprofile.profile %>" style="width: 38px; height: 38px; border-radius: 50%;" class="reserve-button" data-opponent-id="<%= opponentId %>"><%= post.username %>님
                     </span>
                     <span>
                         <% if (currentUser.toString() === post.user.toString()) { %>
@@ -152,6 +151,12 @@
                 // 예약 요청 과정에서 오류가 발생했을 때 필요한 동작 추가
             });
         });
+
+        document.querySelector('.reserve-button').addEventListener('click', function() {
+            const opponentId = this.getAttribute('data-opponent-id');
+            location.href = '/user/opponent?opponentId=' + opponentId;
+        });
     </script>
 </body>
 </html>
+
