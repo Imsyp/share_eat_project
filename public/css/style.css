@@ -452,7 +452,7 @@ form > input[type="submit"]:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    height: 150px;
+    height: 50px;
 }
 
 .form-box button[type="submit"] {
