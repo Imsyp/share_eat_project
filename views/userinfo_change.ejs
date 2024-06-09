@@ -36,10 +36,12 @@
             margin: 10px 0;
             text-align: center;
         }
+       
     </style>
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
+    <div id="content">
     <form class="form-box" action="/user/edit_info?_method=PUT" method="post" enctype="multipart/form-data">
         <h1 class="center"><img src="/images/logo_non_bg.png" width="100px"><br>회원정보 수정</h1><hr><br>
         <div class="form-group">
@@ -67,6 +69,7 @@
             <a class="cancel_button" href="/user/mypage">취소</a>
         </div>
     </form>
+    </div>
 </body>
 </html>
 

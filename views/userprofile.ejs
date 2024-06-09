@@ -57,19 +57,18 @@
         border-radius: 5px;
     }
 
-    .report_button {
+    .report {
         background-color: #ffedc0;
     }
-    .report_button:hover {
+    .report:hover {
         background-color: #d11b1b;
     }
-    .profile button{
+    .profilereserve{
         background-color: #ffedc0;
         color:black;
         text-align: right;
-        margin-left: 1450px;
     }
-    .profile button:hover{
+    .profilereserve:hover{
         background-color: #ffbd16;
         color:white;
         transition:0.5s
@@ -85,6 +84,7 @@
         <div class="profile">
             <img src="<%=opponent.profile%>" alt="Profile Picture">
             <div class="username"><%= opponent.username %>님</div>
+            <button class="button report">신고하기</button>
         </div>
     </div>
         <div class="list_word">
@@ -99,7 +99,7 @@
                     <p class="profiledate"><%= regular[regular.length - i - 1].datey%> <%=regular[regular.length - 1 - i].time%>&emsp;</p>
                     <form action="/user/reserve_regular/<%= regular[regular.length - i - 1]._id %>" method="post">
                         <input type="hidden" name="userId" value="<%= currentUser%>">
-                        <button class="profilereserve reserve_regular" type="submit">예약하기</button>
+                        <button class="button profilereserve reserve_regular" type="submit">예약하기</button>
                     </form>
                     <br>
                 </div>
@@ -113,7 +113,7 @@
                     <p class="profiledate"><%= flash[flash.length - i - 1].datey%> <%= flash[flash.length - i - 1].time%>&emsp;</p>
                     <form action="/user/reserve_flash/<%= flash[flash.length - i - 1]._id %>" method="post">
                         <input type="hidden" name="userId" value="<%= currentUser%>">
-                        <button class="profilereserve reserve_flash" type="submit">예약하기</button>
+                        <button class="button profilereserve reserve_flash" type="submit">예약하기</button>
                     </form>
                     <br>
                 </div>

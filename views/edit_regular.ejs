@@ -11,15 +11,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
     <style>
+        body{
+            background-color: #fff8e6;
+        }
         .font{
             font-family: "Hi Melody", sans-serif;
+        }
+        .form-box {
+            margin-top: 50px;
+            padding: 50px;
+            margin-right: 25%;
+            margin-left: 25%;
+            border:#fff 1px solid;
+            background-color: #fff;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
     </style>
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
+    <div id="content">
     <form class="form-box" action="/user/edit_regular?_method=PUT" method="post">
-        <h1>글쓰기</h1>
+        <h1>공구글 수정</h1>
         <input name="id" value="<%=edit._id %>" style="display: none;">
         <label for="product_name">제품명:</label>
         <input type="text" id="product_name" name="product_name" value="<%=edit.product_name %>"><br>
@@ -37,7 +54,9 @@
         <input type="date" id="datey" name="datey"><br>
         <label for="time">시간:</label>
         <input type="time" id="time" name="time"><br><br>
-        <button type="submit">글쓰기</button>
+        <button type="submit">수정하기</button>
+        <a class="cancel_button" href="/user/regular_purchase">취소</a>
     </form>
+    </div>
     </body>
 </html>
