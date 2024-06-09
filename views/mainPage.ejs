@@ -15,57 +15,147 @@
             font-family: "Hi Melody", sans-serif;
         }
 
-        .popup {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
-            justify-content: center;
-            align-items: center;
-        }
-        .popup-content {
-            background-color: white; /* White border */
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 1100px; /* Maximum width of the popup */
-            width: 90%; /* Width relative to the viewport */
-            height: auto; /* Adjust height based on content */
-            position: relative;
-            color: black; /* Text color for better readability */
-        }
-        .popup-image {
-            width: 100%; /* Image width relative to the popup content */
-            height: auto; /* Maintain aspect ratio */
-            border-radius: 10px;
-        }
-        .popup_image{
-            width: 4%;
-        }
-        .popup-content pre {
-            font-size: 20px;
-            font-family: Arial, sans-serif;
-        }
-        #close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 40px;
-            cursor: pointer;
-            color: black; /* Close button color */
-        }
+        body {font-family: Arial, Helvetica, sans-serif;}
+
+/* Popup container */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Popup Content */
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Close Button */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Slideshow container */
+.slideshow-container {
+    width: auto;
+    padding: 10%;
+    position: relative;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.slide {
+    display: none;
+    align-items: center;
+}
+
+.slide img {
+    vertical-align: middle;
+    max-width: 100%;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: #ffbd16;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    z-index: 10; /* Ensure it's above other content */
+}
+
+.prev {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.next {
+    right: 0;
+    border-radius: 0 3px 3px 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: #ffedc6;
+    color:black;
+}
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+.text {
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+}
+
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('signup') === 'success') {
-                alert('회원가입이 완료되었습니다.');
-                // 팝업을 띄운 후 쿼리 파라미터를 제거하여 새로고침 시 다시 팝업이 뜨지 않도록 합니다.
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        });
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('signup') === 'success') {
+        alert('회원가입이 완료되었습니다.');
+         // 팝업을 띄운 후 쿼리 파라미터를 제거하여 새로고침 시 다시 팝업이 뜨지 않도록 합니다.
+        document.getElementById('popup').style.display = 'block';
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+    
     </script>
 </head>
 <body>
@@ -92,33 +182,75 @@
             <source src='/images/main3.mp4' ></video>
     </div>
 
-    <!-- Popup -->
+    <button id="openPopupBtn">Open Popup</button>
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span id="close-btn">&times;</span>
-            <!-- <img src="/images/mainpage.jpg" alt="Popup Image" class="popup-image"> -->
-            <p>
-             <pre>
-            <img src="favicon.ico" alt="Popup Image" class="popup_image"> 안녕하세요, <strong>자취생 식재료 공동구매</strong> 서비스 웹 페이지 <strong>쉐어 잇</strong>입니다!
-            쉐어 잇에서는 식재료를 함께 구매할 이웃을 모집함으로써 식재료 구매 비용을 아낄 수 있고, 
-            식재료와 관련된 다양한 의견들을 공유함으로써 유용한 정보를 얻을 수 있습니다.
-                        
-            <strong>마이페이지</strong> : 지금까지의 공동구매 이력이나 다른 사용자의 공동구매 요청을 확인해보세요!
-            <strong>게시판</strong> : 자유게시판에서 여러 사용자와 다양한 의견을 공유해보세요!
-            <strong>공동구매</strong> : 식재료를 함께 구매할 이웃을 모집하거나, 다른 이웃의 모집글에 참여해보세요!
-            <strong>채팅</strong> : 식재료를 함께 구매할 이웃들과 소통해보세요!
+            <span id="close-btn" class="close-btn">&times;</span>
+            <span><a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a></span>
+            <div class="slideshow-container">
+                <div class="slide fade">
+                    <img src="/images/popup_main.png"  >
+                </div>
+
+                <div class="slide fade">
                     
-            쉐어 잇을 통해 <strong>식재료 구매 비용을 줄이고</strong>, <strong>다양한 자취 꿀팁을 얻어보세요</strong>~!!
-                </pre>
-            </p>
+                    <img src="/images/popup_mypage.png" >
+                    
+                </div>
+
+                <div class="slide fade">
+                    
+                    <img src="/images/popup_board.png">
+                    
+                </div>
+                <div class="slide fade">
+                    
+                    <img src="/images/popup_purchase.png">
+                    
+                </div>
+                <div class="slide fade">
+                    
+                    <img src="/images/popup_chat.png">
+                    
+                </div>
+            </div>
             <div>
                 <input type="checkbox" id="do-not-show-again">
-                <label for="do-not-show-again">다시 표시하지 않음</label>
+                <label for="do-not-show-again">다시 표시하지 않기</label>
             </div>
         </div>
     </div>
+    
 
     <script>
+        document.getElementById('openPopupBtn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'block';
+});
+
+
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
+let slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("slide");
+    if (n > slides.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    slides[slideIndex-1].style.display = "block";  
+}
+
         document.addEventListener('DOMContentLoaded', function () {
             const popup = document.getElementById('popup');
             const closeBtn = document.getElementById('close-btn');
