@@ -139,7 +139,7 @@ router.get('/search_information', async(req, res) => {
         ]
     let result = await db.collection('information').aggregate(검색조건).toArray()
 
-    res.render('search.ejs', {글목록 : result, page: req.query.page})
+    res.render('search_information.ejs', {글목록 : result, page: req.query.page})
 })
 
 router.post('/comment_information', async (req, res) => {

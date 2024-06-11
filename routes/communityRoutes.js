@@ -144,7 +144,7 @@ router.get('/search_community', async(req, res) => {
         ]
     let result = await db.collection('community').aggregate(검색조건).toArray()
 
-    res.render('search.ejs', {글목록 : result, page: req.query.page})
+    res.render('search_community.ejs', {글목록 : result, page: req.query.page})
 })
 
 router.post('/comment_community', async (req, res) => {

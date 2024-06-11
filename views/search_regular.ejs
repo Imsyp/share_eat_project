@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 결과</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <!-- google font link-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet">
+    <style>
+        .font{
+            font-family: "Hi Melody", sans-serif;
+        }   
+        .list-box {
+            box-sizing: border-box;
+            width: 100%;
+            height: auto;
+            border: 1px solid,#ddd;
+            border-radius: 30px;
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            padding: 30px;
+        }
+        .list-box a, .list-box p, .list-box button {
+            margin-left: 30px;
+            width: auto;
+            display: inline-block;
+            margin-top:5px;
+            margin-bottom: 5px
+        }
+        .list-box:hover{
+            background-color:#fff8e6;
+            transition: 0.5s;
+        }
+        
+        .text-green {
+            color: green;
+        }
+        .text-red {
+            color: red;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+        .search {
+            display: inline-block;
+            width: 250px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-send {
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            background-color: #ffedc0;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <%- include('sidebar') %>
+    <div id="content">
+        <div class="navbar">
+            <a class="unselected" href="/user/flash_purchase">번개공구</a>
+            <a class="selected" href="/user/regular_purchase">정기공구</a>
+            <div class="right-1">
+                <!-- <input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button> -->
+            </div>
+        </div>
+        <hr>
+        <div class="header">
+            <h1>검색결과-정기공구</h1>
+            <div class="search-container">
+                <input class="search">
+                <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button>
+            </div>
+            <a href="/user/write_regular"><img src="/images/write_icon.png" width="50px"></a>
+        </div><hr>
+        <% var 페이지당글수 = 10; %>
+        <% var 페이지번호 = parseInt(page) || 1; %>
+        <% var 시작인덱스 = (페이지번호 - 1) * 페이지당글수; %>
+        <% var 끝인덱스 = 페이지번호 * 페이지당글수; %>
+        
+        <% for (var i = 시작인덱스; i < Math.min(글목록.length, 끝인덱스); i++){ %>
+        <div id="onlypurchase">
+            <div class="white-bg">
+                <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>">
+                <div class="list-box">
+                    <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
+                    <div class="text-box">
+                        <p class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></p><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원: <%= 글목록[글목록.length - i - 1].number_of_recruits %>
+                        </p>
+                        
+                    </div>
+                </div>
+                </a>
+                <% i++; if( i == Math.min(글목록.length, 끝인덱스)) break;%>
+                <a href="/user/post_regular/<%= 글목록[글목록.length - i - 1]._id %>">
+                <div class="list-box">
+                    <label class="right"><img src="<%= 글목록[글목록.length - i - 1].img%>" class="square"></label>
+                    <div class="text-box">
+                        <p class="ptitle"><%= 글목록[글목록.length - i - 1].product_name %></p><br>
+                        <p>작성자: <%= 글목록[글목록.length - i - 1].username%></p><br>
+                        <p>업로드 날짜: <%= 글목록[글목록.length - i - 1].date%></p><br>
+                        <p>수량: <%= 글목록[글목록.length - i - 1].quantity%></p><br>
+                        <p>모집인원:  <%= 글목록[글목록.length - i - 1].number_of_recruits %>
+                        </p>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+        <% } %>
+        
+        
+        <% if (페이지번호 > 1) { %>
+            <a href="/user/regular_purchase?page=<%= 페이지번호 - 1 %>">이전 페이지</a>
+        <% } %>
+        <% if (글목록.length > 끝인덱스) { %>
+            <a href="/user/regular_purchase?page=<%= 페이지번호 + 1 %>">다음 페이지</a>
+        <% } %>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    fetch('/user/delete_regular?docid=' + e.target.dataset.id, { method: 'DELETE' })
+                        .then(response => response.text())
+                        .then(result => {
+                            e.target.parentElement.style.display = 'none';
+                        });
+                });
+            });
+
+            const searchInput = document.querySelector('.search');
+            const searchButton = document.querySelector('.search-send');
+
+            function handleSearch() {
+                const userinput = searchInput.value;
+                if (userinput.trim() === '') {
+                    alert('검색어를 입력하세요');
+                    return;
+                }
+                location.href = '/user/search_regular?val=' + encodeURIComponent(userinput);
+            }
+
+            searchButton.addEventListener('click', handleSearch);
+
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

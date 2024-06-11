@@ -187,7 +187,7 @@ router.get('/search_flash', async(req, res) => {
     // 결과를 하나로 합치기 위해 배열을 평탄화합니다.
     let flattenedResults = results.flat();
 
-    res.render('search_purchase.ejs', { 글목록: flattenedResults, page: req.query.page });
+    res.render('search_flash.ejs', { 글목록: flattenedResults, page: req.query.page });
 });
 
 
