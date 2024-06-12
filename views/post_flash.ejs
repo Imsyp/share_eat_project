@@ -90,36 +90,74 @@
             background-color: #ffbd16;
             color: #fff;
         }
-    
+        .post-box {
+            display: flex;
+            align-items: flex-start; /* Align items to the start of the flex container */
+            gap: 20px; /* Gap between image and text */
+        }
+        
+        .post-box img {
+            flex-shrink: 0; /* Prevent image from shrinking */
+            max-width: 50%; /* Adjust the image width as needed */
+            height: auto;
+        }
+        .post-details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Gap between paragraphs */
+        }
+        .white-background {
+            background-color: white;
+        }
+        
+        .full-width {
+            width: 100%;
+            margin: 0;
+        }
     </style>
 </head>
 <body class="grey-bg">
     <%- include('sidebar') %>
+    <div id="top-content" class="white-background">
+        <div id="content">
+            <div class="navbar">
+                <a class="selected" href="/user/flash_purchase">번개공구</a>
+                <a class="unselected" href="/user/regular_purchase">정기공구</a>
+                <div class="right-1">
+                    <!-- <input class="search">
+                    <button class="search-send" onclick="alert"><img src="/images/search_icon.png" alt="검색" width="20px"></button> -->
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
     <div id="content">
         <div id="post">
             <div class="post-box">
                 <br><br>
-                <img src="<%= post.img %>" style="width: 500px; height: auto;">
-                <h2>
-                    <span>
-                        <img src="<%= userprofile.profile %>" style="width: 38px; height: 38px; border-radius: 50%;" class="reserve-button" data-opponent-id="<%= opponentId %>"><%= post.username %>님
-                    </span>
-                    <span>
-                        <% if (currentUser.toString() === post.user.toString()) { %>
-                            <a href="/user/edit_flash/<%= post._id %>" class="cancel-button">수정하기</a>
-                            <a href="/user/delete_flash/<%= post._id %>" class="cancel-button">삭제하기</a>
-                        <% } %>
-                    </span>
-                </h2><br>
-                <p> 제품명: <%= post.product_name %></p>
-                <p> 수량: <%= post.quantity %></p>
-                <p> 모집인원: <%= post.number_of_recruits %></p>
-                <p> 총액: <%= post.total_amount %></p>
-                <p> 거래 장소: <%= post.location %></p>
-                <p> 게시글 업로드 날짜 및 시간: <%= post.date %></p>
-                <p> 공동구매 희망 시간: <%= post.datey %> <%= post.time %></p>
-                <p> 설명 : <%= post.description %></p>
-            </div>
+                <img src="<%= post.img %>" style="width: 500px; height: auto; margin-top: 30px;">
+                <div class="post-details">
+                    <h2>
+                        <span>
+                            <img src="<%= userprofile.profile %>" style="width: 38px; height: 38px; border-radius: 50%;" class="reserve-button" data-opponent-id="<%= opponentId %>"><%= post.username %>님
+                        </span>
+                        <span>
+                            <% if (currentUser.toString() === post.user.toString()) { %>
+                                <a href="/user/edit_flash/<%= post._id %>" class="cancel-button">수정하기</a>
+                                <a href="/user/delete_flash/<%= post._id %>" class="cancel-button">삭제하기</a>
+                            <% } %>
+                        </span>
+                    </h2>
+                    <p> 제품명: <%= post.product_name %></p>
+                    <p> 수량: <%= post.quantity %></p>
+                    <p> 모집인원: <%= post.number_of_recruits %></p>
+                    <p> 총액: <%= post.total_amount %></p>
+                    <p> 거래 장소: <%= post.location %></p>
+                    <p> 업로드 날짜 및 시간: <%= post.date %></p>
+                    <p> 공동구매 희망 날짜 및 시간: <%= post.datey %> <%= post.time %></p>
+                    <p> 설명 : <%= post.description %></p>
+                </div>
+            </div>            
             <br>
             <div class="button-container">
                 <button class="reserve" data-id="<%= post._id %>" data-user="<%= currentUser %>">예약하기</button>
