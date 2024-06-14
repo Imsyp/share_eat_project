@@ -33,6 +33,7 @@
         flex-direction: column; /* 요소들을 세로로 배열 */
         align-items: center; /* 요소들을 가로 중앙 정렬 */
         text-align: center; /* 텍스트를 중앙 정렬 */
+        position: relative; /* 드롭다운 위치를 위해 추가 */
     }
 
     .profile img {
@@ -74,6 +75,32 @@
         transition:0.5s
     }
 
+    .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%; /* 버튼 아래에 위치 */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .dropdown input[type="text"] {
+        width: 200px;
+        padding: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    .dropdown button {
+        width: 100%;
+        padding: 5px;
+    }
+
     </style>
 </head>
 <body>
@@ -85,6 +112,12 @@
             <img src="<%=opponent.profile%>" alt="Profile Picture">
             <div class="username"><%= opponent.username %>님</div>
             <button class="button report">신고하기</button>
+            <div class="dropdown">
+                <form action="/report">
+                    <input type="text" name="reason" placeholder="신고 사유를 입력하세요">
+                    <button type="submit">제출하기</button>
+                </form>
+            </div>
         </div>
     </div>
         <div class="list_word">
@@ -162,6 +195,12 @@
                 });
             });
         });
+
+        document.querySelector('.report').addEventListener('click', function() {
+            const dropdown = this.nextElementSibling;
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
     </script>
     
     
