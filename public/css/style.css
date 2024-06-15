@@ -421,7 +421,6 @@ form > input[type="submit"]:hover {
     background-color: #fff;
     border-radius: 25px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    align-items: center;
 }
 
 .form-box label {

@@ -89,8 +89,22 @@ router.get('/login', async(req, res) => {
 
 router.post('/login', async(req, res, next) => {
     passport.authenticate('local', (error, user, info) => {
-        if (error) return res.status(500).json(error)
-        if (!user) return res.status(401).json(info.message)
+        if (error) {
+            return res.send(`
+              <script>
+                alert('서버 오류가 발생했습니다.');
+                window.location.href = '/login';
+              </script>
+            `);
+          }
+          if (!user) {
+            return res.send(`
+              <script>
+                alert('${info.message}');
+                window.location.href = '/login';
+              </script>
+            `);
+          }
         req.logIn(user, (err) =>{
             if(err) return next(err)
             res.redirect('/')
