@@ -170,25 +170,35 @@ router.get('/delete_flash/:deleteId', async (req, res) => {
     res.redirect('/user/flash_purchase')
 })
 
-router.get('/search_flash', async(req, res) => {
-    let 검색조건 = [
-        { $search: { index: 'default', text: { query: req.query.val, path: 'datey' } } },
-        { $search: { index: 'default', text: { query: req.query.val, path: 'location' } } },
-        { $search: { index: 'default', text: { query: req.query.val, path: 'username' } } },
-        { $search: { index: 'default', text: { query: req.query.val, path: 'product_name' } } }
-    ];
+router.get('/search_flash', async (req, res) => {
+    try {
+        let 검색조건 = {
+            $or: [
+                { datey: { $regex: req.query.val, $options: 'i' } },
+                { location: { $regex: req.query.val, $options: 'i' } },
+                { username: { $regex: req.query.val, $options: 'i' } },
+                { product_name: { $regex: req.query.val, $options: 'i' } }
+            ]
+        };
 
-    let results = [];
-    for (let i = 0; i < 검색조건.length; i++) {
-        let result = await db.collection('flashPurchase').aggregate([검색조건[i]]).toArray();
-        results.push(result);
+        let results = await db.collection('flashPurchase').find(검색조건).toArray();
+
+        // Iterate through each document to count the number of "YES" in the accepted array
+        results.forEach(doc => {
+            if (doc.accepted && Array.isArray(doc.accepted)) {
+                doc.yesCount = doc.accepted.filter(answer => answer === "YES").length;
+            } else {
+                doc.yesCount = 0;
+            }
+        });
+
+        res.render('search_flash.ejs', { 글목록: results, page: req.query.page });
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+        res.status(500).send('Internal Server Error');
     }
-    
-    // 결과를 하나로 합치기 위해 배열을 평탄화합니다.
-    let flattenedResults = results.flat();
-
-    res.render('search_flash.ejs', { 글목록: flattenedResults, page: req.query.page });
 });
+
 
 
 
