@@ -93,7 +93,7 @@ router.post('/login', async(req, res, next) => {
             return res.send(`
               <script>
                 alert('서버 오류가 발생했습니다.');
-                window.location.href = '/login';
+                window.location.href = '/user/login';
               </script>
             `);
           }
@@ -101,7 +101,7 @@ router.post('/login', async(req, res, next) => {
             return res.send(`
               <script>
                 alert('${info.message}');
-                window.location.href = '/login';
+                window.location.href = '/user/login';
               </script>
             `);
           }
